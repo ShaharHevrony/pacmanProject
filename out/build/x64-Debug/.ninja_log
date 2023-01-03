@@ -1,0 +1,23 @@
+# ninja log v5
+14	47	0	C:/Users/LIOR/source/repos/ShaharHevrony/pacmanProject/out/build/x64-Debug/CMakeFiles/cmake.verify_globs	2fd74339352714cd
+65	5127	6944569133144947	CMakeFiles/pacmanProject.dir/src/keyBoard.cpp.obj	4cd7036b2a1c855c
+44	292	6944569084634070	CMakeFiles/pacmanProject.dir/src/board.cpp.obj	72e6d8482854fd83
+100	284	6944569084574466	CMakeFiles/pacmanProject.dir/src/staticObject.cpp.obj	787f58bae3c25bdb
+49	292	6944569084574466	CMakeFiles/pacmanProject.dir/src/character.cpp.obj	80f14945b2a418ef
+92	291	6944569084724979	CMakeFiles/pacmanProject.dir/src/playGame.cpp.obj	bd04119d213e7c87
+38	4466	6944590354601771	CMakeFiles/pacmanProject.dir/src/menu.cpp.obj	b1f6261c41adf8df
+86	292	6944569084812983	CMakeFiles/pacmanProject.dir/src/object.cpp.obj	729e45cfc3d8ba30
+59	291	6944569084719887	CMakeFiles/pacmanProject.dir/src/dynamicObject.cpp.obj	223d9918591ce4f0
+285	403	6944569085899051	CMakeFiles/pacmanProject.dir/src/window.cpp.obj	469af8e5fb0adaa9
+48	4952	6944574860441817	CMakeFiles/pacmanProject.dir/src/main.cpp.obj	71960f13ae470ca
+44	4527	6944569327598879	CMakeFiles/pacmanProject.dir/src/controller.cpp.obj	c4a25e259855d80f
+4467	4739	6944590356822696	pacmanProject.exe	3d63e735347aa42a
+46	992	6944617515077995	build.ninja	125180e5a04fe103
+37	53	0	clean	8c45b54705a541e8
+48	360	6944617515077995	build.ninja	125180e5a04fe103
+24	62	0	C:/Users/LIOR/source/repos/ShaharHevrony/pacmanProject/out/build/x64-Debug/CMakeFiles/cmake.verify_globs	2fd74339352714cd
+8	43	0	C:/Users/LIOR/source/repos/ShaharHevrony/pacmanProject/out/build/x64-Debug/CMakeFiles/cmake.verify_globs	2fd74339352714cd
+11	45	0	C:/Users/LIOR/source/repos/ShaharHevrony/pacmanProject/out/build/x64-Debug/CMakeFiles/cmake.verify_globs	2fd74339352714cd
+48	5056	6944618462243588	CMakeFiles/pacmanProject.dir/src/menu.cpp.obj	b1f6261c41adf8df
+5056	5369	6944618464761664	pacmanProject.exe	3d63e735347aa42a
+13	44	0	C:/Users/LIOR/source/repos/ShaharHevrony/pacmanProject/out/build/x64-Debug/CMakeFiles/cmake.verify_globs	2fd74339352714cd

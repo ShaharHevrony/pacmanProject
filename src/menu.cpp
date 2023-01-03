@@ -7,8 +7,8 @@
 #include "values.h"
 Menu::Menu():m_window(sf::RenderWindow(
         sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "menu")) {
-    sf::Font font;
-    font.loadFromFile("../../../Title.ttf");
+    //sf::Font font;
+    //font.loadFromFile("../../../Title.ttf");
     //sf::String title("Super Pacman", font, 50);
 
     run();
@@ -42,48 +42,41 @@ void Menu::run() {
 }
 
 void Menu::print(int row) {
-    for (int i = 0; i < 5; i++){
+    for (int i = 0; i < 4; i++){
         m_window.draw(m_menu[i]);
     }
 
     if (m_inBounds) {
         sf::Sprite sprite = m_menu[row];
-        sprite.setScale(1.07, 1.07);
+        sprite.setScale(0.7, 0.7);
         m_window.draw(sprite);
     }
 }
 
 void Menu::create() {
-    /*
-    sf::RectangleShape rectangle;
-    for(int i = 0; i < 4; i++) {
-        rectangle.setSize(sf::Vector2f(700, 150));
-        rectangle.setOutlineThickness(1);
-        rectangle.setOutlineColor(sf::Color(85, 93, 80));
-        rectangle.setFillColor(sf::Color(192, 194, 201));
-        rectangle.setPosition(700, i* 200 + 600);
-        //m_menu.push_back(rectangle);
-    }
-    */
 
-    for (int index = 0; index < 5; index++) {
-        m_texture[index].loadFromFile("../../../" + m_names[index]);
+    sf::Texture backgroundTexture;
+    if (!backgroundTexture.loadFromFile("backGame.png")) {
+        // Error loading image
+    }
+    sf::Sprite backgroundSprite(backgroundTexture);
+
+    for (int index = 0; index < 4; index++) {
+        m_texture[index].loadFromFile( m_names[index]);
     }
 
     sf::Sprite sprite;
     for(int i = 0; i < 4; i++) {
         sf::Texture* tempText = &m_texture[i];
         sprite.setTexture(*tempText);
-        sprite.setPosition(1200, i* 200 + 600);
-        sprite.setScale(1, 1);
+        sprite.setPosition(MENU_CENTER, i * MENU_GAP + MENU_START_ROW);
+        sprite.setScale(MENU_SCALE, MENU_SCALE);
+        sprite.setOrigin(MENU_PIC_WIDTH / 2, MENU_PIC_HEIGHT / 2);
         m_menu.push_back(sprite);
     }
+    m_window.draw(backgroundSprite);
 
-    sf::Texture* tempText = &m_texture[4];
-    sprite.setTexture(*tempText);
-    sprite.setPosition(0, 0);
-    sprite.setScale(2, 2);
-    m_menu.push_back(sprite);
+
 }
 
 bool Menu::handleMouseMoved(int& row) {

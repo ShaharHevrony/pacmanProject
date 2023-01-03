@@ -12,3 +12,5 @@ configure_file ("PlayButton.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("ExitButton.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("CreateButton.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("HelpButton.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("backGame.png" ${CMAKE_BINARY_DIR} COPYONLY)
+
