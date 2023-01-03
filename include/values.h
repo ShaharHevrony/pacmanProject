@@ -13,9 +13,15 @@ const std::string m_names[5] = {"PlayButton.png", "HelpButton.png", "CreateButto
 const int WINDOW_HEIGHT = sf::VideoMode::getDesktopMode().height;
 const int WINDOW_WIDTH  = sf::VideoMode::getDesktopMode().width;
 
+
 //const int WINDOW_HEIGHT = 1800;
 //const int WINDOW_WIDTH  = 2000;
-const int BOARD_HEIGHT  = 1700;
+const int MENU_CENTER    = WINDOW_WIDTH / 2;
+const int MENU_START_ROW = WINDOW_HEIGHT / 2.2;
+const float MENU_SCALE   = 0.0003* WINDOW_WIDTH;
+const int MENU_GAP       = MENU_SCALE * 200;
+const int MENU_PIC_WIDTH = 508; 
+const int MENU_PIC_HEIGHT = 161;
 const int BOARD_WIDTH   = 1700;
 const int MENU_WIDTH    = 300;
 const int START_ROW     = 150;

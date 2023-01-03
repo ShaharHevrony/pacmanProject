@@ -44,7 +44,7 @@ void Menu::print(int row) {
 
     if (m_inBounds) {
         sf::Sprite sprite = m_menu[row];
-        sprite.setScale(1.07, 1.07);
+        sprite.setScale(0.7, 0.7);
         m_window.draw(sprite);
     }
 }
@@ -63,22 +63,24 @@ void Menu::create() {
     */
 
     for (int index = 0; index < 5; index++) {
-        m_texture[index].loadFromFile("../../../" + m_names[index]);
+        m_texture[index].loadFromFile(m_names[index]);
     }
+
 
     sf::Sprite sprite;
     for(int i = 0; i < 4; i++) {
         sf::Texture* tempText = &m_texture[i];
         sprite.setTexture(*tempText);
-        sprite.setPosition(1200, i* 200 + 600);
-        sprite.setScale(1, 1);
+        sprite.setPosition(MENU_CENTER, i* MENU_GAP + MENU_START_ROW);
+        sprite.setScale(MENU_SCALE, MENU_SCALE);
+        sprite.setOrigin(MENU_PIC_WIDTH /2 , MENU_PIC_HEIGHT /2);
         m_menu.push_back(sprite);
     }
 
     sf::Texture* tempText = &m_texture[4];
     sprite.setTexture(*tempText);
     sprite.setPosition(0, 0);
-    sprite.setScale(2, 2);
+    sprite.setScale(0.3,0.3);
     m_menu.push_back(sprite);
 }
 
