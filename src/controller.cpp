@@ -1,2 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "../include/controller.h"
+#include "controller.h"
+#include "values.h"
+
+Controller::Controller(){}

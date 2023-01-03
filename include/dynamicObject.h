@@ -1,4 +1,6 @@
 #pragma once
-class dynamicObject {
-
+#include "object.h"
+class DynamicObject: private Object{
+public:
+    DynamicObject();
 };
