@@ -7,8 +7,8 @@ struct Location
     int col;
 };
 
-const std::string m_names[5] = {"PlayButton.png", "HelpButton.png", "CreateButton.png",
-                                "ExitButton.png", "Leaves.png"};
+const std::string m_names[4] = {"PlayButton.png", "HelpButton.png", "CreateButton.png",
+                                "ExitButton.png"};
 
 const int WINDOW_HEIGHT = sf::VideoMode::getDesktopMode().height;
 const int WINDOW_WIDTH  = sf::VideoMode::getDesktopMode().width;

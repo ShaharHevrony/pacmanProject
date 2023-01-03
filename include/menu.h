@@ -19,7 +19,7 @@ private:
 
     std::vector<sf::Sprite> m_menu;
 
-    sf::Texture m_texture[5];
+    sf::Texture m_texture[4];
 
     bool m_inBounds = false;
 };
