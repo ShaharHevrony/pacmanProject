@@ -4,13 +4,15 @@
 #include <SFML/Graphics.hpp>
 
 #include "controller.h"
+#include "board.h"
+#include "values.h"
 //
 // Created by Shahar Hevrony on 03/01/2023.
 //
 
 class CreateLevel {
 public:
-    CreateLevel();
+    CreateLevel(sf::RenderWindow& window);
 
     void run();
 
@@ -25,13 +27,15 @@ public:
     bool isValid();
 
     void saveLevel();
+
+    void getRowAndCol ();
 private:
 
-    //Board m_board;
+    Board m_board;
 
     std::vector<sf::Sprite> m_menu;
 
-    sf::RenderWindow m_window;
+    sf::RenderWindow* m_window;
 
     int m_currObj;
 

@@ -4,18 +4,21 @@
 
 class Menu {
 public:
-    Menu();
+    Menu(sf::RenderWindow& window);
 
     void create();
 
-    void run();
+    int run();
 
     void print(int row);
+
+    //function that handel the case in a mouse button
+    int handleMouseButton(sf::Event::MouseButtonEvent& event);
 
     bool handleMouseMoved(int& row);
 
 private:
-    sf::RenderWindow m_window;
+    sf::RenderWindow* m_window;
 
     std::vector<sf::Sprite> m_menu;
 

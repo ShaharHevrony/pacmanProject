@@ -1,9 +1,8 @@
 #include "menu.h"
-
+#include "createLevel.h"
 int main()
 {
-    //Controller control = Controller();
-    //control.run();
-    Menu menu = Menu();
+    Controller controller = Controller();
+    controller.run();
     return EXIT_SUCCESS;
 }

@@ -1,20 +1,39 @@
 #pragma once
-//#include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 class Object {
 public:
+    //constructor of defult position
     Object();
 
-    //void setPositoin (sf::Vector2f);
+    //set texter
+    void setTexture(sf::Texture* texture);
 
-    //sf::Vector2f getPosotion () const;
+    //get texeter
+    sf::Texture* getTexture() const;
 
-    void setType (char type);
+    //set sprite
+    void setSprite(sf::Sprite sprite);
 
-    char getType () const;
+    //return sprute
+    sf::Sprite getSprite() const;
+
+    //set position
+    void setPosition(sf::Vector2f position);
+
+    //return position
+    sf::Vector2f getPosition() const;
+
+    void setType(char type);
+
+    char getType() const;
 
 private:
-    //sf::Vector2f m_position;
+    sf::Texture* m_texture;
+
+    sf::Sprite m_sprite;
+
+    sf::Vector2f m_position;
 
     char m_type;
 };
