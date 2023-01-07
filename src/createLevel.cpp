@@ -6,14 +6,33 @@
 #include "resourcesManager.h"
 #include <iostream>
 #include <sstream>
+#include <filesystem>
+#include <string> 
 
 CreateLevel::CreateLevel(sf::RenderWindow& window): m_window(&window){
+
+     //getRowAndCol();
+
     for (int index = 0; index < OBJECT; index++) {
         sf::Sprite tempSpr;
         sf::Texture* tempText = m_board.getTexture(index);
         tempSpr.setTexture(*tempText);
-        tempSpr.setPosition(MENU_COL, MENU_ROW + index * SPACE_SIZE);
-        tempSpr.setScale(SCALE_SIZE, SCALE_SIZE);
+        if (index < 2) {
+            tempSpr.setPosition(OBJ_COL, OBJ_ROW + index * SPACE_SIZE);
+        }
+        else if(index < 4){
+            tempSpr.setPosition(OBJ_COL+120, OBJ_ROW + (index-2) * SPACE_SIZE);
+        }
+        else if (index < 6) {
+            tempSpr.setPosition(OBJ_COL + 120*2, OBJ_ROW + (index - 4) * SPACE_SIZE);
+        }
+        else if(index < 8) {
+            tempSpr.setPosition(OBJ_COL + 120*3, OBJ_ROW + (index - 6) * SPACE_SIZE);
+        }
+        else {
+            tempSpr.setPosition(OBJ_COL + 120 * 4, OBJ_ROW + (index - 8) * SPACE_SIZE);
+        }
+        tempSpr.setScale(OBJ_SCALE_SIZE, OBJ_SCALE_SIZE);
         m_menu.push_back(tempSpr);
     }
 }
@@ -21,19 +40,18 @@ CreateLevel::CreateLevel(sf::RenderWindow& window): m_window(&window){
 void CreateLevel::run() {
     int tempRow = 0;
     int tempCol = 0;
+
+
     //while the window is open
     while (m_window->isOpen()){
         sf::Texture backgroundTexture;
-        if (!backgroundTexture.loadFromFile("../../../levelBackground.png")) {
+        if (!backgroundTexture.loadFromFile("levelBackground.png")) {
             //Error loading image
         }
         sf::Sprite backgroundSprite(backgroundTexture);
-        backgroundSprite.setScale(0.6,0.6);
+        backgroundSprite.setScale(0.4,0.4);
         backgroundSprite.setColor(sf::Color::White);
         m_window->draw(backgroundSprite);
-        if(m_rowCurr == 0 || m_colCurr == 0) {
-            getRowAndCol();
-        }
         print(tempRow, tempCol);
         m_window->display();
 
@@ -57,6 +75,15 @@ void CreateLevel::run() {
 }
 
 void CreateLevel::print(int row, int col) {
+
+    sf::Font font;
+    font.loadFromFile("HappyMonkey.ttf");
+    sf::Text text("Menu", font, MENU_TEXT_SIZE);
+    text.setFillColor(sf::Color(500, 160, 28));
+    text.setOutlineThickness(2);
+    text.setOutlineColor(sf::Color(600, 100, 28));
+    text.setPosition(1300, 40);
+
     for (int i = 0; i < m_board.getRow(); i++) {
         for (int j = 0; j < m_board.getCol(); j++) {
             m_window->draw(m_board.getRectangle(i, j));
@@ -86,6 +113,8 @@ void CreateLevel::print(int row, int col) {
         }
     }
     m_inBounds = false;
+    m_window->draw(text);
+
 }
 
 //function that handel the case in a mouse button
@@ -112,7 +141,7 @@ void CreateLevel::handleMouseButton(sf::Event::MouseButtonEvent& event) {
                     m_board.setRow(m_rowCurr);
                     m_board.setCol(m_colCurr);
                     //go from the beninge of the controller
-                    m_board.create();
+                    m_board.createBoard();
                     //restart pacmen count to zero
                     m_board.setCountPac();
                     return;
@@ -146,9 +175,9 @@ void CreateLevel::handleMouseButton(sf::Event::MouseButtonEvent& event) {
 //function that make the object that beeen selected bigger
 void CreateLevel::outLine(int index) {
     for (int index = 0; index < 10; index++) {
-        m_menu[index].setScale(SCALE_SIZE, SCALE_SIZE);
+        m_menu[index].setScale(OBJ_SCALE_SIZE, OBJ_SCALE_SIZE);
     }
-    m_menu[index].setScale( SCALE_SIZE + 0.01, SCALE_SIZE + 0.01);
+    m_menu[index].setScale(OBJ_SCALE_SIZE + 0.01, OBJ_SCALE_SIZE + 0.01);
 }
 
 //function that check if the board is valid befor saving him
@@ -203,18 +232,92 @@ bool CreateLevel::handleMouseMoved(int& row, int& col) const{
     }
     return false;
 }
-
+/*
 void CreateLevel::getRowAndCol() {
-
+ 
     m_window->clear();
+
+    sf::Texture backgroundTexture;
+    if (!backgroundTexture.loadFromFile("levelBackground.png")) {
+        //Error loading image
+    }
+    sf::Sprite backgroundSprite(backgroundTexture);
+    backgroundSprite.setScale(0.5, 0.5);
+    backgroundSprite.setColor(sf::Color::White);
+    m_window->draw(backgroundSprite);
+    m_window->display();
+
+
     sf::Font font;
-    font.loadFromFile("../../../HappyMonkey.ttf");
+    font.loadFromFile("HappyMonkey.ttf");
     sf::Text enter("Enter a row and col numbers:", font, 100);
-    enter.setFillColor(sf::Color(255, 253, 208));
+    enter.setFillColor(sf::Color(0, 0, 0));
     enter.setPosition(50, 50);
     enter.setFont(font);
-    m_window->draw(enter);
 
+
+
+    // Create a text object to display the input
+    sf::Text text;
+    font.loadFromFile("HappyMonkey.ttf");
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::Black);
+
+    // Run the program as long as the window is open
+    while (m_window->isOpen())
+    {
+        m_window->draw(enter);
+        // Check for input from the user
+        sf::Event event;
+        while (m_window->pollEvent(event))
+        {
+            // Close the window if the user presses the "x" button
+            if (event.type == sf::Event::Closed)
+                m_window->close();
+
+            // Get input from the user
+            if (event.type == sf::Event::TextEntered)
+            {
+                // Get the character that the user entered
+                char input = event.text.unicode;
+
+                // Append the character to the text object
+                text.setString(text.getString() + input);
+            }
+        }
+
+        // Clear the window
+        m_window->clear();
+
+        // Draw the text to the window
+        m_window->draw(text);
+
+        // Display the window
+        m_window->display();
+    }
+}
+    /*
+    sf::Text numbers;
+    std::string line;
+    sf::Event event;
+
+    // Get input from the user
+    if (event.type == sf::Event::TextEntered)
+    {
+        // Get the character that the user entered
+        int input = event.text.unicode;
+
+        // Append the character to the text object
+        numbers.setString(numbers.getString() + input);
+    }
+    m_window->clear();
+    m_window->draw(enter);
+    m_window->draw(numbers);
+
+   
+
+     m_colCurr = 
+}
     sf::Text numbers;
     std::string line;
     sf::Event event;
@@ -235,4 +338,5 @@ void CreateLevel::getRowAndCol() {
     m_board.setRow(m_rowCurr);
     m_board.setCol(m_colCurr);
 }
+*/
 

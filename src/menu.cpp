@@ -49,22 +49,23 @@ void Menu::print(int row) {
 void Menu::create() {
 
     sf::Font font;
-    font.loadFromFile("../../../HappyMonkey.ttf");
-    sf::Text text("Super Pacman", font, 180);
+    font.loadFromFile("HappyMonkey.ttf");
+    sf::Text text("Super Pacman", font, MENU_TEXT_SIZE);
     text.setFillColor(sf::Color(255, 253, 208));
-    text.setOutlineThickness(4);
+    text.setOutlineThickness(2);
     text.setOutlineColor(sf::Color(255, 253, 208));
-    text.setPosition(800, 200);
+    text.setPosition(MENU_ROW, MENU_COL);
+
 
     sf::Texture backgroundTexture;
-    if (!backgroundTexture.loadFromFile("../../../menuBackground.png")) {
+    if (!backgroundTexture.loadFromFile("menuBackground.png")) {
         // Error loading image
     }
     sf::Sprite backgroundSprite(backgroundTexture);
-    backgroundSprite.setScale(0.6,0.6);
+    backgroundSprite.setScale(0.4,0.4);
 
     for (int index = 0; index < 4; index++) {
-        m_texture[index].loadFromFile( "../../../" + m_names[index]);
+        m_texture[index].loadFromFile( m_names[index]);
     }
 
     sf::Sprite sprite;

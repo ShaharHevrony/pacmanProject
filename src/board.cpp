@@ -14,7 +14,7 @@
 Board::Board(int level) :m_row(0), m_col(0), m_doorCount(0), m_keyCount(0), m_pacmanCount(0) {
     //loop that laod the sprite one by one
     for (int index = 0; index < 10; index++) {
-        m_texture[index].loadFromFile("../../../" + imagNames[index]);
+        m_texture[index].loadFromFile(imagNames[index]);
     }
 
     if (std::filesystem::exists("Board.txt")) {
@@ -39,15 +39,16 @@ Board::Board(int level) :m_row(0), m_col(0), m_doorCount(0), m_keyCount(0), m_pa
             std::cout << "Not a valid file, the num of row and col must be grater then 0./n";
         }
         boardFile.get(); //skip the \n
-        create();
+        createBoard();
         LoadFile(boardFile);
         boardFile.close();
     } else {
         //put in the col and row number
         //std::cout << "Enter a row and col numbers:" << std::endl;
         //std::cin >> m_row >> m_col;
-        m_row = m_col = 15;
-        create();
+        m_col = 10;
+        m_row = 10;
+        createBoard();
     }
 }
 
@@ -81,7 +82,7 @@ void Board::LoadFile(std::ifstream& boardFile) {
 }
 
 //function that creat the board
-void Board::create(){
+void Board::createBoard(){
     m_objects.clear();
     m_matrix.clear();
     std::vector<std::vector<sf::RectangleShape>> tempMatrix;
@@ -93,8 +94,8 @@ void Board::create(){
         std::vector <sf::RectangleShape> tempRec;
         for (int j = 0; j < m_col; j++) {
             sf::RectangleShape rectangle;
-            rectangle.setSize(sf::Vector2f(m_tileSize, m_tileSize));
-            rectangle.setPosition(j * m_tileSize + START_ROW, i * m_tileSize + START_COL);
+            rectangle.setSize(sf::Vector2f(m_tileSize*1.2, m_tileSize*1.2));
+            rectangle.setPosition(j * m_tileSize*1.2 + START_ROW, i * m_tileSize*1.2 + START_COL);
             rectangle.setOutlineThickness(1);
             rectangle.setOutlineColor(sf::Color(85, 93, 80));
             rectangle.setFillColor(sf::Color(192, 194, 201));
@@ -105,6 +106,7 @@ void Board::create(){
     }
     //cmpering my matrix to the temp matrix we creat
     m_matrix = tempMatrix;
+
 }
 
 // function that return the vector

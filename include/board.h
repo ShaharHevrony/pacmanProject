@@ -5,13 +5,14 @@
 #include "dynamicObject.h"
 class Board {
 public:
+
     //constructor that put in the defulte member and load the sprites
     Board(int level);
 
     void LoadFile(std::ifstream& boardFile);
 
     //function that creat the board
-    void create();
+    void createBoard();
 
     // function that return the vector
     std::vector<sf::RectangleShape> getVector (int index) const;
@@ -98,4 +99,7 @@ private:
     std::vector<std::vector<Object>> m_objects;
 
     sf::Texture m_texture[10];
+
+    sf::RenderWindow* m_window;
+
 };
