@@ -11,7 +11,7 @@ public:
     void LoadFile(std::ifstream& boardFile);
 
     //function that creat the board
-    void create();
+    void createBoard();
 
     // function that return the vector
     std::vector<sf::RectangleShape> getVector (int index) const;
