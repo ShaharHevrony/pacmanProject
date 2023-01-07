@@ -7,8 +7,12 @@
 #include <iostream>
 #include <sstream>
 #include <filesystem>
+#include <string> 
 
 CreateLevel::CreateLevel(sf::RenderWindow& window): m_window(&window){
+
+     //getRowAndCol();
+
     for (int index = 0; index < OBJECT; index++) {
         sf::Sprite tempSpr;
         sf::Texture* tempText = m_board.getTexture(index);
@@ -45,12 +49,9 @@ void CreateLevel::run() {
             //Error loading image
         }
         sf::Sprite backgroundSprite(backgroundTexture);
-        backgroundSprite.setScale(0.6,0.6);
+        backgroundSprite.setScale(0.4,0.4);
         backgroundSprite.setColor(sf::Color::White);
         m_window->draw(backgroundSprite);
-        if(m_rowCurr == 0 || m_colCurr == 0) {
-            getRowAndCol();
-        }
         print(tempRow, tempCol);
         m_window->display();
 
@@ -77,12 +78,11 @@ void CreateLevel::print(int row, int col) {
 
     sf::Font font;
     font.loadFromFile("HappyMonkey.ttf");
-    sf::Text text("Menu-", font, MENU_TEXT_SIZE);
-    text.setFillColor(sf::Color(255, 160, 208));
+    sf::Text text("Menu", font, MENU_TEXT_SIZE);
+    text.setFillColor(sf::Color(500, 160, 28));
     text.setOutlineThickness(2);
-    text.setOutlineColor(sf::Color(255, 253, 208));
-    text.setPosition(500, 500);
-    m_window->draw(text);
+    text.setOutlineColor(sf::Color(600, 100, 28));
+    text.setPosition(1300, 40);
 
     for (int i = 0; i < m_board.getRow(); i++) {
         for (int j = 0; j < m_board.getCol(); j++) {
@@ -113,6 +113,8 @@ void CreateLevel::print(int row, int col) {
         }
     }
     m_inBounds = false;
+    m_window->draw(text);
+
 }
 
 //function that handel the case in a mouse button
@@ -230,18 +232,92 @@ bool CreateLevel::handleMouseMoved(int& row, int& col) const{
     }
     return false;
 }
-
+/*
 void CreateLevel::getRowAndCol() {
-
+ 
     m_window->clear();
+
+    sf::Texture backgroundTexture;
+    if (!backgroundTexture.loadFromFile("levelBackground.png")) {
+        //Error loading image
+    }
+    sf::Sprite backgroundSprite(backgroundTexture);
+    backgroundSprite.setScale(0.5, 0.5);
+    backgroundSprite.setColor(sf::Color::White);
+    m_window->draw(backgroundSprite);
+    m_window->display();
+
+
     sf::Font font;
     font.loadFromFile("HappyMonkey.ttf");
     sf::Text enter("Enter a row and col numbers:", font, 100);
-    enter.setFillColor(sf::Color(255, 253, 208));
+    enter.setFillColor(sf::Color(0, 0, 0));
     enter.setPosition(50, 50);
     enter.setFont(font);
-    m_window->draw(enter);
 
+
+
+    // Create a text object to display the input
+    sf::Text text;
+    font.loadFromFile("HappyMonkey.ttf");
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::Black);
+
+    // Run the program as long as the window is open
+    while (m_window->isOpen())
+    {
+        m_window->draw(enter);
+        // Check for input from the user
+        sf::Event event;
+        while (m_window->pollEvent(event))
+        {
+            // Close the window if the user presses the "x" button
+            if (event.type == sf::Event::Closed)
+                m_window->close();
+
+            // Get input from the user
+            if (event.type == sf::Event::TextEntered)
+            {
+                // Get the character that the user entered
+                char input = event.text.unicode;
+
+                // Append the character to the text object
+                text.setString(text.getString() + input);
+            }
+        }
+
+        // Clear the window
+        m_window->clear();
+
+        // Draw the text to the window
+        m_window->draw(text);
+
+        // Display the window
+        m_window->display();
+    }
+}
+    /*
+    sf::Text numbers;
+    std::string line;
+    sf::Event event;
+
+    // Get input from the user
+    if (event.type == sf::Event::TextEntered)
+    {
+        // Get the character that the user entered
+        int input = event.text.unicode;
+
+        // Append the character to the text object
+        numbers.setString(numbers.getString() + input);
+    }
+    m_window->clear();
+    m_window->draw(enter);
+    m_window->draw(numbers);
+
+   
+
+     m_colCurr = 
+}
     sf::Text numbers;
     std::string line;
     sf::Event event;
@@ -262,4 +338,5 @@ void CreateLevel::getRowAndCol() {
     m_board.setRow(m_rowCurr);
     m_board.setCol(m_colCurr);
 }
+*/
 

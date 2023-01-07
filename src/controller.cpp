@@ -18,6 +18,7 @@ void Controller::run() {
             break;
         }
         case newMapBotton:{
+            //getRowAndCol(); 
             CreateLevel createLevel = CreateLevel(m_window);
             createLevel.run();
             break;

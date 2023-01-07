@@ -5,6 +5,7 @@
 
 class Board {
 public:
+
     //constructor that put in the defulte member and load the sprites
     Board();
 
@@ -91,4 +92,7 @@ private:
     std::vector <std::vector<Object>> m_objects;
 
     sf::Texture m_texture[10];
+
+    sf::RenderWindow* m_window;
+
 };

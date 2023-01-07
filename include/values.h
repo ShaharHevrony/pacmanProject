@@ -52,13 +52,16 @@ const int MENU_COL = WINDOW_HEIGHT / 4.7;
 
 
 
-const int BOARD_WIDTH = 7*WINDOW_HEIGHT/8;
+const int BOARD_WIDTH = 8*WINDOW_HEIGHT/8;
+const int BOARD_HEIGHT = 7 * WINDOW_HEIGHT / 8;
+
+const int MENU_SIZE = WINDOW_HEIGHT / 9.5;
 const int MENU_WIDTH    = WINDOW_HEIGHT/15;
-const int START_ROW     = 150;
-const int START_COL     = 200;
-//const int MENU_ROW      = WINDOW_HEIGHT/15;
-//const int MENU_COL      = 3*WINDOW_WIDTH/4;
+const int START_ROW     = 100;
+const int START_COL     = 90;
+const int OBJ_ROW       = WINDOW_HEIGHT/5;
+const int OBJ_COL       = 2.5*WINDOW_WIDTH/4;
 const int OBJECT        = 10;
-const int SPACE_SIZE    = 150;
+const int SPACE_SIZE    = 100;
 const int TILE_SIZE     = 2070;
-const float SCALE_SIZE  = 0.065;
+const float OBJ_SCALE_SIZE  = 0.00002 * WINDOW_WIDTH;

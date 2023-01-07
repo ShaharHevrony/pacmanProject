@@ -32,7 +32,8 @@ Board::Board() :m_row(0), m_col(0), m_doorCount(0), m_keyCount(0), m_pacmanCount
         //put in the col and row number
         //std::cout << "Enter a row and col numbers:" << std::endl;
         //std::cin >> m_row >> m_col;
-        m_row = m_col = 15;
+        m_col = 10;
+        m_row = 10;
         createBoard();
     }
 }
