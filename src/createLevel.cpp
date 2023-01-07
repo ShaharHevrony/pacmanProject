@@ -153,14 +153,14 @@ void CreateLevel::outLine(int index) {
 
 //function that check if the board is valid befor saving him
 bool CreateLevel::isValid() {
-    if (m_board.getPacman() != 1 && m_board.getDoor() != m_board.getKey()) {
+    if (m_board.getPacmanCount() != 1 && m_board.getDoorCount() != m_board.getKeyCount()) {
         std::cout << "You need to have one pacman and the same number of doors and keys on the board to save"
                   << std::endl;
         return false;
-    } else if (m_board.getPacman() != 1) {
+    } else if (m_board.getPacmanCount() != 1) {
         std::cout << "You need to have one pacman on the board to save" << std::endl;
         return false;
-    } else if (m_board.getDoor() != m_board.getKey()) {
+    } else if (m_board.getDoorCount() != m_board.getKeyCount()) {
         std::cout << "You need to have the same number of doors and keys on the board to save"
                   << std::endl;
         return false;

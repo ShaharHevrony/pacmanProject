@@ -1,17 +1,18 @@
 #pragma once
 #include "keyBoard.h"
 #include "values.h"
+#include "board.h"
 class PlayGame {
 public:
     PlayGame();
 
     void play();
 
+    void print(int row, int col);
+
+    char deleteObject(sf::Vector2f position);
+
     void demonTurn();
-
-    bool validMove(int direction, Location location, char symbol);
-
-    Location changePosition(int direction, Location location);
 
     bool compareLocation();
 
@@ -28,11 +29,11 @@ private:
 
     int m_score;
 
-    int m_life ;
+    int m_life;
 
     int m_catchCookie;
 
-    //Board* m_board;
+    Board* m_board;
 
     Keyboard* m_key;
 };

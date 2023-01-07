@@ -11,7 +11,7 @@
 #include "board.h"
 
 //constructor that put in the defulte member and load the sprites
-Board::Board() :m_row(0), m_col(0), m_doorCount(0), m_keyCount(0), m_pacmanCount(0) {
+Board::Board(int level) :m_row(0), m_col(0), m_doorCount(0), m_keyCount(0), m_pacmanCount(0) {
     //loop that laod the sprite one by one
     for (int index = 0; index < 10; index++) {
         m_texture[index].loadFromFile("../../../" + imagNames[index]);
@@ -20,6 +20,20 @@ Board::Board() :m_row(0), m_col(0), m_doorCount(0), m_keyCount(0), m_pacmanCount
     if (std::filesystem::exists("Board.txt")) {
         std::ifstream boardFile;
         boardFile.open("Board.txt");
+        if (!boardFile){
+            exit(EXIT_FAILURE);
+        }
+        int i = 1;
+        while(i != level){
+            boardFile >> m_row >> m_col;
+            boardFile.get();
+            std::string str;
+            for (int row = 0; row < m_row; row++) {
+                std::getline(boardFile, str);
+            }
+            boardFile.get();
+            i++;
+        }
         boardFile >> m_row >> m_col;
         if (m_row == 0 || m_col == 0) {
             std::cout << "Not a valid file, the num of row and col must be grater then 0./n";
@@ -51,13 +65,15 @@ void Board::LoadFile(std::ifstream& boardFile) {
                 m_objects[row][col] = temp;
                 if (type == 'a') {
                     m_pacmanCount++;
-                }
-                else if (type == '%') {
+                    m_pacman = (DynamicObject *)(&temp);
+                } else if (type == '%') {
                     m_keyCount++;
-                }
-                else if (type == 'D') {
+                } else if (type == 'D') {
                     m_doorCount++;
+                } else if (type == '*'){
+                    m_cookieCount++;
                 }
+
             }
         }
         boardFile.get(); //skip the \n
@@ -221,6 +237,8 @@ void Board::eraserObj(int row, int col){
         //if earese key
     } else if (m_objects[row][col].getTexture() == &m_texture[3]) {
         m_keyCount--;
+    } else if(m_objects[row][col].getTexture() == &m_texture[5]){
+        m_cookieCount--;
     }
     m_objects[row][col].setPosition(sf::Vector2f(INT_MAX, INT_MAX));
     m_objects[row][col].setTexture(NULL);
@@ -232,18 +250,22 @@ float Board::getTile() const{
 }
 
 //return pacman count
-int Board::getPacman() const{
+int Board::getPacmanCount() const{
     return m_pacmanCount;
 }
 
 //return door count
-int Board::getDoor() const{
+int Board::getDoorCount() const{
     return m_doorCount;
 }
 
 //return key count
-int Board::getKey() const{
+int Board::getKeyCount() const{
     return m_keyCount;
+}
+
+int Board::getCookieCount() const{
+    return m_cookieCount;
 }
 
 //set pacman count
@@ -318,4 +340,12 @@ int Board::charToIndex(char c) const {
 
 Object Board::getTileObj(int i, int j) const {
     return m_objects[i][j];
+}
+
+char Board::getObject(int x, int y) const {
+    return m_objects[x][y].getType();
+}
+
+DynamicObject* Board::getPacman() const{
+    return m_pacman;
 }

@@ -4,7 +4,7 @@
 #include "menu.h"
 #include "createLevel.h"
 Controller::Controller():m_window(sf::RenderWindow(
-        sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Super Pacman")){}
+        sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Super Pacman")), m_playGame(){}
 
 void Controller::run() {
     Menu menu(m_window);
@@ -12,6 +12,7 @@ void Controller::run() {
     m_window.clear();
     switch (buttonPressed) {
         case playBotton:{
+            m_playGame.play();
             break;
         }
         case helpBotton:{

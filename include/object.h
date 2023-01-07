@@ -3,19 +3,19 @@
 
 class Object {
 public:
-    //constructor of defult position
+    //constructor of default position
     Object();
 
-    //set texter
+    //set texture
     void setTexture(sf::Texture* texture);
 
-    //get texeter
+    //get texture
     sf::Texture* getTexture() const;
 
     //set sprite
     void setSprite(sf::Sprite sprite);
 
-    //return sprute
+    //return sprite
     sf::Sprite getSprite() const;
 
     //set position

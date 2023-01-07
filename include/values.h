@@ -21,12 +21,8 @@ enum Buttons{
     newMapBotton,
     exitBotton,
 };
-struct Location
-{
-    explicit Location(int row, int col) : row(row), col(col) {}
-    int row;
-    int col;
-};
+
+
 
 const std::string m_names[4] = {"PlayButton.png", "HelpButton.png", "CreateButton.png",
                                 "ExitButton.png"};
@@ -57,3 +53,14 @@ const int OBJECT        = 10;
 const int SPACE_SIZE    = 150;
 const int TILE_SIZE     = 2070;
 const float SCALE_SIZE  = 0.065;
+
+const int WALL_S         = '#';
+const int SPACE_S        = ' ';
+const int PACMAN_S       = 'a';
+const int SUPER_PACMAN_S = '@';
+const int DEMON_S        = '&';
+const int DOOR_S         = 'D';
+const int KEY_S          = '%';
+const int COOKIE_S       = '*';
+const int GIFT_S         = '$';
+const int SKIP_TURN      = 100;

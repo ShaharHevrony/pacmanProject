@@ -2,11 +2,11 @@
 #include <SFML/Graphics.hpp>
 #include "object.h"
 #include "values.h"
-
+#include "dynamicObject.h"
 class Board {
 public:
     //constructor that put in the defulte member and load the sprites
-    Board();
+    Board(int level);
 
     void LoadFile(std::ifstream& boardFile);
 
@@ -52,20 +52,20 @@ public:
     float getTile() const;
 
     //return pacman count
-    int getPacman() const;
+    int getPacmanCount() const;
 
     //return door count
-    int getDoor() const;
+    int getDoorCount() const;
 
     //return key count
-    int getKey() const;
+    int getKeyCount() const;
+
+    int getCookieCount() const;
 
     //set pacman count to zero
-    void setCountPac() ;
+    void setCountPac();
 
     sf::Texture* changeCharToTexture(char c);
-
-    char changeTextureToChar(int i, int j) const;
 
     char indexToChar(int index) const;
 
@@ -73,6 +73,9 @@ public:
 
     Object getTileObj(int i, int j) const;
 
+    char getObject (int x, int y) const;
+
+    DynamicObject* getPacman() const;
 private:
     int m_row;
 
@@ -84,11 +87,15 @@ private:
 
     int m_keyCount;
 
+    int m_cookieCount;
+
     float m_tileSize;
+
+    DynamicObject* m_pacman;
 
     std::vector<std::vector<sf::RectangleShape>> m_matrix;
 
-    std::vector <std::vector<Object>> m_objects;
+    std::vector<std::vector<Object>> m_objects;
 
     sf::Texture m_texture[10];
 };
