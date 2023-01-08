@@ -15,7 +15,13 @@ public:
 
 	sf::Sprite getbackground();
 
-	sf::Texture getTexture();
+	sf::Texture getTextureBack();
+
+	sf::Texture getTextureMenuStart(int index);
+
+	sf::Sprite getSpriteMenuStart();
+
+
 
 private:
 
@@ -25,6 +31,7 @@ private:
 
 	sf::Texture m_backgroundTexture;
 
+	sf::Texture m_textureMenuStart[4];
 
-	sf::Texture m_texture[17];
+	sf::Texture m_imagNames[10];
 };

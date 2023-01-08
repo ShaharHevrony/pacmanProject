@@ -57,13 +57,13 @@ void Menu::create() {
     text.setPosition(MENU_ROW, MENU_COL);
 
     sf::Texture backgroundTexture;
-    backgroundTexture = m_reso->getTexture();
+    backgroundTexture = m_reso->getTextureBack();
     sf::Sprite backgroundSprite;
     backgroundSprite = m_reso->getbackground();
     m_window->draw(backgroundSprite);
 
     for (int index = 0; index < 4; index++) {
-        m_texture[index].loadFromFile( m_names[index]);
+        m_texture[index] = m_reso->getTextureMenuStart(index);
     }
 
     sf::Sprite sprite;
