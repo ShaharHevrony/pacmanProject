@@ -4,8 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include "menu.h"
 #include "values.h"
-#include "resourcesManager.h"
-Menu::Menu(sf::RenderWindow& window): m_window(&window){}
+
+Menu::Menu(sf::RenderWindow& window, ResourcesManager& reso): m_window(&window), m_reso(&reso){}
 
 int Menu::run() {
     int tempRow = 0;
@@ -49,20 +49,18 @@ void Menu::print(int row) {
 void Menu::create() {
 
     sf::Font font;
-    font.loadFromFile("HappyMonkey.ttf");
+    font = m_reso->getFont();
     sf::Text text("Super Pacman", font, MENU_TEXT_SIZE);
     text.setFillColor(sf::Color(255, 253, 208));
     text.setOutlineThickness(2);
     text.setOutlineColor(sf::Color(255, 253, 208));
     text.setPosition(MENU_ROW, MENU_COL);
 
-
     sf::Texture backgroundTexture;
-    if (!backgroundTexture.loadFromFile("menuBackground.png")) {
-        // Error loading image
-    }
-    sf::Sprite backgroundSprite(backgroundTexture);
-    backgroundSprite.setScale(0.4,0.4);
+    backgroundTexture = m_reso->getTexture();
+    sf::Sprite backgroundSprite;
+    backgroundSprite = m_reso->getbackground();
+    m_window->draw(backgroundSprite);
 
     for (int index = 0; index < 4; index++) {
         m_texture[index].loadFromFile( m_names[index]);
@@ -77,7 +75,6 @@ void Menu::create() {
         sprite.setOrigin(MENU_PIC_WIDTH/2, MENU_PIC_HEIGHT/2);
         m_menu.push_back(sprite);
     }
-    m_window->draw(backgroundSprite);
     m_window->draw(text);
 }
 

@@ -8,10 +8,17 @@
 #include <sstream>
 #include <filesystem>
 #include <string> 
+#include <sstream>
 
-CreateLevel::CreateLevel(sf::RenderWindow& window): m_window(&window){
 
-     //getRowAndCol();
+
+CreateLevel::CreateLevel(sf::RenderWindow& window): m_window(&window), m_board(1){
+    // getRowAndCol();
+
+}
+
+void CreateLevel::run() {
+
 
     for (int index = 0; index < OBJECT; index++) {
         sf::Sprite tempSpr;
@@ -20,14 +27,14 @@ CreateLevel::CreateLevel(sf::RenderWindow& window): m_window(&window){
         if (index < 2) {
             tempSpr.setPosition(OBJ_COL, OBJ_ROW + index * SPACE_SIZE);
         }
-        else if(index < 4){
-            tempSpr.setPosition(OBJ_COL+120, OBJ_ROW + (index-2) * SPACE_SIZE);
+        else if (index < 4) {
+            tempSpr.setPosition(OBJ_COL + 120, OBJ_ROW + (index - 2) * SPACE_SIZE);
         }
         else if (index < 6) {
-            tempSpr.setPosition(OBJ_COL + 120*2, OBJ_ROW + (index - 4) * SPACE_SIZE);
+            tempSpr.setPosition(OBJ_COL + 120 * 2, OBJ_ROW + (index - 4) * SPACE_SIZE);
         }
-        else if(index < 8) {
-            tempSpr.setPosition(OBJ_COL + 120*3, OBJ_ROW + (index - 6) * SPACE_SIZE);
+        else if (index < 8) {
+            tempSpr.setPosition(OBJ_COL + 120 * 3, OBJ_ROW + (index - 6) * SPACE_SIZE);
         }
         else {
             tempSpr.setPosition(OBJ_COL + 120 * 4, OBJ_ROW + (index - 8) * SPACE_SIZE);
@@ -35,9 +42,7 @@ CreateLevel::CreateLevel(sf::RenderWindow& window): m_window(&window){
         tempSpr.setScale(OBJ_SCALE_SIZE, OBJ_SCALE_SIZE);
         m_menu.push_back(tempSpr);
     }
-}
 
-void CreateLevel::run() {
     int tempRow = 0;
     int tempCol = 0;
 
@@ -125,6 +130,7 @@ void CreateLevel::handleMouseButton(sf::Event::MouseButtonEvent& event) {
     for (int index = 0; index < OBJECT; index++){
         //if the user click on the object in undex place
         if (m_menu[index].getGlobalBounds().contains(m_window->mapPixelToCoords({event.x, event.y}))) {
+            m_currObj = index;
             switch (index){
                 //if click on eraser
                 case eraser:{
@@ -245,7 +251,6 @@ void CreateLevel::getRowAndCol() {
     backgroundSprite.setScale(0.5, 0.5);
     backgroundSprite.setColor(sf::Color::White);
     m_window->draw(backgroundSprite);
-    m_window->display();
 
 
     sf::Font font;
@@ -254,19 +259,22 @@ void CreateLevel::getRowAndCol() {
     enter.setFillColor(sf::Color(0, 0, 0));
     enter.setPosition(50, 50);
     enter.setFont(font);
+    m_window->draw(enter);
+    m_window->display();
 
 
-
-    // Create a text object to display the input
-    sf::Text text;
+    // Set up a font and a text object to display the numbers
     font.loadFromFile("HappyMonkey.ttf");
+    sf::Text text;
+    text.setFont(font);
     text.setCharacterSize(24);
     text.setFillColor(sf::Color::Black);
+
+
 
     // Run the program as long as the window is open
     while (m_window->isOpen())
     {
-        m_window->draw(enter);
         // Check for input from the user
         sf::Event event;
         while (m_window->pollEvent(event))
@@ -275,26 +283,36 @@ void CreateLevel::getRowAndCol() {
             if (event.type == sf::Event::Closed)
                 m_window->close();
 
-            // Get input from the user
-            if (event.type == sf::Event::TextEntered)
+             // Get the two numbers from the user if they press the space bar
+            if (event.type == sf::Event::KeyPressed && event.type != sf::Keyboard::Enter)
             {
-                // Get the character that the user entered
-                char input = event.text.unicode;
+                sf::Text numbers;
+                std::string line;
+        
+                    line += sf::Keyboard::Key();
+                    numbers.setString(line);
+                    numbers.setFillColor(sf::Color(255, 253, 208));
+                    numbers.setPosition(60, 50);
+                    numbers.setFont(font);
+                
+                std::stringstream input;
+                input << line;
+                input >> m_rowCurr >> m_colCurr;
 
-                // Append the character to the text object
-                text.setString(text.getString() + input);
+                m_board.setRow(m_rowCurr);
+                m_board.setCol(m_colCurr);
             }
         }
 
-        // Clear the window
-        m_window->clear();
+        // Update the text to display the numbers
+        text.setString("Num1: " + std::to_string(m_rowCurr) + "\nNum2: " + std::to_string(m_colCurr));
 
-        // Draw the text to the window
+        // Clear the window and draw the text
         m_window->draw(text);
-
-        // Display the window
         m_window->display();
     }
+
+        
 }
     /*
     sf::Text numbers;

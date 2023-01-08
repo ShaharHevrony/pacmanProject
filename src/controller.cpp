@@ -3,23 +3,26 @@
 #include "values.h"
 #include "menu.h"
 #include "createLevel.h"
+#include "resourcesManager.h"
+
 Controller::Controller():m_window(sf::RenderWindow(
-        sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Super Pacman")), m_playGame(){}
+        sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Super Pacman")){}
 
 void Controller::run() {
-    Menu menu(m_window);
+
+    ResourcesManager reso = ResourcesManager();
+    Menu menu(m_window, reso);
     int buttonPressed = menu.run();
     m_window.clear();
     switch (buttonPressed) {
         case playBotton:{
-            m_playGame.play();
+            //m_playGame.play();
             break;
         }
         case helpBotton:{
             break;
         }
         case newMapBotton:{
-            //getRowAndCol(); 
             CreateLevel createLevel = CreateLevel(m_window);
             createLevel.run();
             break;
@@ -30,3 +33,4 @@ void Controller::run() {
         }
     }
 }
+

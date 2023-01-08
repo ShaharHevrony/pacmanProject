@@ -1,7 +1,7 @@
 //
 // Created by Shahar Hevrony on 29/12/2022.
 //
-
+/*
 #include "dynamicObject.h"
 #include "board.h"
 
@@ -52,3 +52,4 @@ void DynamicObject::changeLocation(int direction){
             break;
     }
 }
+*/

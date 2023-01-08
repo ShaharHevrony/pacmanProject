@@ -66,7 +66,7 @@ void Board::LoadFile(std::ifstream& boardFile) {
                 m_objects[row][col] = temp;
                 if (type == 'a') {
                     m_pacmanCount++;
-                    m_pacman = (DynamicObject *)(&temp);
+                //    m_pacman = (DynamicObject *)(&temp);
                 } else if (type == '%') {
                     m_keyCount++;
                 } else if (type == 'D') {
@@ -348,6 +348,6 @@ char Board::getObject(int x, int y) const {
     return m_objects[x][y].getType();
 }
 
-DynamicObject* Board::getPacman() const{
+/*DynamicObject* Board::getPacman() const {
     return m_pacman;
-}
+}*/

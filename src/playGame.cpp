@@ -1,6 +1,7 @@
 //
 // Created by Shahar Hevrony on 29/12/2022.
 //
+/*
 #include "playGame.h"
 #include "values.h"
 #include <SFML/Graphics.hpp>
@@ -84,3 +85,4 @@ char PlayGame::deleteObject(sf::Vector2f position) {
     }
     return type;
 }
+*/
