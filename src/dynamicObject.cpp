@@ -1,28 +1,26 @@
 //
 // Created by Shahar Hevrony on 29/12/2022.
 //
-/*
+
 #include "dynamicObject.h"
 #include "board.h"
 
-DynamicObject::DynamicObject(const Board* board):m_board(board){}
+DynamicObject::DynamicObject(){}
 
-bool DynamicObject::validMove(int direction){
+bool DynamicObject::validMove(int direction, int row, int col, int type){
     //check what is in the next location
-    changeLocation(direction);
+    setNextLocation(direction);
     int x = m_nextPosition.x;
     int y = m_nextPosition.y;
     //check if the location is in the board boarder
-    if (x >= 0 && x < m_board->getCol() && y >= 0 && y < m_board->getRow() &&
-        //check what is the symbol in the next location
-        m_board->getObject(x, y) == SPACE_S){
+    if (x >= 0 && x < col && y >= 0 && y < row && type == SPACE_S){
         return true;
     } else {
         return false;
     }
 }
 
-void DynamicObject::changeLocation(int direction){
+void DynamicObject::setNextLocation(int direction){
     int x = getPosition().x;
     int y = getPosition().y;
 
@@ -52,4 +50,7 @@ void DynamicObject::changeLocation(int direction){
             break;
     }
 }
-*/
+
+sf::Vector2f DynamicObject::getNextLocation() const{
+    return m_nextPosition;
+}

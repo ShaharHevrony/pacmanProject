@@ -6,17 +6,16 @@
 #include "resourcesManager.h"
 
 Controller::Controller():m_window(sf::RenderWindow(
-        sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Super Pacman")){}
+        sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Super Pacman")), m_playGame(m_window){}
 
 void Controller::run() {
-
     ResourcesManager reso = ResourcesManager();
     Menu menu(m_window, reso);
     int buttonPressed = menu.run();
     m_window.clear();
     switch (buttonPressed) {
         case playBotton:{
-            //m_playGame.play();
+            m_playGame.play();
             break;
         }
         case helpBotton:{

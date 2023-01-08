@@ -2,14 +2,14 @@
 #include "keyBoard.h"
 #include "values.h"
 #include "board.h"
-/*
+
 class PlayGame {
 public:
-    PlayGame();
+    PlayGame(sf::RenderWindow& window);
 
     void play();
 
-    void print(int row, int col);
+    void print();
 
     char deleteObject(sf::Vector2f position);
 
@@ -36,6 +36,10 @@ private:
 
     Board* m_board;
 
+    sf::RenderWindow* m_window;
+
+    DynamicObject* m_pacman;
+
     Keyboard* m_key;
-};*/
+};
 
