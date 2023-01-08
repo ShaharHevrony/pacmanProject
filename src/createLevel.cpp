@@ -11,8 +11,7 @@
 #include <sstream>
 
 
-
-CreateLevel::CreateLevel(sf::RenderWindow& window): m_window(&window), m_board(1){
+CreateLevel::CreateLevel(sf::RenderWindow& window, ResourcesManager& reso): m_window(&window), m_board(1), m_reso(&reso) {
     // getRowAndCol();
 
 }
@@ -49,14 +48,13 @@ void CreateLevel::run() {
 
     //while the window is open
     while (m_window->isOpen()){
+ 
         sf::Texture backgroundTexture;
-        if (!backgroundTexture.loadFromFile("levelBackground.png")) {
-            //Error loading image
-        }
-        sf::Sprite backgroundSprite(backgroundTexture);
-        backgroundSprite.setScale(0.4,0.4);
-        backgroundSprite.setColor(sf::Color::White);
+        backgroundTexture = m_reso->getTextureBack();
+        sf::Sprite backgroundSprite;
+        backgroundSprite = m_reso->getbackground();
         m_window->draw(backgroundSprite);
+
         print(tempRow, tempCol);
         m_window->display();
 
@@ -82,12 +80,16 @@ void CreateLevel::run() {
 void CreateLevel::print(int row, int col) {
 
     sf::Font font;
-    font.loadFromFile("HappyMonkey.ttf");
+    font = m_reso->getFont();
     sf::Text text("Menu", font, MENU_TEXT_SIZE);
     text.setFillColor(sf::Color(500, 160, 28));
     text.setOutlineThickness(2);
     text.setOutlineColor(sf::Color(600, 100, 28));
-    text.setPosition(1300, 40);
+    text.setPosition(OBJ_COL+100, OBJ_ROW-200);
+
+
+   
+
 
     for (int i = 0; i < m_board.getRow(); i++) {
         for (int j = 0; j < m_board.getCol(); j++) {
