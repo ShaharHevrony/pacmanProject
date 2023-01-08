@@ -21,7 +21,8 @@ enum Buttons{
     newMapBotton,
     exitBotton,
 };
-
+const std::string PATH = "../../../";
+//const std::string PATH = "";
 const std::string m_names[4] = {"PlayButton.png", "HelpButton.png", "CreateButton.png",
                                 "ExitButton.png"};
 const std::string imagNames[10] = {"Pacman.png", "Demon.png", "Door.png", "Key.png",
@@ -30,10 +31,8 @@ const std::string imagNames[10] = {"Pacman.png", "Demon.png", "Door.png", "Key.p
 
 const int WINDOW_HEIGHT = sf::VideoMode::getDesktopMode().height;
 const int WINDOW_WIDTH  = sf::VideoMode::getDesktopMode().width;
+const int BACHGRAUND_SCALE = WINDOW_HEIGHT/(2*508);
 
-
-//const int WINDOW_HEIGHT = 1800;
-//const int WINDOW_WIDTH  = 2000;
 const int MENU_CENTER    = WINDOW_WIDTH / 2;
 const int MENU_START_ROW = WINDOW_HEIGHT / 2.2;
 const float MENU_SCALE   = 0.0003* WINDOW_WIDTH;
