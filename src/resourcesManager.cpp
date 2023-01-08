@@ -4,7 +4,7 @@
 
 #include "resourcesManager.h"
 #include "board.h"
-
+#include "values.h"
 ResourcesManager::ResourcesManager() {
 
     for (int index = 0; index < 4; index++) {
@@ -16,16 +16,16 @@ ResourcesManager::ResourcesManager() {
     }
 
     sf::Texture backgroundTexture;
-    if (!backgroundTexture.loadFromFile("menuBackground.png")) {
+    if (!backgroundTexture.loadFromFile(PATH + "menuBackground.png")) {
         // Error loading image
     }
     m_backgroundTexture = backgroundTexture;
     m_backgroundSprite = sf::Sprite(m_backgroundTexture);
-    m_backgroundSprite.setScale(0.5, 0.5);
+    m_backgroundSprite.setScale(BACHGRAUND_SCALE, BACHGRAUND_SCALE);
 
 
     sf::Font title;
-    title.loadFromFile("HappyMonkey.ttf");
+    title.loadFromFile(PATH + "HappyMonkey.ttf");
     m_font = title;
 }
 

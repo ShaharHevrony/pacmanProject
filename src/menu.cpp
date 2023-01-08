@@ -95,7 +95,7 @@ int Menu::handleMouseButton(sf::Event::MouseButtonEvent& event) {
     auto location = m_window->mapPixelToCoords({ event.x, event.y });
     //loop that go on the object in the menu and check if the user cklik on one of them
     for (int index = 0; index < 4 ; index++) {
-        //if the user click on the buttom
+        //if the user click on the button
         if (m_menu[index].getGlobalBounds().contains(m_window->mapPixelToCoords({ event.x, event.y }))) {
             m_window->clear();
             switch (index) {
