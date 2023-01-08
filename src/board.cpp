@@ -7,7 +7,6 @@
 #include <filesystem>
 #include <vector>
 #include <SFML/Graphics.hpp>
-
 #include "board.h"
 
 //constructor that put in the defulte member and load the sprites
