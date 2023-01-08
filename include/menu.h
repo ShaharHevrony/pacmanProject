@@ -1,10 +1,11 @@
 #pragma once
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "resourcesManager.h"
 
 class Menu {
 public:
-    Menu(sf::RenderWindow& window);
+    Menu(sf::RenderWindow& window, ResourcesManager& reso);
 
     void create();
 
@@ -25,4 +26,6 @@ private:
     sf::Texture m_texture[4];
 
     bool m_inBounds = false;
+
+    ResourcesManager* m_reso;
 };

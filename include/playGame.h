@@ -2,6 +2,7 @@
 #include "keyBoard.h"
 #include "values.h"
 #include "board.h"
+/*
 class PlayGame {
 public:
     PlayGame();
@@ -36,5 +37,5 @@ private:
     Board* m_board;
 
     Keyboard* m_key;
-};
+};*/
 

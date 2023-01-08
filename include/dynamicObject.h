@@ -1,11 +1,12 @@
 #pragma once
 #include "object.h"
 #include "board.h"
+/*
 class DynamicObject: public Object {
 public:
-    DynamicObject(const Board* board);
+   // DynamicObject(const Board* board);
 
-    void moveObject();
+    //void moveObject();
 
     bool validMove(int direction);
 
@@ -16,3 +17,4 @@ private:
 
     const Board* m_board;
 };
+*/

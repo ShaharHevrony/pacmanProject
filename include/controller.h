@@ -8,9 +8,10 @@ public:
     Controller();
 
     void run();
+
 private:
     sf::RenderWindow m_window;
 
-    PlayGame m_playGame;
+    //PlayGame m_playGame;
 };
 
