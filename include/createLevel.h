@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <SFML/Graphics.hpp>
+#include "resourcesManager.h"
+
 
 #include "controller.h"
 #include "board.h"
@@ -12,7 +14,7 @@
 
 class CreateLevel {
 public:
-    CreateLevel(sf::RenderWindow& window);
+    CreateLevel(sf::RenderWindow& window, ResourcesManager& reso);
 
     void run();
 
@@ -36,6 +38,9 @@ private:
     std::vector<sf::Sprite> m_menu;
 
     sf::RenderWindow* m_window;
+
+    ResourcesManager* m_reso;
+
 
     int m_currObj;
 

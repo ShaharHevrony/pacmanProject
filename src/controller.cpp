@@ -23,7 +23,7 @@ void Controller::run() {
             break;
         }
         case newMapBotton:{
-            CreateLevel createLevel = CreateLevel(m_window);
+            CreateLevel createLevel = CreateLevel(m_window, reso);
             createLevel.run();
             break;
         }
