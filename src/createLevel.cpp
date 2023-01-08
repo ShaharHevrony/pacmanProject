@@ -17,8 +17,6 @@ CreateLevel::CreateLevel(sf::RenderWindow& window, ResourcesManager& reso): m_wi
 }
 
 void CreateLevel::run() {
-
-
     for (int index = 0; index < OBJECT; index++) {
         sf::Sprite tempSpr;
         sf::Texture* tempText = m_board.getTexture(index);
@@ -48,7 +46,6 @@ void CreateLevel::run() {
 
     //while the window is open
     while (m_window->isOpen()){
- 
         sf::Texture backgroundTexture;
         backgroundTexture = m_reso->getTextureBack();
         sf::Sprite backgroundSprite;
@@ -78,7 +75,6 @@ void CreateLevel::run() {
 }
 
 void CreateLevel::print(int row, int col) {
-
     sf::Font font;
     font = m_reso->getFont();
     sf::Text text("Menu", font, MENU_TEXT_SIZE);
@@ -88,7 +84,7 @@ void CreateLevel::print(int row, int col) {
     text.setPosition(OBJ_COL+100, OBJ_ROW-200);
 
 
-   
+
 
 
     for (int i = 0; i < m_board.getRow(); i++) {
@@ -253,6 +249,7 @@ void CreateLevel::getRowAndCol() {
     backgroundSprite.setScale(0.5, 0.5);
     backgroundSprite.setColor(sf::Color::White);
     m_window->draw(backgroundSprite);
+    m_window->display();
 
 
     sf::Font font;
@@ -277,6 +274,7 @@ void CreateLevel::getRowAndCol() {
     // Run the program as long as the window is open
     while (m_window->isOpen())
     {
+        m_window->draw(enter);
         // Check for input from the user
         sf::Event event;
         while (m_window->pollEvent(event))
@@ -290,13 +288,13 @@ void CreateLevel::getRowAndCol() {
             {
                 sf::Text numbers;
                 std::string line;
-        
+
                     line += sf::Keyboard::Key();
                     numbers.setString(line);
                     numbers.setFillColor(sf::Color(255, 253, 208));
                     numbers.setPosition(60, 50);
                     numbers.setFont(font);
-                
+
                 std::stringstream input;
                 input << line;
                 input >> m_rowCurr >> m_colCurr;
@@ -314,7 +312,7 @@ void CreateLevel::getRowAndCol() {
         m_window->display();
     }
 
-        
+
 }
     /*
     sf::Text numbers;

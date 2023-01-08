@@ -1,20 +1,18 @@
 #pragma once
 #include "object.h"
-#include "board.h"
-/*
+
 class DynamicObject: public Object {
 public:
-   // DynamicObject(const Board* board);
+    DynamicObject();
 
-    //void moveObject();
+    void moveObject();
 
-    bool validMove(int direction);
+    bool validMove(int direction, int row, int col, int type);
 
-    void changeLocation (int direction);
+    void setNextLocation (int direction);
+
+    sf::Vector2f getNextLocation() const;
 
 private:
     sf::Vector2f m_nextPosition;
-
-    const Board* m_board;
 };
-*/

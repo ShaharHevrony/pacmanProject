@@ -3,6 +3,7 @@
 #include "object.h"
 #include "values.h"
 #include "dynamicObject.h"
+
 class Board {
 public:
 
@@ -76,7 +77,8 @@ public:
 
     char getObject (int x, int y) const;
 
-    //DynamicObject* getPacman() const;
+    DynamicObject* getPacman() const;
+
 private:
     int m_row;
 
@@ -92,7 +94,7 @@ private:
 
     float m_tileSize;
 
-   // DynamicObject* m_pacman;
+    DynamicObject* m_pacman;
 
     std::vector<std::vector<sf::RectangleShape>> m_matrix;
 

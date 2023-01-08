@@ -1,12 +1,12 @@
 //
 // Created by Shahar Hevrony on 29/12/2022.
 //
-/*
+
 #include "playGame.h"
 #include "values.h"
 #include <SFML/Graphics.hpp>
 
-PlayGame::PlayGame():m_catchCookie(0), m_score(0), m_level(1), m_life(3),m_key() {}
+PlayGame::PlayGame(sf::RenderWindow& window):m_window(&window), m_catchCookie(0), m_score(0), m_level(1), m_life(3),m_key() {}
 
 void PlayGame::play() {
     for (m_level; m_level <= 1; m_level++){ //FIXME: num of levels is not set.
@@ -23,7 +23,7 @@ void PlayGame::playLevel() {
     m_board = new Board(m_level);
     //loop that go on each level
     //make a board
-    //print(); //FIXME: print the level
+    print();
     bool endLevel = false;
     //loop that control the game until the end
     while(!endLevel){
@@ -31,14 +31,17 @@ void PlayGame::playLevel() {
         int direction = m_key->getKey();
         //check if the direction is valid
         while (!validKey(direction) ||
-            (direction != sf::Keyboard::Space && !m_board->getPacman()->validMove(direction))){
+            (direction != sf::Keyboard::Space && !m_board->getPacman()->validMove(direction, m_board->getCol(),
+                                             m_board->getRow(),m_board->getPacman()->getType()))){
             direction = m_key->getKey();
         }
 
         //if the user decided to skip his turn
         if (direction != SKIP_TURN) {
-            m_board->getPacman()->changeLocation(direction);
+            m_pacman = m_board->getPacman();
+            m_pacman->setNextLocation(direction);
             //if the pacman and demon on the same cell
+            /*
             if (compareLocation()){
                 char symbol = deleteObject(((Object *)m_board->getPacman())->getPosition());
                 if (symbol != SPACE_S) {
@@ -52,9 +55,10 @@ void PlayGame::playLevel() {
                     break;
                 }
             }
+            */
         }
         //function that move all the demon
-        demonTurn();
+        //demonTurn();
     }
     //m_score += 2*(m_board->demonCount); //FIXME
     //delete the allocate of the old board
@@ -85,4 +89,38 @@ char PlayGame::deleteObject(sf::Vector2f position) {
     }
     return type;
 }
-*/
+
+bool PlayGame::validKey(int key) const {
+    return (key == SKIP_TURN || key == sf::Keyboard::Up || key == sf::Keyboard::Down
+            || key == sf::Keyboard::Left || key == sf::Keyboard::Right);
+}
+
+void PlayGame::print() {
+    sf::Font font;
+    font.loadFromFile("HappyMonkey.ttf");
+    sf::Text text("play", font, MENU_TEXT_SIZE);
+    text.setFillColor(sf::Color(500, 160, 28));
+    text.setOutlineThickness(2);
+    text.setOutlineColor(sf::Color(600, 100, 28));
+    text.setPosition(500, 40);
+
+    for (int i = 0; i < m_board->getRow(); i++) {
+        for (int j = 0; j < m_board->getCol(); j++) {
+            m_window->draw(m_board->getRectangle(i, j));
+        }
+    }
+
+    std::vector<std::vector<Object>> object = m_board->getObj();
+    float tileSize = m_board->getTile();
+    tileSize /= TILE_SIZE;
+    //draw the sprite
+    for (int row = 0; row < object.size(); row++) {
+        for (int col = 0; col < object[row].size(); col++) {
+            auto sprite = object[row][col].getSprite();
+            sprite.setScale(tileSize, tileSize);
+            sprite.setPosition(object[row][col].getPosition());
+            m_window->draw(sprite);
+        }
+    }
+    m_window->draw(text);
+}

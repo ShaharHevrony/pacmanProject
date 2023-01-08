@@ -14,7 +14,7 @@
 Board::Board(int level) :m_row(0), m_col(0), m_doorCount(0), m_keyCount(0), m_pacmanCount(0) {
     //loop that laod the sprite one by one
     for (int index = 0; index < 10; index++) {
-        m_texture[index].loadFromFile(imagNames[index]);
+        m_texture[index].loadFromFile(PATH + imagNames[index]);
     }
 
     if (std::filesystem::exists("Board.txt")) {
@@ -348,6 +348,6 @@ char Board::getObject(int x, int y) const {
     return m_objects[x][y].getType();
 }
 
-/*DynamicObject* Board::getPacman() const {
+DynamicObject* Board::getPacman() const {
     return m_pacman;
-}*/
+}

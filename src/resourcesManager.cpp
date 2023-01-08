@@ -8,11 +8,11 @@
 ResourcesManager::ResourcesManager() {
 
     for (int index = 0; index < 4; index++) {
-        m_textureMenuStart[index].loadFromFile(m_names[index]);
+        m_textureMenuStart[index].loadFromFile(PATH + m_names[index]);
     }
 
     for (int index = 0; index < 10; index++) {
-        m_imagNames[index].loadFromFile(imagNames[index]);
+        m_imagNames[index].loadFromFile(PATH + imagNames[index]);
     }
 
     sf::Texture backgroundTexture;
