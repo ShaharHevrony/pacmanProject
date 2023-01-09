@@ -6,7 +6,9 @@
 #include "values.h"
 #include <SFML/Graphics.hpp>
 
-PlayGame::PlayGame(sf::RenderWindow& window):m_window(&window), m_catchCookie(0), m_score(0), m_level(1), m_life(3),m_key() {}
+PlayGame::PlayGame(sf::RenderWindow& window):m_window(&window), m_catchCookie(0), m_score(0), m_level(1), m_life(3){
+    m_key = new Keyboard(window);
+}
 
 void PlayGame::play() {
     for (m_level; m_level <= 1; m_level++){ //FIXME: num of levels is not set.
@@ -21,50 +23,46 @@ void PlayGame::play() {
 
 void PlayGame::playLevel() {
     m_board = new Board(m_level);
-    //loop that go on each level
     //make a board
     print();
+    m_window->display();
     bool endLevel = false;
     //loop that control the game until the end
     while(!endLevel){
         //get the direction from the user
-        int direction = m_key->getKey();
+        int direction = m_key->getKey(); //FIXME
+        //std::cout << "getKey returned: " << direction << std::endl;
         //check if the direction is valid
         while (!validKey(direction) ||
-            (direction != sf::Keyboard::Space && !m_board->getPacman()->validMove(direction, m_board->getCol(),
-                                             m_board->getRow(),m_board->getPacman()->getType()))){
-            direction = m_key->getKey();
+            (direction != sf::Keyboard::Space && !m_board->getPacman()->validMove(direction,m_board->getRow(),
+                                              m_board->getCol(),m_board->getPacman()->getType()))){
+            direction = m_key->getKey(); //FIXME
+            //std::cout << "getKey returned: " << direction << std::endl;
         }
+        std::cout << "end of while, direction is: " << direction << std::endl;
 
         //if the user decided to skip his turn
-        if (direction != SKIP_TURN) {
+        if (direction != sf::Keyboard::Space) {
             m_pacman = m_board->getPacman();
-            m_pacman->setNextLocation(direction);
+            m_pacman->setNextPosition(direction);
             //if the pacman and demon on the same cell
-            /*
-            if (compareLocation()){
-                char symbol = deleteObject(((Object *)m_board->getPacman())->getPosition());
+
+            if (comparePosition()) {
+                char symbol = deleteObject(((Object *) m_board->getPacman())->getPosition());
                 if (symbol != SPACE_S) {
                     //respondToSymbol(symbol); //FIXME
                 }
                 //print the new board
-                //printLevelData(); //FIXME
+                print();
+                m_window->display();
                 //if the pacman ate all the cookies
                 if (m_catchCookie == m_board->getCookieCount()) {
                     endLevel = true;
                     break;
                 }
             }
-            */
         }
-        //function that move all the demon
-        //demonTurn();
     }
-    //m_score += 2*(m_board->demonCount); //FIXME
-    //delete the allocate of the old board
-    delete m_board;
-    m_catchCookie = 0;
-    m_score += 50;
 }
 
 void PlayGame::gameOver() {
@@ -91,18 +89,16 @@ char PlayGame::deleteObject(sf::Vector2f position) {
 }
 
 bool PlayGame::validKey(int key) const {
-    return (key == SKIP_TURN || key == sf::Keyboard::Up || key == sf::Keyboard::Down
+    return (key == sf::Keyboard::Space || key == sf::Keyboard::Up || key == sf::Keyboard::Down
             || key == sf::Keyboard::Left || key == sf::Keyboard::Right);
 }
 
 void PlayGame::print() {
-    sf::Font font;
-    font.loadFromFile("HappyMonkey.ttf");
-    sf::Text text("play", font, MENU_TEXT_SIZE);
-    text.setFillColor(sf::Color(500, 160, 28));
-    text.setOutlineThickness(2);
-    text.setOutlineColor(sf::Color(600, 100, 28));
-    text.setPosition(500, 40);
+    sf::Texture backgroundTexture;
+    backgroundTexture = m_reso->getTextureBack();
+    sf::Sprite backgroundSprite;
+    backgroundSprite = m_reso->getbackground();
+    m_window->draw(backgroundSprite);
 
     for (int i = 0; i < m_board->getRow(); i++) {
         for (int j = 0; j < m_board->getCol(); j++) {
@@ -122,5 +118,33 @@ void PlayGame::print() {
             m_window->draw(sprite);
         }
     }
+
+    sf::Font font;
+    font.loadFromFile(PATH + "HappyMonkey.ttf");
+    sf::Text text("play", font, MENU_TEXT_SIZE-20);
+    text.setFillColor(sf::Color(500, 160, 28));
+    text.setOutlineThickness(2);
+    text.setOutlineColor(sf::Color(600, 100, 28));
+    text.setPosition(1000, 20);
     m_window->draw(text);
+}
+
+bool PlayGame::comparePosition() {
+    float checkRow = m_board->getPacman()->getPosition().y;
+    float checkCol = m_board->getPacman()->getPosition().x;
+    if(m_board->getTileObj(checkRow, checkCol).getType() == DEMON_S){
+        return false;
+    }
+    return true;
+}
+
+void PlayGame::demonMove() {
+    for (int i = 0; i < m_board->getRow(); i++) {
+        for (int j = 0; j < m_board->getCol(); j++) {
+            if(m_board->getTileObj(i, j).getType() == DEMON_S){
+                //FIXME: demon algorithm
+            }
+        }
+    }
+    print();
 }

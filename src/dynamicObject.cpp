@@ -9,7 +9,7 @@ DynamicObject::DynamicObject(){}
 
 bool DynamicObject::validMove(int direction, int row, int col, int type){
     //check what is in the next location
-    setNextLocation(direction);
+    setNextPosition(direction);
     int x = m_nextPosition.x;
     int y = m_nextPosition.y;
     //check if the location is in the board boarder
@@ -20,7 +20,7 @@ bool DynamicObject::validMove(int direction, int row, int col, int type){
     }
 }
 
-void DynamicObject::setNextLocation(int direction){
+void DynamicObject::setNextPosition(int direction){
     int x = getPosition().x;
     int y = getPosition().y;
 

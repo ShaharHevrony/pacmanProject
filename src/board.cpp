@@ -10,9 +10,9 @@
 
 #include "board.h"
 
-//constructor that put in the defulte member and load the sprites
+//constructor that put in the default member and load the sprites
 Board::Board(int level) :m_row(0), m_col(0), m_doorCount(0), m_keyCount(0), m_pacmanCount(0) {
-    //loop that laod the sprite one by one
+    //loop that load the sprite one by one
     for (int index = 0; index < 10; index++) {
         m_texture[index].loadFromFile(PATH + imagNames[index]);
     }
@@ -64,17 +64,20 @@ void Board::LoadFile(std::ifstream& boardFile) {
                 temp.setSprite(sf::Sprite(*temp.getTexture()));
                 temp.setType(type);
                 m_objects[row][col] = temp;
+                std::cout << "**in LoadFile, type = " << type << " and the position: ("
+                << temp.getPosition().x  << "," << temp.getPosition().y  << ")" << std::endl;
                 if (type == 'a') {
                     m_pacmanCount++;
-                //    m_pacman = (DynamicObject *)(&temp);
+                    m_pacman = (DynamicObject *)(&temp);
                 } else if (type == '%') {
                     m_keyCount++;
                 } else if (type == 'D') {
                     m_doorCount++;
                 } else if (type == '*'){
                     m_cookieCount++;
+                } else if (type == '&'){
+                    m_demonCount++;
                 }
-
             }
         }
         boardFile.get(); //skip the \n
@@ -89,13 +92,13 @@ void Board::createBoard(){
     m_tileSize = (BOARD_WIDTH - START_ROW * 2) / std::max(m_row, m_col);
 
     m_objects.resize(m_row);
-    //create the board by each rectangel
+    //create the board by each rectangle
     for (int i = 0; i < m_row; i++) {
         std::vector <sf::RectangleShape> tempRec;
         for (int j = 0; j < m_col; j++) {
             sf::RectangleShape rectangle;
-            rectangle.setSize(sf::Vector2f(m_tileSize*1.2, m_tileSize*1.2));
-            rectangle.setPosition(j * m_tileSize*1.2 + START_ROW, i * m_tileSize*1.2 + START_COL);
+            rectangle.setSize(sf::Vector2f(m_tileSize, m_tileSize));
+            rectangle.setPosition(j * m_tileSize + START_ROW, i * m_tileSize + START_COL);
             rectangle.setOutlineThickness(1);
             rectangle.setOutlineColor(sf::Color(85, 93, 80));
             rectangle.setFillColor(sf::Color(192, 194, 201));
@@ -104,9 +107,7 @@ void Board::createBoard(){
         tempMatrix.push_back(tempRec);
         m_objects[i].resize(m_col);
     }
-    //cmpering my matrix to the temp matrix we creat
     m_matrix = tempMatrix;
-
 }
 
 // function that return the vector
@@ -143,11 +144,8 @@ void Board::setCol(int col) {
 }
 
 //set object
-void Board::setObj(Object obj){
-    Object temp;
-    temp.setTexture(obj.getTexture());
-    temp.setSprite(obj.getSprite());
-    temp.setPosition(obj.getPosition());
+void Board::setTileObj(int row, int col, Object object){
+    m_objects[row][col] = object;
 }
 
 //function that handel the object we click on
@@ -161,8 +159,8 @@ void Board::handleObj(int index, sf::Event::MouseButtonEvent& currMove, sf::Rend
                 temp.setTexture(&m_texture[index]);
                 temp.setSprite(sf::Sprite(*temp.getTexture()));
                 temp.setType(indexToChar(index));
-                //if there is already texter in the rectangle
 
+                //if there is already texture in the rectangle
                 if (m_objects[row][col].getTexture() != NULL) {
                     if (index == pacman && m_pacmanCount != 1) {
                         eraserObj(row, col);
@@ -196,16 +194,8 @@ void Board::handleObj(int index, sf::Event::MouseButtonEvent& currMove, sf::Rend
                         m_keyCount++;
                         break;
                     }
-                    case wall: {
-                        //put the object on the rectangle
-                        m_objects[row][col] = temp;
-                        break;
-                    }
-                    case cookie: {
-                        //put the object on the rectangle
-                        m_objects[row][col] = temp;
-                        break;
-                    }
+                    case wall:
+                    case cookie:
                     case gift: {
                         //put the object on the rectangle
                         m_objects[row][col] = temp;
@@ -270,9 +260,13 @@ int Board::getCookieCount() const{
     return m_cookieCount;
 }
 
+int Board::getDemonCount() const{
+    return m_demonCount;
+}
+
 //set pacman count
-void Board::setCountPac() {
-    m_pacmanCount = 0  ;
+void Board::setPacmanCount() {
+    m_pacmanCount = 0;
 }
 
 sf::Texture* Board::changeCharToTexture(char c) {
@@ -291,7 +285,7 @@ sf::Texture* Board::changeCharToTexture(char c) {
             return &m_texture[cookie];
         case '$':
             return &m_texture[gift];
-        case ' ':
+        default:
             return NULL;
     }
 }
@@ -318,34 +312,8 @@ char Board::indexToChar(int index) const{
     }
 }
 
-int Board::charToIndex(char c) const {
-    switch (c)
-    {
-        case 'a':
-            return pacman;
-        case '&':
-            return demon;
-        case 'D':
-            return door;
-        case '%':
-            return key;
-        case '#':
-            return wall;
-        case '*':
-            return cookie;
-        case '$':
-            return gift;
-        default:
-            return -1;
-    }
-}
-
 Object Board::getTileObj(int i, int j) const {
     return m_objects[i][j];
-}
-
-char Board::getObject(int x, int y) const {
-    return m_objects[x][y].getType();
 }
 
 DynamicObject* Board::getPacman() const {

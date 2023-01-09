@@ -15,11 +15,11 @@ public:
     //function that creat the board
     void createBoard();
 
-    // function that return the vector
-    std::vector<sf::RectangleShape> getVector (int index) const;
+    //function that return the vector
+    std::vector<sf::RectangleShape> getVector(int index) const;
 
     //function that return the rectangle
-    sf::RectangleShape getRectangle (int row, int col) const;
+    sf::RectangleShape getRectangle(int row, int col) const;
 
     //function that return the texter
     sf::Texture* getTexture(int index);
@@ -37,7 +37,7 @@ public:
     void setCol(int col);
 
     //set object
-    void setObj(Object obj);
+    void setTileObj(int row, int col, Object object);
 
     //function that handel the object we click on
     void handleObj(int index, sf::Event::MouseButtonEvent& currMove, sf::RenderWindow& window);
@@ -64,18 +64,16 @@ public:
 
     int getCookieCount() const;
 
+    int getDemonCount() const;
+
     //set pacman count to zero
-    void setCountPac();
+    void setPacmanCount();
 
     sf::Texture* changeCharToTexture(char c);
 
     char indexToChar(int index) const;
 
-    int charToIndex(char c) const;
-
     Object getTileObj(int i, int j) const;
-
-    char getObject (int x, int y) const;
 
     DynamicObject* getPacman() const;
 
@@ -89,6 +87,8 @@ private:
     int m_doorCount;
 
     int m_keyCount;
+
+    int m_demonCount;
 
     int m_cookieCount;
 

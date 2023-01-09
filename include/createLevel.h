@@ -41,7 +41,6 @@ private:
 
     ResourcesManager* m_reso;
 
-
     int m_currObj;
 
     int m_rowCurr;

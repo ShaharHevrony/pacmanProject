@@ -31,7 +31,7 @@ const std::string imagNames[10] = {"Pacman.png", "Demon.png", "Door.png", "Key.p
 
 const int WINDOW_HEIGHT = sf::VideoMode::getDesktopMode().height;
 const int WINDOW_WIDTH  = sf::VideoMode::getDesktopMode().width;
-const int BACHGRAUND_SCALE = WINDOW_HEIGHT/(2*508);
+const int BACHGRAUND_SCALE = WINDOW_HEIGHT/(2*508); //FIXME
 
 const int MENU_CENTER    = WINDOW_WIDTH / 2;
 const int MENU_START_ROW = WINDOW_HEIGHT / 2.2;
@@ -44,7 +44,7 @@ const int MENU_ROW = WINDOW_WIDTH / 4;
 const int MENU_COL = WINDOW_HEIGHT / 4.7;
 
 
-const int BOARD_WIDTH = 8*WINDOW_HEIGHT/8;
+const int BOARD_WIDTH = WINDOW_HEIGHT;
 const int BOARD_HEIGHT = 7 * WINDOW_HEIGHT / 8;
 
 const int MENU_SIZE     = WINDOW_HEIGHT / 9.5;

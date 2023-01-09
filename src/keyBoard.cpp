@@ -3,60 +3,34 @@
 //
 #include "keyBoard.h"
 #include <iostream>
-//constructor set the direction by the key board
-Keyboard::Keyboard():m_window(){}
+//constructor set the direction by the keyboard
+Keyboard::Keyboard(sf::RenderWindow& window):m_window(&window){}
 
-//function that get the key board from the user
+//function that get the keyboard from the user
 int Keyboard::getKey(){
     sf::Event event;
-    while(m_window.pollEvent(event) == true) {
+    while(m_window->pollEvent(event)) {
+        //std::cout << "***inside getKey, type is: "  << event.type << std::endl;
         if(event.type == sf::Event::Closed) {
-            m_window.close();
+            m_window->close();
         }
         if(event.type == sf::Event::KeyPressed) {
+            //std::cout << "***inside getKey, code is: "  << event.key.code << std::endl;
             switch (event.key.code) {
                 case sf::Keyboard::Left:
                 case sf::Keyboard::Right:
                 case sf::Keyboard::Up:
                 case sf::Keyboard::Down:
-                    //function that handel the direction keys
-                    return handleSpecialKey(event.key.code);
+                case sf::Keyboard::Space:
+                    return event.key.code;
+                case sf::Keyboard::Escape:
+                    std::cout << "Escape pressed. Exiting...\n";
+                    exit(EXIT_SUCCESS);
                 default:
-                    //function that deal with the unknown keys
-                    return handleRegularKey(event.key.code);
+                    std::cout << "Unknown regular key pressed (code = " << event.key.code << ")\n";
+                    return -1;
             }
         }
     }
-}
-
-//function that deal with the unknown keys
-int Keyboard::handleRegularKey(int code){
-    switch (code)
-    {
-        case sf::Keyboard::Escape:
-            std::cout << "Escape pressed. Exiting...\n";
-            exit(EXIT_SUCCESS);
-        case sf::Keyboard::Space:
-            return sf::Keyboard::Space;
-        default:
-            std::cout << "Unknown regular key pressed (code = " << code << ")\n";
-            return -1;
-    }
-}
-
-//function that handel the direction keys
-int Keyboard::handleSpecialKey(int code){
-    switch (code) {
-        case sf::Keyboard::Left:
-            return sf::Keyboard::Left;
-        case sf::Keyboard::Right:
-            return sf::Keyboard::Right;
-        case sf::Keyboard::Down:
-            return sf::Keyboard::Down;
-        case sf::Keyboard::Up:
-            return sf::Keyboard::Up;
-        default:
-            std::cout << "Unknown special key pressed (code = " << code << ")\n";
-            return -1;
-    }
+    return EXIT_FAILURE;
 }

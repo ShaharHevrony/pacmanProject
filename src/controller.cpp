@@ -6,7 +6,8 @@
 #include "resourcesManager.h"
 
 Controller::Controller():m_window(sf::RenderWindow(
-        sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Super Pacman")), m_playGame(m_window){}
+        sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Super Pacman")),
+        m_playGame(m_window){}
 
 void Controller::run() {
     ResourcesManager reso = ResourcesManager();

@@ -21,6 +21,12 @@ void CreateLevel::run() {
         sf::Sprite tempSpr;
         sf::Texture* tempText = m_board.getTexture(index);
         tempSpr.setTexture(*tempText);
+        if (index < 5) {
+            tempSpr.setPosition(OBJ_COL, OBJ_ROW + index * SPACE_SIZE);
+        } else{
+            tempSpr.setPosition(OBJ_COL + 120, OBJ_ROW + (index - 5) * SPACE_SIZE);
+        }
+        /*
         if (index < 2) {
             tempSpr.setPosition(OBJ_COL, OBJ_ROW + index * SPACE_SIZE);
         }
@@ -36,13 +42,12 @@ void CreateLevel::run() {
         else {
             tempSpr.setPosition(OBJ_COL + 120 * 4, OBJ_ROW + (index - 8) * SPACE_SIZE);
         }
+         */
         tempSpr.setScale(OBJ_SCALE_SIZE, OBJ_SCALE_SIZE);
         m_menu.push_back(tempSpr);
     }
-
     int tempRow = 0;
     int tempCol = 0;
-
 
     //while the window is open
     while (m_window->isOpen()){
@@ -83,10 +88,6 @@ void CreateLevel::print(int row, int col) {
     text.setOutlineColor(sf::Color(600, 100, 28));
     text.setPosition(OBJ_COL+100, OBJ_ROW-200);
 
-
-
-
-
     for (int i = 0; i < m_board.getRow(); i++) {
         for (int j = 0; j < m_board.getCol(); j++) {
             m_window->draw(m_board.getRectangle(i, j));
@@ -117,7 +118,6 @@ void CreateLevel::print(int row, int col) {
     }
     m_inBounds = false;
     m_window->draw(text);
-
 }
 
 //function that handel the case in a mouse button
@@ -147,7 +147,7 @@ void CreateLevel::handleMouseButton(sf::Event::MouseButtonEvent& event) {
                     //go from the beninge of the controller
                     m_board.createBoard();
                     //restart pacmen count to zero
-                    m_board.setCountPac();
+                    m_board.setPacmanCount();
                     return;
                     break;
                 }
@@ -162,7 +162,7 @@ void CreateLevel::handleMouseButton(sf::Event::MouseButtonEvent& event) {
 
                 }
                 default:{
-                    //if click of any of the other objects
+                    //if click on any of the other objects
                     m_menu[m_currObj].setScale(0.03, 0.03);
                     //function that make the object bigger
                     outLine(index);

@@ -2,7 +2,7 @@
 #include "keyBoard.h"
 #include "values.h"
 #include "board.h"
-
+#include "resourcesManager.h"
 class PlayGame {
 public:
     PlayGame(sf::RenderWindow& window);
@@ -13,9 +13,11 @@ public:
 
     char deleteObject(sf::Vector2f position);
 
-    void demonTurn();
+    void demonMove();
 
-    bool compareLocation();
+    bool comparePosition();
+
+    void respondToSymbol(char symbol);
 
     void reloadLevel();
 
@@ -39,6 +41,8 @@ private:
     sf::RenderWindow* m_window;
 
     DynamicObject* m_pacman;
+
+    ResourcesManager* m_reso;
 
     Keyboard* m_key;
 };

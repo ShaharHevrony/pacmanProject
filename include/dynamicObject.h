@@ -9,7 +9,7 @@ public:
 
     bool validMove(int direction, int row, int col, int type);
 
-    void setNextLocation (int direction);
+    void setNextPosition (int direction);
 
     sf::Vector2f getNextLocation() const;
 
