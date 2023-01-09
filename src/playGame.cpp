@@ -30,29 +30,59 @@ void PlayGame::playLevel() {
     //loop that control the game until the end
     while(!endLevel){
         //get the direction from the user
-        int direction = m_key->getKey(); //FIXME
-        //std::cout << "getKey returned: " << direction << std::endl;
+        int direction = m_key->getKey();
         //check if the direction is valid
-        while (!validKey(direction) ||
-            (direction != sf::Keyboard::Space && !m_board->getPacman()->validMove(direction,m_board->getRow(),
-                                              m_board->getCol(),m_board->getPacman()->getType()))){
-            direction = m_key->getKey(); //FIXME
-            //std::cout << "getKey returned: " << direction << std::endl;
+
+        while (!validKey(direction) ||(direction != sf::Keyboard::Space && !validMove(direction))){
+            direction = m_key->getKey();
         }
-        std::cout << "end of while, direction is: " << direction << std::endl;
 
         //if the user decided to skip his turn
         if (direction != sf::Keyboard::Space) {
-            m_pacman = m_board->getPacman();
-            m_pacman->setNextPosition(direction);
-            //if the pacman and demon on the same cell
+            m_board->getPacman()->setNextPosition(direction);
+            int nextRow = m_board->getPacman()->getNextRow();
+            int nextCol = m_board->getPacman()->getNextCol();
+
+            //Save the sprite and the texture to do swap
+            sf::Texture* currTexture = m_board->getTileObj(m_board->getPacman()->getRow(),
+                                                          m_board->getPacman()->getCol()).getTexture();
+            sf::Sprite currSprite = m_board->getTileObj(m_board->getPacman()->getRow(),
+                                                         m_board->getPacman()->getCol()).getSprite();
+            char currType = m_board->getTileObj(m_board->getPacman()->getRow(),
+                                                m_board->getPacman()->getCol()).getType();
+            sf::Texture* nextTexture = m_board->getTileObj(m_board->getPacman()->getNextRow(),
+                                                           m_board->getPacman()->getNextCol()).getTexture();
+            sf::Sprite nextSprite = m_board->getTileObj(m_board->getPacman()->getNextRow(),
+                                                        m_board->getPacman()->getNextCol()).getSprite();
+            char nextType = m_board->getTileObj(m_board->getPacman()->getNextRow(),
+                                                m_board->getPacman()->getNextCol()).getType();
+            //Swap
+            Object currTemp = m_board->getTileObj(m_board->getPacman()->getRow(), m_board->getPacman()->getCol());
+            currTemp.setTexture(nextTexture);
+            currTemp.setSprite(nextSprite);
+            currTemp.setType(currType);
+            m_board->setTileObj(m_board->getPacman()->getRow(), m_board->getPacman()->getCol(), currTemp);
+            Object nextTemp = m_board->getTileObj(m_board->getPacman()->getNextRow(), m_board->getPacman()->getNextCol());
+            nextTemp.setTexture(currTexture);
+            nextTemp.setSprite(currSprite);
+            currTemp.setType(nextType);
+
+            m_board->setTileObj(m_board->getPacman()->getNextRow(), m_board->getPacman()->getNextCol(), nextTemp);
+
+            //Change position of m_pacman
+            m_board->getPacman()->setPosition(m_board->getTileObj(nextRow, nextCol).getPosition());
+            m_board->getPacman()->setRow(nextRow);
+            m_board->getPacman()->setCol(nextCol);
 
             if (comparePosition()) {
+                /*
                 char symbol = deleteObject(((Object *) m_board->getPacman())->getPosition());
                 if (symbol != SPACE_S) {
                     //respondToSymbol(symbol); //FIXME
                 }
+                */
                 //print the new board
+
                 print();
                 m_window->display();
                 //if the pacman ate all the cookies
@@ -130,8 +160,8 @@ void PlayGame::print() {
 }
 
 bool PlayGame::comparePosition() {
-    float checkRow = m_board->getPacman()->getPosition().y;
-    float checkCol = m_board->getPacman()->getPosition().x;
+    float checkRow = m_board->getPacman()->getRow();
+    float checkCol = m_board->getPacman()->getCol();
     if(m_board->getTileObj(checkRow, checkCol).getType() == DEMON_S){
         return false;
     }
@@ -147,4 +177,18 @@ void PlayGame::demonMove() {
         }
     }
     print();
+}
+
+bool PlayGame::validMove(int direction){
+    //check what is in the next location
+    m_board->getPacman()->setNextPosition(direction);
+    int nextRow = m_board->getPacman()->getNextRow();
+    int nextCol = m_board->getPacman()->getNextCol();
+
+    if(nextRow >=0 && nextRow <= m_board->getRow() && nextCol >= 0 && nextCol <= m_board->getCol()
+        && m_board->getTileObj(nextRow, nextCol).getType() == SPACE_S){
+        return true;
+    }else {
+        return false;
+    }
 }

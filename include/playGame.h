@@ -27,6 +27,8 @@ public:
 
     bool validKey(int key) const;
 
+    bool validMove(int direction);
+
 private:
     int m_level;
 
@@ -40,7 +42,7 @@ private:
 
     sf::RenderWindow* m_window;
 
-    DynamicObject* m_pacman;
+    //DynamicObject* m_pacman;
 
     ResourcesManager* m_reso;
 

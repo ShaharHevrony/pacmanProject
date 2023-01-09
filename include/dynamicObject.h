@@ -7,12 +7,20 @@ public:
 
     void moveObject();
 
-    bool validMove(int direction, int row, int col, int type);
+    bool validMove(int direction, char type);
 
     void setNextPosition (int direction);
 
-    sf::Vector2f getNextLocation() const;
+    sf::Vector2f getNextPosition() const;
+
+    int getNextRow() const;
+
+    int getNextCol() const;
 
 private:
     sf::Vector2f m_nextPosition;
+
+    int m_nextRow;
+
+    int m_nextCol;
 };

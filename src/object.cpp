@@ -4,15 +4,15 @@
 #include "object.h"
 #include "values.h"
 
-//constructor of defult position
-Object::Object(): m_position(sf::Vector2f(-1, -1)), m_texture(NULL), m_type(' ') {}
+//constructor of default position
+Object::Object(): m_position(sf::Vector2f(-1, -1)), m_texture(NULL), m_type(' '), m_row(0), m_col(0) {}
 
-//set texter
+//set texture
 void Object::setTexture(sf::Texture* texture) {
     m_texture = texture;
 }
 
-//return texeter
+//return texture
 sf::Texture* Object::getTexture() const {
     return m_texture;
 }
@@ -43,5 +43,21 @@ void Object::setType(char type){
 
 char Object::getType() const {
     return m_type;
+}
+
+void Object::setRow(int row) {
+    m_row = row;
+}
+
+void Object::setCol(int col) {
+    m_col = col;
+}
+
+int Object::getRow() const{
+    return m_row;
+}
+
+int Object::getCol() const{
+    return m_col;
 }
 

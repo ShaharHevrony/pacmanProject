@@ -28,6 +28,14 @@ public:
 
     char getType() const;
 
+    void setRow(int row);
+
+    int getRow() const;
+
+    void setCol(int col);
+
+    int getCol() const;
+
 private:
     sf::Texture* m_texture;
 
@@ -36,4 +44,8 @@ private:
     sf::Vector2f m_position;
 
     char m_type;
+
+    int m_row;
+
+    int m_col;
 };

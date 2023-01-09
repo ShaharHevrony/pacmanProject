@@ -56,19 +56,20 @@ void Board::LoadFile(std::ifstream& boardFile) {
         for (int col = 0; col < m_col; col++) {
             char type;
             type = boardFile.get();
+            Object* temp = new Object();
+            temp->setPosition(m_matrix[row][col].getPosition());
+            temp->setType(type);
+            temp->setRow(row);
+            temp->setCol(col);
             if (type != ' ') {
-                Object temp;
-                temp.setPosition(m_matrix[row][col].getPosition());
-                temp.setTexture(changeCharToTexture(type));
-                temp.setSprite(sf::Sprite(*temp.getTexture()));
-                temp.setType(type);
-                m_objects[row][col] = temp;
-                std::cout << "**in LoadFile, type = " << type << " and the position: ("
-                << temp.getPosition().x  << "," << temp.getPosition().y  << ")" << std::endl;
+                temp->setTexture(changeCharToTexture(type));
+                temp->setSprite(sf::Sprite(*temp->getTexture()));
+                //std::cout << "**in LoadFile, type = " << type << " and the position: ("
+                //<< temp.getPosition().x  << "," << temp.getPosition().y  << ")" << std::endl;
                 if (type == 'a') {
                     m_pacmanCount++;
-                    m_pacman = (DynamicObject *)(&temp);
-                } else if (type == '%') {
+                    m_pacman = (DynamicObject *)temp;
+                }else if (type == '%') {
                     m_keyCount++;
                 } else if (type == 'D') {
                     m_doorCount++;
@@ -78,6 +79,7 @@ void Board::LoadFile(std::ifstream& boardFile) {
                     m_demonCount++;
                 }
             }
+            m_objects[row][col] = *temp;
         }
         boardFile.get(); //skip the \n
     }
