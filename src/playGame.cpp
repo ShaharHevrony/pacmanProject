@@ -7,6 +7,7 @@
 #include <SFML/Graphics.hpp>
 
 PlayGame::PlayGame(sf::RenderWindow& window):m_window(&window), m_catchCookie(0), m_score(0), m_level(1), m_life(3){
+    m_reso = new ResourcesManager();
     m_key = new Keyboard(window);
 }
 
@@ -25,7 +26,6 @@ void PlayGame::playLevel() {
     m_board = new Board(m_level);
     //make a board
     print();
-    m_window->display();
     bool endLevel = false;
     //loop that control the game until the end
     while(!endLevel){
@@ -33,7 +33,7 @@ void PlayGame::playLevel() {
         int direction = m_key->getKey();
         //check if the direction is valid
 
-        while (!validKey(direction) ||(direction != sf::Keyboard::Space && !validMove(direction))){
+        while (!validKey(direction) || !validMove(direction)){
             direction = m_key->getKey();
         }
 
@@ -81,10 +81,9 @@ void PlayGame::playLevel() {
                     //respondToSymbol(symbol); //FIXME
                 }
                 */
-                //print the new board
 
+                //print the new board
                 print();
-                m_window->display();
                 //if the pacman ate all the cookies
                 if (m_catchCookie == m_board->getCookieCount()) {
                     endLevel = true;
@@ -124,8 +123,8 @@ bool PlayGame::validKey(int key) const {
 }
 
 void PlayGame::print() {
-    sf::Texture backgroundTexture;
-    backgroundTexture = m_reso->getTextureBack();
+    m_window->clear();
+
     sf::Sprite backgroundSprite;
     backgroundSprite = m_reso->getbackground();
     m_window->draw(backgroundSprite);
@@ -150,13 +149,14 @@ void PlayGame::print() {
     }
 
     sf::Font font;
-    font.loadFromFile(PATH + "HappyMonkey.ttf");
+    font = m_reso->getFont();
     sf::Text text("play", font, MENU_TEXT_SIZE-20);
     text.setFillColor(sf::Color(500, 160, 28));
     text.setOutlineThickness(2);
     text.setOutlineColor(sf::Color(600, 100, 28));
     text.setPosition(1000, 20);
     m_window->draw(text);
+    m_window->display();
 }
 
 bool PlayGame::comparePosition() {
@@ -176,7 +176,6 @@ void PlayGame::demonMove() {
             }
         }
     }
-    print();
 }
 
 bool PlayGame::validMove(int direction){

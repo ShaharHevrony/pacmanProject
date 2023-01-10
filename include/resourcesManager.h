@@ -13,7 +13,7 @@ public:
 
 	sf::Font getFont();
 
-	sf::Sprite getbackground();
+	sf::Sprite &getbackground();
 
 	sf::Texture getTextureBack();
 

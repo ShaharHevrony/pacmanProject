@@ -20,7 +20,7 @@ ResourcesManager::ResourcesManager() {
         // Error loading image
     }
     m_backgroundTexture = backgroundTexture;
-    m_backgroundSprite = sf::Sprite(m_backgroundTexture);
+    m_backgroundSprite.setTexture(m_backgroundTexture);
     m_backgroundSprite.setScale(BACHGRAUND_SCALE, BACHGRAUND_SCALE);
 
 
@@ -38,7 +38,7 @@ sf::Texture ResourcesManager::getTextureBack() {
 }
 
 
-sf::Sprite ResourcesManager::getbackground(){
+sf::Sprite &ResourcesManager::getbackground(){
     return m_backgroundSprite; 
 }
 
