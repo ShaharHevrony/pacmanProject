@@ -10,12 +10,10 @@ Keyboard::Keyboard(sf::RenderWindow& window):m_window(&window){}
 int Keyboard::getKey(){
     sf::Event event;
     while(m_window->pollEvent(event)) {
-        //std::cout << "***inside getKey, type is: "  << event.type << std::endl;
         if(event.type == sf::Event::Closed) {
             m_window->close();
         }
         if(event.type == sf::Event::KeyPressed) {
-            //std::cout << "***inside getKey, code is: "  << event.key.code << std::endl;
             switch (event.key.code) {
                 case sf::Keyboard::Left:
                 case sf::Keyboard::Right:

@@ -3,7 +3,7 @@
 
 class DynamicObject: public Object {
 public:
-    DynamicObject();
+    DynamicObject(sf::Texture* texture, const sf::Vector2f& position, char type);
 
     void moveObject();
 

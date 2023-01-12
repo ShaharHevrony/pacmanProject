@@ -1,28 +1,25 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+/*
+class Wall;
+class Key;
+class Demon;
+class Door;
+class Cookie;
+class Gift;
+class Pacman;
+*/
 
 class Object {
 public:
     //constructor of default position
-    Object();
+    Object( sf::Texture* texture, const sf::Vector2f& position, char type);
 
-    //set texture
-    void setTexture(sf::Texture* texture);
-
-    //get texture
-    sf::Texture* getTexture() const;
-
-    //set sprite
+//set sprite
     void setSprite(sf::Sprite sprite);
 
     //return sprite
-    sf::Sprite getSprite() const;
-
-    //set position
-    void setPosition(sf::Vector2f position);
-
-    //return position
-    sf::Vector2f getPosition() const;
+    sf::Sprite& getSprite() const;
 
     void setType(char type);
 
@@ -37,11 +34,7 @@ public:
     int getCol() const;
 
 private:
-    sf::Texture* m_texture;
-
     sf::Sprite m_sprite;
-
-    sf::Vector2f m_position;
 
     char m_type;
 

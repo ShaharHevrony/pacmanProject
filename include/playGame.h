@@ -3,6 +3,7 @@
 #include "values.h"
 #include "board.h"
 #include "resourcesManager.h"
+
 class PlayGame {
 public:
     PlayGame(sf::RenderWindow& window);
@@ -41,8 +42,6 @@ private:
     Board* m_board;
 
     sf::RenderWindow* m_window;
-
-    //DynamicObject* m_pacman;
 
     ResourcesManager* m_reso;
 

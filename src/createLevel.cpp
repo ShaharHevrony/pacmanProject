@@ -11,22 +11,13 @@
 #include <sstream>
 
 
-CreateLevel::CreateLevel(sf::RenderWindow& window, ResourcesManager& reso): m_window(&window), m_board(1), m_reso(&reso) {
-    // getRowAndCol();
-
-}
+CreateLevel::CreateLevel(sf::RenderWindow& window, ResourcesManager& reso): m_window(&window), m_board(1), m_reso(&reso) {} //FIXME: get row and col
 
 void CreateLevel::run() {
     for (int index = 0; index < OBJECT; index++) {
         sf::Sprite tempSpr;
         sf::Texture* tempText = m_board.getTexture(index);
         tempSpr.setTexture(*tempText);
-        if (index < 5) {
-            tempSpr.setPosition(OBJ_COL, OBJ_ROW + index * SPACE_SIZE);
-        } else{
-            tempSpr.setPosition(OBJ_COL + 120, OBJ_ROW + (index - 5) * SPACE_SIZE);
-        }
-        /*
         if (index < 2) {
             tempSpr.setPosition(OBJ_COL, OBJ_ROW + index * SPACE_SIZE);
         }
@@ -42,7 +33,7 @@ void CreateLevel::run() {
         else {
             tempSpr.setPosition(OBJ_COL + 120 * 4, OBJ_ROW + (index - 8) * SPACE_SIZE);
         }
-         */
+
         tempSpr.setScale(OBJ_SCALE_SIZE, OBJ_SCALE_SIZE);
         m_menu.push_back(tempSpr);
     }
@@ -104,16 +95,14 @@ void CreateLevel::print(int row, int col) {
         m_window->draw(m_menu[i]);
     }
 
-    std::vector<std::vector<Object>> obj = m_board.getObj();
     float tileSize = m_board.getTile();
     tileSize /= TILE_SIZE;
     //draw the sprite
-    for (int row = 0; row < obj.size(); row++) {
-        for (int col = 0; col < obj[row].size(); col++) {
-            auto sprite = obj[row][col].getSprite();
-            sprite.setScale(tileSize, tileSize);
-            sprite.setPosition(obj[row][col].getPosition());
-            m_window->draw(sprite);
+    for (int row = 0; row < m_board.getRow(); row++) {
+        for (int col = 0; col < m_board.getCol(); col++) {
+            Object& temp = m_board.getTileObj(row, col);
+            temp.getSprite().setScale(tileSize, tileSize);
+            m_window->draw(temp.getSprite());
         }
     }
     m_inBounds = false;
@@ -124,9 +113,9 @@ void CreateLevel::print(int row, int col) {
 void CreateLevel::handleMouseButton(sf::Event::MouseButtonEvent& event) {
     //get the location of the click
     auto location = m_window->mapPixelToCoords({ event.x, event.y });
-    //loop that go on the object in the menu and check if the user cklik on one of them
+    //loop that go on the object in the menu and check if the user click on one of them
     for (int index = 0; index < OBJECT; index++){
-        //if the user click on the object in undex place
+        //if the user click on the object in index place
         if (m_menu[index].getGlobalBounds().contains(m_window->mapPixelToCoords({event.x, event.y}))) {
             m_currObj = index;
             switch (index){
@@ -314,7 +303,6 @@ void CreateLevel::getRowAndCol() {
 
 
 }
-    /*
     sf::Text numbers;
     std::string line;
     sf::Event event;

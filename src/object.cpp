@@ -5,16 +5,11 @@
 #include "values.h"
 
 //constructor of default position
-Object::Object(): m_position(sf::Vector2f(-1, -1)), m_texture(NULL), m_type(' '), m_row(0), m_col(0) {}
-
-//set texture
-void Object::setTexture(sf::Texture* texture) {
-    m_texture = texture;
-}
-
-//return texture
-sf::Texture* Object::getTexture() const {
-    return m_texture;
+Object::Object(sf::Texture* texture, const sf::Vector2f& position, char type): m_type(type){
+    if(texture != nullptr){
+        m_sprite.setTexture(*texture);
+    }
+    m_sprite.setPosition(position);
 }
 
 //set sprite
@@ -23,18 +18,8 @@ void Object::setSprite(sf::Sprite sprite) {
 }
 
 //return sprite
-sf::Sprite Object::getSprite() const {
-    return m_sprite;
-}
-
-//set position
-void Object::setPosition(sf::Vector2f position) {
-    m_position = position;
-}
-
-//get position
-sf::Vector2f Object::getPosition() const {
-    return m_position;
+sf::Sprite& Object::getSprite() const {
+    return (sf::Sprite&) m_sprite;
 }
 
 void Object::setType(char type){
@@ -60,4 +45,3 @@ int Object::getRow() const{
 int Object::getCol() const{
     return m_col;
 }
-

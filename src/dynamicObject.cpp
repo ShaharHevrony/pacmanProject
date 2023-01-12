@@ -5,7 +5,7 @@
 #include "dynamicObject.h"
 #include "board.h"
 
-DynamicObject::DynamicObject(): m_nextPosition(sf::Vector2f(-1, -1)){}
+DynamicObject::DynamicObject(sf::Texture* texture,const sf::Vector2f& position, char type): Object(texture, position, type) {}
 
 /*
 bool DynamicObject::validMove(int direction, char type){
@@ -24,27 +24,41 @@ bool DynamicObject::validMove(int direction, char type){
 */
 
 void DynamicObject::setNextPosition(int direction){
+    //float x = getSprite().getPosition().x;
+    //float y = getSprite().getPosition().y;
 
     switch (direction)
     {
         case sf::Keyboard::Left:{
             m_nextRow = getRow();
             m_nextCol = getCol() - 1;
+
+            //m_nextPosition.x = x;
+            //m_nextPosition.y = y - 1;
             break;
         }
         case sf::Keyboard::Right:{
             m_nextRow = getRow();
             m_nextCol = getCol() + 1;
+
+            //m_nextPosition.x = x;
+            //m_nextPosition.y = y + 1;
             break;
         }
         case sf::Keyboard::Down:{
             m_nextRow = getRow() + 1;
             m_nextCol = getCol();
+
+            //m_nextPosition.x = x + 1;
+            //m_nextPosition.y = y;
             break;
         }
         case sf::Keyboard::Up:{
             m_nextRow = getRow() - 1;
             m_nextCol = getCol();
+
+            //m_nextPosition.x = x - 1;
+            //m_nextPosition.y = y;
             break;
         }
         default:

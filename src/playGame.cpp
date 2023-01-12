@@ -31,8 +31,8 @@ void PlayGame::playLevel() {
     while(!endLevel){
         //get the direction from the user
         int direction = m_key->getKey();
-        //check if the direction is valid
 
+        //check if the direction is valid
         while (!validKey(direction) || !validMove(direction)){
             direction = m_key->getKey();
         }
@@ -40,37 +40,30 @@ void PlayGame::playLevel() {
         //if the user decided to skip his turn
         if (direction != sf::Keyboard::Space) {
             m_board->getPacman()->setNextPosition(direction);
+            int row = m_board->getPacman()->getRow();
+            int col = m_board->getPacman()->getCol();
             int nextRow = m_board->getPacman()->getNextRow();
             int nextCol = m_board->getPacman()->getNextCol();
 
             //Save the sprite and the texture to do swap
-            sf::Texture* currTexture = m_board->getTileObj(m_board->getPacman()->getRow(),
-                                                          m_board->getPacman()->getCol()).getTexture();
-            sf::Sprite currSprite = m_board->getTileObj(m_board->getPacman()->getRow(),
-                                                         m_board->getPacman()->getCol()).getSprite();
-            char currType = m_board->getTileObj(m_board->getPacman()->getRow(),
-                                                m_board->getPacman()->getCol()).getType();
-            sf::Texture* nextTexture = m_board->getTileObj(m_board->getPacman()->getNextRow(),
-                                                           m_board->getPacman()->getNextCol()).getTexture();
-            sf::Sprite nextSprite = m_board->getTileObj(m_board->getPacman()->getNextRow(),
-                                                        m_board->getPacman()->getNextCol()).getSprite();
-            char nextType = m_board->getTileObj(m_board->getPacman()->getNextRow(),
-                                                m_board->getPacman()->getNextCol()).getType();
+            sf::Sprite nextSprite = m_board->getTileObj(nextRow,nextCol).getSprite();
+
             //Swap
-            Object currTemp = m_board->getTileObj(m_board->getPacman()->getRow(), m_board->getPacman()->getCol());
-            currTemp.setTexture(nextTexture);
+            Object* pacman = (Object*)m_board->getPacman();
+            Object nextTemp = m_board->getTileObj(nextRow, nextCol);
+            Object currTemp = m_board->getTileObj(row, col);
+
+            pacman->getSprite().setPosition(m_board->getTileObj(nextRow, nextCol).getSprite().getPosition());
+
+            m_board->setTileObj(row, col, nextTemp.getType());
+            m_board->setTileObj(nextRow, nextCol, pacman->getType());
+
+            nextTemp.setSprite(pacman->getSprite());
             currTemp.setSprite(nextSprite);
-            currTemp.setType(currType);
-            m_board->setTileObj(m_board->getPacman()->getRow(), m_board->getPacman()->getCol(), currTemp);
-            Object nextTemp = m_board->getTileObj(m_board->getPacman()->getNextRow(), m_board->getPacman()->getNextCol());
-            nextTemp.setTexture(currTexture);
-            nextTemp.setSprite(currSprite);
-            currTemp.setType(nextType);
 
-            m_board->setTileObj(m_board->getPacman()->getNextRow(), m_board->getPacman()->getNextCol(), nextTemp);
+            currTemp.setType(m_board->getTileObj(nextRow,nextCol).getType());
+            nextTemp.setType(pacman->getType());
 
-            //Change position of m_pacman
-            m_board->getPacman()->setPosition(m_board->getTileObj(nextRow, nextCol).getPosition());
             m_board->getPacman()->setRow(nextRow);
             m_board->getPacman()->setCol(nextCol);
 
@@ -98,6 +91,7 @@ void PlayGame::gameOver() {
 
 }
 
+/*
 char PlayGame::deleteObject(sf::Vector2f position) {
     char type = SPACE_S;
     Object temp = m_board->getTileObj(position.x, position.y);
@@ -116,7 +110,7 @@ char PlayGame::deleteObject(sf::Vector2f position) {
     }
     return type;
 }
-
+*/
 bool PlayGame::validKey(int key) const {
     return (key == sf::Keyboard::Space || key == sf::Keyboard::Up || key == sf::Keyboard::Down
             || key == sf::Keyboard::Left || key == sf::Keyboard::Right);
@@ -135,16 +129,19 @@ void PlayGame::print() {
         }
     }
 
-    std::vector<std::vector<Object>> object = m_board->getObj();
     float tileSize = m_board->getTile();
     tileSize /= TILE_SIZE;
     //draw the sprite
-    for (int row = 0; row < object.size(); row++) {
-        for (int col = 0; col < object[row].size(); col++) {
-            auto sprite = object[row][col].getSprite();
-            sprite.setScale(tileSize, tileSize);
-            sprite.setPosition(object[row][col].getPosition());
-            m_window->draw(sprite);
+    for (int row = 0; row < m_board->getRow(); row++) {
+        for (int col = 0; col < m_board->getCol(); col++) {
+            Object& temp = m_board->getTileObj(row, col);
+            if(temp.getType() != PACMAN_S){
+                temp.getSprite().setScale(tileSize, tileSize);
+                m_window->draw(temp.getSprite());
+            } else {
+                m_board->getPacman()->getSprite().setScale(tileSize, tileSize);
+                m_window->draw(m_board->getPacman()->getSprite());
+            }
         }
     }
 
@@ -160,8 +157,8 @@ void PlayGame::print() {
 }
 
 bool PlayGame::comparePosition() {
-    float checkRow = m_board->getPacman()->getRow();
-    float checkCol = m_board->getPacman()->getCol();
+    int checkRow = m_board->getPacman()->getRow();
+    int checkCol = m_board->getPacman()->getCol();
     if(m_board->getTileObj(checkRow, checkCol).getType() == DEMON_S){
         return false;
     }
@@ -183,6 +180,18 @@ bool PlayGame::validMove(int direction){
     m_board->getPacman()->setNextPosition(direction);
     int nextRow = m_board->getPacman()->getNextRow();
     int nextCol = m_board->getPacman()->getNextCol();
+
+    //float nextPositionX = m_board->getPacman()->getNextPosition().x;
+    //float nextPosotionY = m_board->getPacman()->getNextPosition().y;
+
+    /*
+    if(nextRow >=0 && nextRow <= m_board->getBoardHight() && nextCol >= 0 && nextCol <= m_board->getBoardWidth()
+       && m_board->getTileObj(nextRow, nextCol).getType() == SPACE_S){
+        return true;
+    }else {
+        return false;
+    }
+     */
 
     if(nextRow >=0 && nextRow <= m_board->getRow() && nextCol >= 0 && nextCol <= m_board->getCol()
         && m_board->getTileObj(nextRow, nextCol).getType() == SPACE_S){

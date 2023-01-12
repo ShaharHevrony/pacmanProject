@@ -21,7 +21,7 @@ public:
 
 	sf::Sprite getSpriteMenuStart();
 
-
+    sf::Texture& getObject(int index) const;
 
 private:
 
@@ -32,6 +32,8 @@ private:
 	sf::Texture m_backgroundTexture;
 
 	sf::Texture m_textureMenuStart[4];
+
+    sf::Texture* m_object[NUM_OF_OBJECTS];
 
 	sf::Texture m_imagNames[10];
 };

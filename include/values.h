@@ -43,7 +43,6 @@ const int MENU_TEXT_SIZE = WINDOW_HEIGHT / 8.5;
 const int MENU_ROW = WINDOW_WIDTH / 4;
 const int MENU_COL = WINDOW_HEIGHT / 4.7;
 
-
 const int BOARD_WIDTH = WINDOW_HEIGHT;
 const int BOARD_HEIGHT = 7 * WINDOW_HEIGHT / 8;
 
@@ -59,6 +58,7 @@ const int TILE_SIZE     = 2070;
 const float OBJ_SCALE_SIZE  = 0.00002 * WINDOW_WIDTH;
 const float SCALE_SIZE  = 0.00002 * WINDOW_WIDTH;
 
+const int NUM_OF_OBJECTS = 7;
 const int WALL_S         = '#';
 const int SPACE_S        = ' ';
 const int PACMAN_S       = 'a';

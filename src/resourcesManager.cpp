@@ -23,6 +23,11 @@ ResourcesManager::ResourcesManager() {
     m_backgroundSprite.setTexture(m_backgroundTexture);
     m_backgroundSprite.setScale(BACHGRAUND_SCALE, BACHGRAUND_SCALE);
 
+    for(int object = 0; object < NUM_OF_OBJECTS; object++){
+        sf::Texture* temp = new sf::Texture;
+        temp->loadFromFile(PATH + imagNames[object]);
+        m_object[object] = temp;
+    }
 
     sf::Font title;
     title.loadFromFile(PATH + "HappyMonkey.ttf");
@@ -44,6 +49,10 @@ sf::Sprite &ResourcesManager::getbackground(){
 
 sf::Texture ResourcesManager::getTextureMenuStart(int index) {
     return  m_textureMenuStart[index];
+}
+
+sf::Texture& ResourcesManager::getObject(int index) const{
+    return *m_object[index];
 }
 
 sf::Sprite getSpriteMenuStart();

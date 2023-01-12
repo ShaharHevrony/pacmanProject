@@ -5,12 +5,22 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
-#include <vector>
 #include <SFML/Graphics.hpp>
+
+#include <dynamicObject/pacman.h>
+#include <dynamicObject/demon.h>
+
+#include <staticObject/key.h>
+#include <staticObject/cookie.h>
+#include <staticObject/door.h>
+#include <staticObject/wall.h>
+#include <staticObject/gift/gift.h>
+
 #include "board.h"
 
 //constructor that put in the default member and load the sprites
-Board::Board(int level) :m_row(0), m_col(0), m_doorCount(0), m_keyCount(0), m_pacmanCount(0) {
+Board::Board(int level) :m_row(0), m_col(0), m_doorCount(0), m_keyCount(0), m_pacmanCount(0),m_boardWidth(0), m_boardHight(0) {
+    m_reso = new ResourcesManager;
     //loop that load the sprite one by one
     for (int index = 0; index < 10; index++) {
         m_texture[index].loadFromFile(PATH + imagNames[index]);
@@ -56,30 +66,47 @@ void Board::LoadFile(std::ifstream& boardFile) {
         for (int col = 0; col < m_col; col++) {
             char type;
             type = boardFile.get();
-            Object* temp = new Object();
-            temp->setPosition(m_matrix[row][col].getPosition());
-            temp->setType(type);
-            temp->setRow(row);
-            temp->setCol(col);
-            if (type != ' ') {
-                temp->setTexture(changeCharToTexture(type));
-                temp->setSprite(sf::Sprite(*temp->getTexture()));
-                //std::cout << "**in LoadFile, type = " << type << " and the position: ("
-                //<< temp.getPosition().x  << "," << temp.getPosition().y  << ")" << std::endl;
-                if (type == 'a') {
+
+            switch(type){
+                case PACMAN_S:{
                     m_pacmanCount++;
-                    m_pacman = (DynamicObject *)temp;
-                }else if (type == '%') {
-                    m_keyCount++;
-                } else if (type == 'D') {
-                    m_doorCount++;
-                } else if (type == '*'){
-                    m_cookieCount++;
-                } else if (type == '&'){
-                    m_demonCount++;
+                    m_pacman = new Pacman(&m_reso->getObject(pacman), m_matrix[row][col].getPosition(), type);
+                    m_pacman->setRow(row);
+                    m_pacman->setCol(col);
+                    //m_objects[row][col] = std::make_unique<Pacman>(&m_reso->getObject(pacman), m_matrix[row][col].getPosition(), type);
+                    //FIXME: need to figure how to set these two to be same pinter, meanwhile have null in the m_objects pacman place...
+                    m_objects[row][col] = std::make_unique<Pacman>(nullptr, m_matrix[row][col].getPosition(), type);
+                    break;
                 }
+                case DEMON_S:{
+                    m_objects[row][col] = std::make_unique<Demon>(&m_reso->getObject(demon), m_matrix[row][col].getPosition(), type);
+                    break;
+                }
+                case DOOR_S:{
+                    m_objects[row][col] = std::make_unique<Door>(&m_reso->getObject(door), m_matrix[row][col].getPosition(), type);
+                    break;
+                }
+                case KEY_S:{
+                    m_objects[row][col] = std::make_unique<Key>(&m_reso->getObject(key), m_matrix[row][col].getPosition(), type);
+                    break;
+                }
+                case WALL_S:{
+                    m_objects[row][col] = std::make_unique<Wall>(&m_reso->getObject(wall), m_matrix[row][col].getPosition(), type);
+                    break;
+                }
+                case COOKIE_S:{
+                    m_objects[row][col] = std::make_unique<Cookie>(&m_reso->getObject(cookie), m_matrix[row][col].getPosition(), type);
+                    m_cookieCount++;
+                    break;
+                }
+                case GIFT_S:{
+                    m_objects[row][col] = std::make_unique<Gift>(&m_reso->getObject(gift), m_matrix[row][col].getPosition(), type);
+                    break;
+                }
+                default:
+                    m_objects[row][col] = std::make_unique<Object>(nullptr, m_matrix[row][col].getPosition(), type);
+                    break;
             }
-            m_objects[row][col] = *temp;
         }
         boardFile.get(); //skip the \n
     }
@@ -91,9 +118,11 @@ void Board::createBoard(){
     m_matrix.clear();
     std::vector<std::vector<sf::RectangleShape>> tempMatrix;
     m_tileSize = (BOARD_WIDTH - START_ROW * 2) / std::max(m_row, m_col);
+    m_boardWidth = m_tileSize * (float)m_col;
+    m_boardHight = m_tileSize * (float)m_row;
 
-    m_objects.resize(m_row);
     //create the board by each rectangle
+    m_objects.resize(m_row);
     for (int i = 0; i < m_row; i++) {
         std::vector <sf::RectangleShape> tempRec;
         for (int j = 0; j < m_col; j++) {
@@ -135,71 +164,103 @@ int Board::getCol() const {
 sf::Texture* Board::getTexture(int index){
     return &m_texture[index];
 }
+
 //set row
 void Board::setRow(int row) {
     m_row = row;
 }
+
 //set col
 void Board::setCol(int col) {
     m_col = col;
 }
 
 //set object
-void Board::setTileObj(int row, int col, Object object){
-    m_objects[row][col] = object;
+void Board::setTileObj(int row, int col, char type){
+    switch (type) {
+        case pacman: {
+            m_objects[row][col] = std::make_unique<Pacman>(&m_reso->getObject(pacman), m_matrix[row][col].getPosition(), indexToChar(type));
+            break;
+        }
+        case demon: {
+            m_objects[row][col] = std::make_unique<Demon>(&m_reso->getObject(demon), m_matrix[row][col].getPosition(), indexToChar(type));
+            break;
+        }
+        case door: {
+            m_objects[row][col] = std::make_unique<Door>(&m_reso->getObject(door), m_matrix[row][col].getPosition(), indexToChar(type));
+            break;
+        }
+        case key: {
+            m_objects[row][col] = std::make_unique<Key>(&m_reso->getObject(key), m_matrix[row][col].getPosition(), indexToChar(type));
+            break;
+        }
+        case wall:
+            m_objects[row][col] = std::make_unique<Wall>(&m_reso->getObject(wall), m_matrix[row][col].getPosition(), indexToChar(type));
+            break;
+        case cookie:
+            m_objects[row][col] = std::make_unique<Cookie>(&m_reso->getObject(cookie), m_matrix[row][col].getPosition(), indexToChar(type));
+            break;
+        case gift: {
+            m_objects[row][col] = std::make_unique<Gift>(&m_reso->getObject(gift), m_matrix[row][col].getPosition(), indexToChar(type));
+            break;
+        }
+        default: {
+            m_objects[row][col] = std::make_unique<Object>(nullptr, m_matrix[row][col].getPosition(), type);
+            break;
+        }
+    }
 }
 
 //function that handel the object we click on
-void Board::handleObj(int index, sf::Event::MouseButtonEvent& currMove, sf::RenderWindow& window){
+void Board::handleObj(int type, sf::Event::MouseButtonEvent& currMove, sf::RenderWindow& window){
     for (int row = 0; row < m_row; row++) {
         for (int col = 0; col < m_col; col++) {
-            //if click on the current rectangel
+            //if click on the current rectangle
             if(m_matrix[row][col].getGlobalBounds().contains(window.mapPixelToCoords({ currMove.x, currMove.y}))){
-                Object temp;
-                temp.setPosition(m_matrix[row][col].getPosition());
-                temp.setTexture(&m_texture[index]);
-                temp.setSprite(sf::Sprite(*temp.getTexture()));
-                temp.setType(indexToChar(index));
-
                 //if there is already texture in the rectangle
-                if (m_objects[row][col].getTexture() != NULL) {
-                    if (index == pacman && m_pacmanCount != 1) {
-                        eraserObj(row, col);
-                    } else if (index != pacman) {
+                if (m_objects[row][col]->getSprite().getTexture() != nullptr) {
+                    if ((type == pacman && m_pacmanCount != 1) || (type != pacman)) {
                         eraserObj(row, col);
                     }
                 }
-                switch (index) {
+
+                switch (type) {
                     case pacman: {
                         //if there is no other pacman on the board
                         if (m_pacmanCount == 0) {
-                            m_objects[row][col] = temp;
+                            m_objects[row][col] = std::make_unique<Pacman>(&m_reso->getObject(pacman), m_matrix[row][col].getPosition(), indexToChar(type));
                             m_pacmanCount++;
                         }
                         break;
                     }
                     case demon: {
                         //put the object on the rectangle
-                        m_objects[row][col] = temp;
+                        m_objects[row][col] = std::make_unique<Demon>(&m_reso->getObject(demon), m_matrix[row][col].getPosition(), indexToChar(type));
+
                         break;
                     }
                     case door: {
                         //put the object on the rectangle
-                        m_objects[row][col] = temp;
+                        m_objects[row][col] = std::make_unique<Door>(&m_reso->getObject(door), m_matrix[row][col].getPosition(), indexToChar(type));
                         m_doorCount++;
                         break;
                     }
                     case key: {
                         //put the object on the rectangle
-                        m_objects[row][col] = temp;
+                        m_objects[row][col] = std::make_unique<Key>(&m_reso->getObject(key), m_matrix[row][col].getPosition(), indexToChar(type));
                         m_keyCount++;
                         break;
                     }
                     case wall:
+                        m_objects[row][col] = std::make_unique<Wall>(&m_reso->getObject(wall), m_matrix[row][col].getPosition(), indexToChar(type));
+                        break;
                     case cookie:
+                        m_objects[row][col] = std::make_unique<Cookie>(&m_reso->getObject(cookie), m_matrix[row][col].getPosition(), indexToChar(type));
+                        m_cookieCount++;
+                        break;
                     case gift: {
                         //put the object on the rectangle
-                        m_objects[row][col] = temp;
+                        m_objects[row][col] = std::make_unique<Gift>(&m_reso->getObject(gift), m_matrix[row][col].getPosition(), indexToChar(type));
                         break;
                     }
                     case eraser: {
@@ -210,31 +271,22 @@ void Board::handleObj(int index, sf::Event::MouseButtonEvent& currMove, sf::Rend
         }
     }
 }
-//return the object
-std::vector<std::vector<Object>> Board::getObj(){
-    return m_objects;
-}
 
-sf::Texture* Board::getTextureObj(int i, int j) const {
-    return m_objects[i][j].getTexture();
-}
-
-//function  that earase the object on the current rectangel
+//function  that erase the object on the current rectangle
 void Board::eraserObj(int row, int col){
-    //if earese pacman
-    if (m_objects[row][col].getTexture() == &m_texture[0]) {
+    //if erase pacman
+    if (m_objects[row][col]->getSprite().getTexture() == &m_texture[0]) {
         m_pacmanCount--;
-        //if earese door
-    } else if (m_objects[row][col].getTexture() == &m_texture[2]) {
+        //if erase door
+    } else if (m_objects[row][col]->getSprite().getTexture() == &m_texture[2]) {
         m_doorCount--;
-        //if earese key
-    } else if (m_objects[row][col].getTexture() == &m_texture[3]) {
+        //if erase key
+    } else if (m_objects[row][col]->getSprite().getTexture() == &m_texture[3]) {
         m_keyCount--;
-    } else if(m_objects[row][col].getTexture() == &m_texture[5]){
+    } else if(m_objects[row][col]->getSprite().getTexture() == &m_texture[5]){
         m_cookieCount--;
     }
-    m_objects[row][col].setPosition(sf::Vector2f(INT_MAX, INT_MAX));
-    m_objects[row][col].setTexture(NULL);
+    m_objects[row][col] = std::make_unique<Object>(nullptr, m_matrix[row][col].getPosition(), ' ');
 }
 
 //return tile
@@ -287,7 +339,7 @@ sf::Texture* Board::changeCharToTexture(char c) {
         case '$':
             return &m_texture[gift];
         default:
-            return NULL;
+            return nullptr;
     }
 }
 
@@ -313,10 +365,18 @@ char Board::indexToChar(int index) const{
     }
 }
 
-Object Board::getTileObj(int i, int j) const {
-    return m_objects[i][j];
+Object& Board::getTileObj(int i, int j) const{
+    return *m_objects[i][j];
 }
 
-DynamicObject* Board::getPacman() const {
-    return m_pacman;
+float Board::getBoardWidth() const{
+    return m_boardWidth;
+}
+
+float Board::getBoardHight() const {
+    return m_boardHight;
+}
+
+DynamicObject *Board::getPacman() const {
+    return (DynamicObject *)m_pacman;
 }
