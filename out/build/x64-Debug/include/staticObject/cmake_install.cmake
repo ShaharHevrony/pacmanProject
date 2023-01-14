@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/LIOR/source/repos/ShaharHevrony/pacmanProject/include
+# Install script for directory: C:/Users/LIOR/source/repos/ShaharHevrony/pacmanProject/include/staticObject
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,11 +34,6 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/LIOR/source/repos/ShaharHevrony/pacmanProject/out/build/x64-Debug/include/dynamicObject/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("C:/Users/LIOR/source/repos/ShaharHevrony/pacmanProject/out/build/x64-Debug/include/staticObject/cmake_install.cmake")
+  include("C:/Users/LIOR/source/repos/ShaharHevrony/pacmanProject/out/build/x64-Debug/include/staticObject/gift/cmake_install.cmake")
 endif()
 

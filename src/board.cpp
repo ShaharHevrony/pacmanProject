@@ -127,7 +127,7 @@ void Board::setRow(int row) {
 void Board::setCol(int col) {
     m_col = col;
 }
-/*
+
 //function that handel the object we click on
 void Board::handleObj(int type, sf::Event::MouseButtonEvent& currMove, sf::RenderWindow& window) {
     for (int row = 0; row < m_row; row++) {
@@ -145,39 +145,39 @@ void Board::handleObj(int type, sf::Event::MouseButtonEvent& currMove, sf::Rende
                 case pacman: {
                     //if there is no other pacman on the board
                     if (m_pacmanCount == 0) {
-                        m_objects[row][col] = std::make_unique<Pacman>(&m_reso->getObject(pacman), m_matrix[row][col].getPosition(), indexToChar(type));
+                        m_objects[row][col] = std::make_unique<Pacman>(&m_reso->getObject(pacman), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
                         m_pacmanCount++;
                     }
                     break;
                 }
                 case demon: {
                     //put the object on the rectangle
-                    m_objects[row][col] = std::make_unique<Demon>(&m_reso->getObject(demon), m_matrix[row][col].getPosition(), indexToChar(type));
+                    m_objects[row][col] = std::make_unique<Demon>(&m_reso->getObject(demon), m_matrix[row][col].getPosition(),m_tileSize, indexToChar(type));
 
                     break;
                 }
                 case door: {
                     //put the object on the rectangle
-                    m_objects[row][col] = std::make_unique<Door>(&m_reso->getObject(door), m_matrix[row][col].getPosition(), indexToChar(type));
+                    m_objects[row][col] = std::make_unique<Door>(&m_reso->getObject(door), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
                     m_doorCount++;
                     break;
                 }
                 case key: {
                     //put the object on the rectangle
-                    m_objects[row][col] = std::make_unique<Key>(&m_reso->getObject(key), m_matrix[row][col].getPosition(), indexToChar(type));
+                    m_objects[row][col] = std::make_unique<Key>(&m_reso->getObject(key), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
                     m_keyCount++;
                     break;
                 }
                 case wall:
-                    m_objects[row][col] = std::make_unique<Wall>(&m_reso->getObject(wall), m_matrix[row][col].getPosition(), indexToChar(type));
+                    m_objects[row][col] = std::make_unique<Wall>(&m_reso->getObject(wall), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
                     break;
                 case cookie:
-                    m_objects[row][col] = std::make_unique<Cookie>(&m_reso->getObject(cookie), m_matrix[row][col].getPosition(), indexToChar(type));
+                    m_objects[row][col] = std::make_unique<Cookie>(&m_reso->getObject(cookie), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
                     m_cookieCount++;
                     break;
                 case gift: {
                     //put the object on the rectangle
-                    m_objects[row][col] = std::make_unique<Gift>(&m_reso->getObject(gift), m_matrix[row][col].getPosition(), indexToChar(type));
+                    m_objects[row][col] = std::make_unique<Gift>(&m_reso->getObject(gift), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
                     break;
                 }
                 case eraser: {
@@ -188,7 +188,7 @@ void Board::handleObj(int type, sf::Event::MouseButtonEvent& currMove, sf::Rende
         }
     }
 }
-*/
+
 //function  that erase the object on the current rectangle
 void Board::eraserObj(int row, int col){
     //if erase pacman
@@ -203,7 +203,7 @@ void Board::eraserObj(int row, int col){
     } else if(m_objects[row][col]->getSprite().getTexture() == &m_texture[5]){
         m_cookieCount--;
     }
-    m_objects[row][col] = std::make_unique<Object>(nullptr, m_matrix[row][col].getPosition(), ' ');
+    m_objects[row][col] = std::make_unique<Object>(nullptr, m_matrix[row][col].getPosition(), m_tileSize, ' ');
 }
 
 //return tile

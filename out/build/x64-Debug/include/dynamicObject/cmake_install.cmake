@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/LIOR/source/repos/ShaharHevrony/pacmanProject/include
+# Install script for directory: C:/Users/LIOR/source/repos/ShaharHevrony/pacmanProject/include/dynamicObject
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -30,15 +30,5 @@ endif()
 # Is this installation the result of a crosscompile?
 if(NOT DEFINED CMAKE_CROSSCOMPILING)
   set(CMAKE_CROSSCOMPILING "FALSE")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("C:/Users/LIOR/source/repos/ShaharHevrony/pacmanProject/out/build/x64-Debug/include/dynamicObject/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("C:/Users/LIOR/source/repos/ShaharHevrony/pacmanProject/out/build/x64-Debug/include/staticObject/cmake_install.cmake")
 endif()
 
