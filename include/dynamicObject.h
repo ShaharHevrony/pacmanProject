@@ -3,13 +3,17 @@
 
 class DynamicObject: public Object {
 public:
-    DynamicObject(sf::Texture* texture, const sf::Vector2f& position, char type);
+    DynamicObject(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type);
+
+    virtual void move(float time) = 0;
+
+    void moving(sf::Vector2f direction, float time);
 
     void moveObject();
 
     bool validMove(int direction, char type);
 
-    void setNextPosition (int direction);
+    void setNextPosition (int direction, float &x , float &y);
 
     sf::Vector2f getNextPosition() const;
 

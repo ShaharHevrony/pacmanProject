@@ -13,17 +13,16 @@ class Pacman;
 class Object {
 public:
     //constructor of default position
-    Object( sf::Texture* texture, const sf::Vector2f& position, char type);
+    Object( sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type);
 
-//set sprite
+    //set sprite
     void setSprite(sf::Sprite sprite);
+
+    char getType();
+
 
     //return sprite
     sf::Sprite& getSprite() const;
-
-    void setType(char type);
-
-    char getType() const;
 
     void setRow(int row);
 
@@ -33,9 +32,13 @@ public:
 
     int getCol() const;
 
-private:
+    void draw(sf::RenderWindow& m_window);
+
+protected:
+
     sf::Sprite m_sprite;
 
+private:
     char m_type;
 
     int m_row;

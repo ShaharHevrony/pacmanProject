@@ -5,4 +5,4 @@
 #include "staticObject/key.h"
 
 
-Key::Key(sf::Texture* texture, const sf::Vector2f& position, char type): StaticObject(texture, position, type) {}
+Key::Key(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type): StaticObject(texture, position, tileSize, type) {}

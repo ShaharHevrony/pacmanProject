@@ -12,9 +12,7 @@ class Board {
 public:
 
     //constructor that put in the default member and load the sprites
-    Board(int level);
-
-    void LoadFile(std::ifstream& boardFile);
+    Board();
 
     //function that creat the board
     void createBoard();
@@ -72,13 +70,21 @@ public:
     //set pacman count to zero
     void setPacmanCount();
 
+    void setCookieCount();
+
     sf::Texture* changeCharToTexture(char c);
 
     char indexToChar(int index) const;
 
     Object& getTileObj(int i, int j) const;
 
-    DynamicObject* getPacman() const;
+    //DynamicObject* getPacman() const;
+
+    std::vector<std::string> getMap();
+
+    std::vector<std::vector<sf::RectangleShape>> getMatrix();
+
+
 private:
     int m_row;
 
@@ -99,6 +105,9 @@ private:
     int m_demonCount;
 
     int m_cookieCount;
+
+
+    std::vector<std::string> m_map;
 
     Pacman* m_pacman;
 

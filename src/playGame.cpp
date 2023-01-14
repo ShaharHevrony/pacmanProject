@@ -6,7 +6,17 @@
 #include "values.h"
 #include <SFML/Graphics.hpp>
 
-PlayGame::PlayGame(sf::RenderWindow& window):m_window(&window), m_catchCookie(0), m_score(0), m_level(1), m_life(3){
+#include <dynamicObject/pacman.h>
+#include <dynamicObject/demon.h>
+
+#include <staticObject/key.h>
+#include <staticObject/cookie.h>
+#include <staticObject/door.h>
+#include <staticObject/wall.h>
+#include <staticObject/gift/gift.h>
+
+PlayGame::PlayGame(sf::RenderWindow& window) :m_window(&window), m_catchCookie(0), m_score(0), m_level(1), m_life(3) {
+    m_board = new Board();
     m_reso = new ResourcesManager();
     m_key = new Keyboard(window);
 }
@@ -22,47 +32,43 @@ void PlayGame::play() {
     }
 }
 
+
 void PlayGame::playLevel() {
-    m_board = new Board(m_level);
     //make a board
+    LoadFile(m_board->getMap());
     print();
     bool endLevel = false;
+    sf::Clock timer;
+    while (m_window->isOpen()) {
+        if (auto event = sf::Event{}; m_window->pollEvent(event)) {
+
+            if (sf::Event::Closed) {
+                m_window->close();
+                break;
+            }
+        }
+        float time = timer.restart().asSeconds();
+        for (int i = 0; i < m_dynamicObj.size(); i++) {
+            m_dynamicObj[i]->move(time);
+        }
+
+        print();
+
+    }
+}
+
+/*
+
     //loop that control the game until the end
     while(!endLevel){
         //get the direction from the user
         int direction = m_key->getKey();
 
-        //check if the direction is valid
-        while (!validKey(direction) || !validMove(direction)){
-            direction = m_key->getKey();
-        }
-
         //if the user decided to skip his turn
         if (direction != sf::Keyboard::Space) {
             m_board->getPacman()->setNextPosition(direction);
-            int row = m_board->getPacman()->getRow();
-            int col = m_board->getPacman()->getCol();
             int nextRow = m_board->getPacman()->getNextRow();
             int nextCol = m_board->getPacman()->getNextCol();
-
-            //Save the sprite and the texture to do swap
-            sf::Sprite nextSprite = m_board->getTileObj(nextRow,nextCol).getSprite();
-
-            //Swap
-            Object* pacman = (Object*)m_board->getPacman();
-            Object nextTemp = m_board->getTileObj(nextRow, nextCol);
-            Object currTemp = m_board->getTileObj(row, col);
-
-            pacman->getSprite().setPosition(m_board->getTileObj(nextRow, nextCol).getSprite().getPosition());
-
-            m_board->setTileObj(row, col, nextTemp.getType());
-            m_board->setTileObj(nextRow, nextCol, pacman->getType());
-
-            nextTemp.setSprite(pacman->getSprite());
-            currTemp.setSprite(nextSprite);
-
-            currTemp.setType(m_board->getTileObj(nextRow,nextCol).getType());
-            nextTemp.setType(pacman->getType());
 
             m_board->getPacman()->setRow(nextRow);
             m_board->getPacman()->setCol(nextCol);
@@ -73,7 +79,7 @@ void PlayGame::playLevel() {
                 if (symbol != SPACE_S) {
                     //respondToSymbol(symbol); //FIXME
                 }
-                */
+                
 
                 //print the new board
                 print();
@@ -86,6 +92,7 @@ void PlayGame::playLevel() {
         }
     }
 }
+*/
 
 void PlayGame::gameOver() {
 
@@ -129,20 +136,28 @@ void PlayGame::print() {
         }
     }
 
+    
     float tileSize = m_board->getTile();
     tileSize /= TILE_SIZE;
     //draw the sprite
     for (int row = 0; row < m_board->getRow(); row++) {
         for (int col = 0; col < m_board->getCol(); col++) {
             Object& temp = m_board->getTileObj(row, col);
-            if(temp.getType() != PACMAN_S){
-                temp.getSprite().setScale(tileSize, tileSize);
-                m_window->draw(temp.getSprite());
-            } else {
-                m_board->getPacman()->getSprite().setScale(tileSize, tileSize);
-                m_window->draw(m_board->getPacman()->getSprite());
-            }
+            //if(temp.getType() != PACMAN_S){
+                //temp.getSprite().setScale(tileSize, tileSize);
+                //m_window->draw(temp.getSprite());
+            // else {
+                //m_board->getPacman()->getSprite().setScale(tileSize, tileSize);
+                //m_window->draw(m_board->getPacman()->getSprite());
+            
         }
+    }
+
+    for (int i = 0; i < m_dynamicObj.size(); i++) {
+        m_dynamicObj[i]->draw(*m_window);
+    }
+    for (int i = 0; i < m_staticObj.size(); i++) {
+        m_staticObj[i]->draw(*m_window);
     }
 
     sf::Font font;
@@ -155,7 +170,7 @@ void PlayGame::print() {
     m_window->draw(text);
     m_window->display();
 }
-
+/*
 bool PlayGame::comparePosition() {
     int checkRow = m_board->getPacman()->getRow();
     int checkCol = m_board->getPacman()->getCol();
@@ -175,7 +190,7 @@ void PlayGame::demonMove() {
     }
 }
 
-bool PlayGame::validMove(int direction){
+bool PlayGame::validMove(int direction) {
     //check what is in the next location
     m_board->getPacman()->setNextPosition(direction);
     int nextRow = m_board->getPacman()->getNextRow();
@@ -184,19 +199,69 @@ bool PlayGame::validMove(int direction){
     //float nextPositionX = m_board->getPacman()->getNextPosition().x;
     //float nextPosotionY = m_board->getPacman()->getNextPosition().y;
 
-    /*
-    if(nextRow >=0 && nextRow <= m_board->getBoardHight() && nextCol >= 0 && nextCol <= m_board->getBoardWidth()
-       && m_board->getTileObj(nextRow, nextCol).getType() == SPACE_S){
+
+    if (nextRow >= 0 && nextRow <= m_board->getBoardHight() && nextCol >= 0 && nextCol <= m_board->getBoardWidth()
+        && m_board->getTileObj(nextRow, nextCol).getType() == SPACE_S) {
         return true;
-    }else {
+    }
+    else {
         return false;
     }
-     */
 
-    if(nextRow >=0 && nextRow <= m_board->getRow() && nextCol >= 0 && nextCol <= m_board->getCol()
-        && m_board->getTileObj(nextRow, nextCol).getType() == SPACE_S){
+
+    if (nextRow >= 0 && nextRow <= m_board->getRow() && nextCol >= 0 && nextCol <= m_board->getCol()
+        && m_board->getTileObj(nextRow, nextCol).getType() == SPACE_S) {
         return true;
-    }else {
+    }
+    else {
         return false;
+    }
+}*/
+
+
+void PlayGame::LoadFile(std::vector<std::string> ) {
+    float tileSize = m_board->getTile();
+    //tileSize /= TILE_SIZE;
+    std::vector<std::string> map = m_board->getMap();
+    for (int row = 0; row < m_board->getRow(); row++) {
+        for (int col = 0; col < m_board->getCol(); col++) {
+            auto loc = m_board->getRectangle(row,col);
+            char type;
+            type = map[row][col];
+
+            switch (type) {
+            case PACMAN_S: {
+                m_dynamicObj.push_back(std::make_unique<Pacman>(&m_reso->getObject(pacman),loc.getPosition(), tileSize,type));
+                break;
+            }
+            case DEMON_S: {
+                m_dynamicObj.push_back(std::make_unique<Demon>(&m_reso->getObject(demon),loc.getPosition(), tileSize, type));
+                break;
+            }
+            case DOOR_S: {
+               m_staticObj.push_back(std::make_unique<Door>(&m_reso->getObject(door), loc.getPosition(), tileSize, type));
+                break;
+            }
+            case KEY_S: {
+                m_staticObj.push_back( std::make_unique<Key>(&m_reso->getObject(key), loc.getPosition(), tileSize, type));
+                break;
+            }
+            case WALL_S: {
+                m_staticObj.push_back(std::make_unique<Wall>(&m_reso->getObject(wall), loc.getPosition(), tileSize, type));
+                break;
+            }
+            case COOKIE_S: {
+                m_staticObj.push_back(std::make_unique<Cookie>(&m_reso->getObject(cookie), loc.getPosition(), tileSize, type));
+                m_board->setCookieCount();
+                break;
+            }
+            case GIFT_S: {
+                m_staticObj.push_back( std::make_unique<Gift>(&m_reso->getObject(gift), loc.getPosition(), tileSize, type));
+                break;
+            }
+            default:
+                break;
+            }
+        }
     }
 }

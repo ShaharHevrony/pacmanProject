@@ -11,7 +11,7 @@
 #include <sstream>
 
 
-CreateLevel::CreateLevel(sf::RenderWindow& window, ResourcesManager& reso): m_window(&window), m_board(1), m_reso(&reso) {} //FIXME: get row and col
+CreateLevel::CreateLevel(sf::RenderWindow& window, ResourcesManager& reso) : m_window(&window), m_board(), m_reso(&reso) {} //FIXME: get row and col
 
 void CreateLevel::run() {
     for (int index = 0; index < OBJECT; index++) {
@@ -41,7 +41,7 @@ void CreateLevel::run() {
     int tempCol = 0;
 
     //while the window is open
-    while (m_window->isOpen()){
+    while (m_window->isOpen()) {
         sf::Texture backgroundTexture;
         backgroundTexture = m_reso->getTextureBack();
         sf::Sprite backgroundSprite;
@@ -51,20 +51,20 @@ void CreateLevel::run() {
         print(tempRow, tempCol);
         m_window->display();
 
-        if (auto event = sf::Event{}; m_window->waitEvent(event)){
+        if (auto event = sf::Event{}; m_window->waitEvent(event)) {
             switch (event.type) {
-                case sf::Event::Closed: {
-                    m_window->close();
-                    break;
-                }
-                    //if the user clicks on the window
-                case sf::Event::MouseButtonReleased: {
-                    handleMouseButton(event.mouseButton);
-                    break;
-                }
-                case sf::Event::MouseMoved: {
-                    m_inBounds = handleMouseMoved(tempRow, tempCol);
-                }
+            case sf::Event::Closed: {
+                m_window->close();
+                break;
+            }
+             //if the user clicks on the window
+            case sf::Event::MouseButtonReleased: {
+                handleMouseButton(event.mouseButton);
+                break;
+            }
+            case sf::Event::MouseMoved: {
+                m_inBounds = handleMouseMoved(tempRow, tempCol);
+            }
             }
         }
     }
@@ -77,7 +77,7 @@ void CreateLevel::print(int row, int col) {
     text.setFillColor(sf::Color(500, 160, 28));
     text.setOutlineThickness(2);
     text.setOutlineColor(sf::Color(600, 100, 28));
-    text.setPosition(OBJ_COL+100, OBJ_ROW-200);
+    text.setPosition(OBJ_COL + 100, OBJ_ROW - 200);
 
     for (int i = 0; i < m_board.getRow(); i++) {
         for (int j = 0; j < m_board.getCol(); j++) {
@@ -114,49 +114,49 @@ void CreateLevel::handleMouseButton(sf::Event::MouseButtonEvent& event) {
     //get the location of the click
     auto location = m_window->mapPixelToCoords({ event.x, event.y });
     //loop that go on the object in the menu and check if the user click on one of them
-    for (int index = 0; index < OBJECT; index++){
+    for (int index = 0; index < OBJECT; index++) {
         //if the user click on the object in index place
-        if (m_menu[index].getGlobalBounds().contains(m_window->mapPixelToCoords({event.x, event.y}))) {
+        if (m_menu[index].getGlobalBounds().contains(m_window->mapPixelToCoords({ event.x, event.y }))) {
             m_currObj = index;
-            switch (index){
+            switch (index) {
                 //if click on eraser
-                case eraser:{
-                    //function that make the object bigger
-                    outLine(index);
-                    break;
+            case eraser: {
+                //function that make the object bigger
+                outLine(index);
+                break;
+            }
+                       //if click on restart
+            case restart: {
+                //function that make the object bigger
+                outLine(index);
+                std::cout << "Enter a row and col numbers:" << std::endl;
+                std::cin >> m_rowCurr >> m_colCurr;
+                m_board.setRow(m_rowCurr);
+                m_board.setCol(m_colCurr);
+                //go from the beninge of the controller
+                m_board.createBoard();
+                //restart pacmen count to zero
+                m_board.setPacmanCount();
+                return;
+                break;
+            }
+                        //if click on save
+            case save: {
+                //function that make the object bigger
+                outLine(index);
+                if (isValid()) {
+                    saveLevel();
                 }
-                    //if click on restart
-                case restart:{
-                    //function that make the object bigger
-                    outLine(index);
-                    std::cout << "Enter a row and col numbers:" << std::endl;
-                    std::cin >> m_rowCurr >> m_colCurr;
-                    m_board.setRow(m_rowCurr);
-                    m_board.setCol(m_colCurr);
-                    //go from the beninge of the controller
-                    m_board.createBoard();
-                    //restart pacmen count to zero
-                    m_board.setPacmanCount();
-                    return;
-                    break;
-                }
-                    //if click on save
-                case save:{
-                    //function that make the object bigger
-                    outLine(index);
-                    if (isValid()) {
-                        saveLevel();
-                    }
-                    break;
+                break;
 
-                }
-                default:{
-                    //if click on any of the other objects
-                    m_menu[m_currObj].setScale(0.03, 0.03);
-                    //function that make the object bigger
-                    outLine(index);
-                    break;
-                }
+            }
+            default: {
+                //if click on any of the other objects
+                m_menu[m_currObj].setScale(0.03, 0.03);
+                //function that make the object bigger
+                outLine(index);
+                break;
+            }
             }
             m_currObj = index;
         }
@@ -177,14 +177,16 @@ void CreateLevel::outLine(int index) {
 bool CreateLevel::isValid() {
     if (m_board.getPacmanCount() != 1 && m_board.getDoorCount() != m_board.getKeyCount()) {
         std::cout << "You need to have one pacman and the same number of doors and keys on the board to save"
-                  << std::endl;
+            << std::endl;
         return false;
-    } else if (m_board.getPacmanCount() != 1) {
+    }
+    else if (m_board.getPacmanCount() != 1) {
         std::cout << "You need to have one pacman on the board to save" << std::endl;
         return false;
-    } else if (m_board.getDoorCount() != m_board.getKeyCount()) {
+    }
+    else if (m_board.getDoorCount() != m_board.getKeyCount()) {
         std::cout << "You need to have the same number of doors and keys on the board to save"
-                  << std::endl;
+            << std::endl;
         return false;
     }
     return true;
@@ -193,7 +195,7 @@ bool CreateLevel::isValid() {
 void CreateLevel::saveLevel() {
     std::ofstream boardFile;
 
-    if (std::filesystem::exists("Board.txt")){
+    if (std::filesystem::exists("Board.txt")) {
         // removing the file
         std::error_code ec;
         std::filesystem::remove("Board.txt", ec);
@@ -214,7 +216,7 @@ void CreateLevel::saveLevel() {
     boardFile.close();
 }
 
-bool CreateLevel::handleMouseMoved(int& row, int& col) const{
+bool CreateLevel::handleMouseMoved(int& row, int& col) const {
     sf::Vector2f location = (sf::Vector2f)sf::Mouse::getPosition(*m_window);
     for (row = 0; row < m_board.getRow(); row++) {
         for (col = 0; col < m_board.getCol(); col++) {
@@ -227,7 +229,7 @@ bool CreateLevel::handleMouseMoved(int& row, int& col) const{
 }
 /*
 void CreateLevel::getRowAndCol() {
- 
+
     m_window->clear();
 
     sf::Texture backgroundTexture;
@@ -320,9 +322,9 @@ void CreateLevel::getRowAndCol() {
     m_window->draw(enter);
     m_window->draw(numbers);
 
-   
 
-     m_colCurr = 
+
+     m_colCurr =
 }
     sf::Text numbers;
     std::string line;

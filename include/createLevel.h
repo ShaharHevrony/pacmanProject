@@ -30,7 +30,7 @@ public:
 
     void saveLevel();
 
-    void getRowAndCol ();
+    void getRowAndCol();
 private:
 
     Board m_board;

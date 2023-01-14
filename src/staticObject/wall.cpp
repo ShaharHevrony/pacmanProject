@@ -4,4 +4,4 @@
 
 #include "staticObject/wall.h"
 
-Wall::Wall(sf::Texture* texture, const sf::Vector2f& position, char type) : StaticObject(texture, position, type) {}
+Wall::Wall(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type) : StaticObject(texture, position, tileSize, type) {}

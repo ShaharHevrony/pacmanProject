@@ -2,7 +2,7 @@
 #include "createLevel.h"
 int main()
 {
-    Controller controller = Controller();
+    auto controller = Controller();
     controller.run();
     return EXIT_SUCCESS;
 }

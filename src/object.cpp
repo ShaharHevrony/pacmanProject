@@ -5,11 +5,13 @@
 #include "values.h"
 
 //constructor of default position
-Object::Object(sf::Texture* texture, const sf::Vector2f& position, char type): m_type(type){
+Object::Object(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type){
     if(texture != nullptr){
         m_sprite.setTexture(*texture);
     }
     m_sprite.setPosition(position);
+    m_sprite.setScale(tileSize / 2000, tileSize / 2000);
+    m_type = type;
 }
 
 //set sprite
@@ -22,11 +24,7 @@ sf::Sprite& Object::getSprite() const {
     return (sf::Sprite&) m_sprite;
 }
 
-void Object::setType(char type){
-    m_type = type;
-}
-
-char Object::getType() const {
+char Object::getType() {
     return m_type;
 }
 
@@ -44,4 +42,8 @@ int Object::getRow() const{
 
 int Object::getCol() const{
     return m_col;
+}
+
+void Object::draw(sf::RenderWindow& m_window) {
+    m_window.draw(m_sprite);
 }

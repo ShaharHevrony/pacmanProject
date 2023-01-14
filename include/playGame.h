@@ -28,6 +28,8 @@ public:
 
     bool validKey(int key) const;
 
+    void LoadFile(std::vector<std::string>);
+
     bool validMove(int direction);
 
 private:
@@ -38,6 +40,10 @@ private:
     int m_life;
 
     int m_catchCookie;
+
+    std::vector<std::unique_ptr<StaticObject>> m_staticObj;
+
+    std::vector<std::unique_ptr<DynamicObject>> m_dynamicObj;
 
     Board* m_board;
 

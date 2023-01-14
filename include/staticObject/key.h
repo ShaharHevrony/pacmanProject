@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 class Key :public StaticObject{
 public:
-    Key(sf::Texture* texture, const sf::Vector2f& position, char type);
+    Key(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type);
 
 private:
 };
