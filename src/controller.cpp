@@ -68,13 +68,6 @@ void Controller::create() {
     m_window.display();
 }
 
-void Controller::print() {
-    m_window.clear();
-
-
-    m_window.display();
-
-}
 
 //function that handel the case in a mouse button
 void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {

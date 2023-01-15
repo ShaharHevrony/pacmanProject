@@ -15,8 +15,6 @@ public:
 
     void create();
 
-    void print();
-
     //function that handel the case in a mouse button
     void handleMouseButton(sf::Event::MouseButtonEvent& event);
 
