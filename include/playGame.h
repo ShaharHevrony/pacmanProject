@@ -41,6 +41,8 @@ private:
 
     int m_catchCookie;
 
+    BoardLimits m_boardLimits;
+
     std::vector<std::unique_ptr<StaticObject>> m_staticObj;
 
     std::vector<std::unique_ptr<DynamicObject>> m_dynamicObj;

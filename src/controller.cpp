@@ -31,7 +31,7 @@ void Controller::run() {
      
 
 void Controller::create() {
-    m_window.clear();
+    //m_window.clear();
     sf::Font m_font;
     m_font = m_reso->getFont();
     sf::Text text("Super Pacman", m_font, MENU_TEXT_SIZE);

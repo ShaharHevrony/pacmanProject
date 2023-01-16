@@ -21,6 +21,13 @@ enum Buttons{
     newMapBotton,
     exitBotton,
 };
+
+struct BoardLimits {
+    sf::Vector2f topLeft;
+    sf::Vector2f bottomRight;
+    float tileSize;
+};
+
 //const std::string PATH = "../../../";
 const std::string PATH = "";
 const std::string m_names[4] = {"PlayButton.png", "HelpButton.png", "CreateButton.png",

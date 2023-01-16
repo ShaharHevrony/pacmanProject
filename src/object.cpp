@@ -11,7 +11,6 @@ Object::Object(sf::Texture* texture, const sf::Vector2f& position, float tileSiz
     }
     m_sprite.setPosition(position);
     m_sprite.setScale(tileSize / 2000, tileSize / 2000);
-    m_sprite.setOrigin(tileSize / 2, tileSize / 2);
     m_type = type;
 }
 

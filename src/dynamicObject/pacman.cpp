@@ -8,8 +8,7 @@
 #include "values.h"
 
 
-Pacman::Pacman(sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type) : DynamicObject(texture, position, tileSize, type) {
-}
+Pacman::Pacman(sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type) : DynamicObject(texture, position, tileSize, type) {}
 
 void Pacman::move(float time, sf::Vector2f pacLocation) {
 	pacLocation = m_sprite.getPosition();

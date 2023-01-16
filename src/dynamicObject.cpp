@@ -7,7 +7,7 @@
 
 DynamicObject::DynamicObject(sf::Texture* texture,const sf::Vector2f& position, float tileSize,char type): Object(texture, position, tileSize, type) {}
 
-void DynamicObject::moving(sf::Vector2f direction, float time , sf::Vector2f location) {
+void DynamicObject::moving(sf::Vector2f direction, float time , sf::Vector2f pacLocation) {
     m_sprite.move(direction * time * 120.f);
 }
 

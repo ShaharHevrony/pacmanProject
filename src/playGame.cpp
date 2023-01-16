@@ -129,6 +129,17 @@ void PlayGame::print() {
     sf::Sprite backgroundSprite;
     backgroundSprite = m_reso->getbackground();
     m_window->draw(backgroundSprite);
+    
+    sf::Texture m_backBottunTexture;
+    if (!m_backBottunTexture.loadFromFile(PATH + "backBottun.png")) {
+        // Error loading image
+    }
+    //m_backBottunTexture = m_reso->getTextureBackBottun();
+
+    sf::Sprite backBottunSprite;
+    backBottunSprite.setTexture(m_backBottunTexture);
+    backBottunSprite.setPosition(1670, 770);
+    backBottunSprite.setScale(0.1, 0.1);
 
     for (int i = 0; i < m_board->getRow(); i++) {
         for (int j = 0; j < m_board->getCol(); j++) {
@@ -168,6 +179,7 @@ void PlayGame::print() {
     text.setOutlineColor(sf::Color(600, 100, 28));
     text.setPosition(1000, 20);
     m_window->draw(text);
+    m_window->draw(backBottunSprite);
     m_window->display();
 }
 /*

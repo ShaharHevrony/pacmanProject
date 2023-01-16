@@ -22,10 +22,20 @@ public:
 	sf::Sprite getSpriteMenuStart();
 
     sf::Texture& getObject(int index) const;
+	\
+	sf::Sprite& getSpritebackBottun();
+
+	sf::Texture getTextureBackBottun();
+
+
 
 private:
 
 	sf::Font m_font;
+
+	sf::Sprite m_backBottunSprite;
+
+	sf::Texture m_backBottunTexture;
 
 	sf::Sprite m_backgroundSprite;
 

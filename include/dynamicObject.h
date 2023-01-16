@@ -21,8 +21,19 @@ public:
 
     int getNextCol() const;
 
+protected:
+    sf::Vector2f getPosition() const;
+
+    void setPosition(sf::Vector2f position);
+
+    sf::Vector2f getLastPosition() const;
+
+    sf::Rect<float> getGlobalBounds() const;
+
 private:
     sf::Vector2f m_nextPosition;
+
+    sf::Vector2f m_lastPosition;
 
     int m_nextRow;
 
