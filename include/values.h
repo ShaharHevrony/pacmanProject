@@ -58,7 +58,7 @@ const int TILE_SIZE     = 2070;
 const float OBJ_SCALE_SIZE  = 0.00002 * WINDOW_WIDTH;
 const float SCALE_SIZE  = 0.00002 * WINDOW_WIDTH;
 
-const int NUM_OF_OBJECTS = 7;
+const int NUM_OF_OBJECTS = 7  ;
 const int WALL_S         = '#';
 const int SPACE_S        = ' ';
 const int PACMAN_S       = 'a';

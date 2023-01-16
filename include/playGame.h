@@ -52,5 +52,7 @@ private:
     ResourcesManager* m_reso;
 
     Keyboard* m_key;
+
+    sf::Vector2f m_pacLocation;
 };
 

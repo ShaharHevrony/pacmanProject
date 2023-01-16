@@ -49,7 +49,7 @@ void PlayGame::playLevel() {
         }
         float time = timer.restart().asSeconds();
         for (int i = 0; i < m_dynamicObj.size(); i++) {
-            m_dynamicObj[i]->move(time);
+            m_dynamicObj[i]->move(time, m_pacLocation);
         }
 
         print();
@@ -232,6 +232,10 @@ void PlayGame::LoadFile(std::vector<std::string> ) {
             switch (type) {
             case PACMAN_S: {
                 m_dynamicObj.push_back(std::make_unique<Pacman>(&m_reso->getObject(pacman),loc.getPosition(), tileSize,type));
+                if (m_dynamicObj.size() != 0) {
+                    m_dynamicObj[0].swap((m_dynamicObj[m_dynamicObj.size()-1]));
+                    m_pacLocation = loc.getPosition();
+                }
                 break;
             }
             case DEMON_S: {
