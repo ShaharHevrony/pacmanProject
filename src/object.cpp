@@ -1,8 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include <vector>
-
 #include "object.h"
-#include "values.h"
 
 //constructor of default position
 Object::Object(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type){

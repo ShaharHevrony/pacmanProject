@@ -3,31 +3,14 @@
 //
 
 #include "dynamicObject.h"
-#include "board.h"
+#include "wall.h"
 
-DynamicObject::DynamicObject(sf::Texture* texture,const sf::Vector2f& position, float tileSize,char type): Object(texture, position, tileSize, type) {}
+DynamicObject::DynamicObject(sf::Texture* texture,const sf::Vector2f& position, float tileSize,char type)
+            :Object(texture, position, tileSize, type), m_lastPosition(position), m_originPosition(position) {}
 
 void DynamicObject::moving(sf::Vector2f direction, float time , sf::Vector2f pacLocation) {
     m_sprite.move(direction * time * 120.f);
 }
-
-/*
-bool DynamicObject::validMove(int direction, char type){
-    //check what is in the next location
-    setNextPosition(direction);
-    int x = m_nextPosition.x;
-    int y = m_nextPosition.y;
-
-    //check if the location is in the board boarder
-    if (this->getSprite().getGlobalBounds().contains(m_nextPosition) && type == SPACE_S){
-        return true;
-    } else {
-        return false;
-    }
-}
-*/
-
-
 
 int DynamicObject::getNextRow() const {
     return m_nextRow;
@@ -35,4 +18,33 @@ int DynamicObject::getNextRow() const {
 
 int DynamicObject::getNextCol() const {
     return m_nextCol;
+}
+
+sf::Vector2f DynamicObject::getPosition() const {
+    return m_sprite.getPosition();
+}
+
+void DynamicObject::setPosition(sf::Vector2f position) {
+    m_sprite.setPosition(position);
+}
+
+sf::Vector2f DynamicObject::getLastPosition() const {
+    return m_lastPosition;
+}
+
+sf::Rect<float> DynamicObject::getGlobalBounds() const {
+    return m_sprite.getGlobalBounds();
+}
+
+void DynamicObject::setLastPosition(sf::Vector2f position) {
+    m_lastPosition = position;
+}
+
+void DynamicObject::handleCollision(Wall& wall) {
+    if(m_sprite.getGlobalBounds().intersects(wall.getSprite().getGlobalBounds()))
+        m_sprite.setPosition(m_lastPosition);
+}
+
+sf::Vector2f DynamicObject::getOriginPosition() const {
+    return m_originPosition;
 }

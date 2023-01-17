@@ -3,10 +3,13 @@
 //
 
 #include "dynamicObject/demon.h"
+#include "pacman.h"
+#include "door.h"
 
 Demon::Demon(sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type) : DynamicObject(texture, position, tileSize, type) {}
 
 void Demon::move(float time, sf::Vector2f pacLocation) {
+
     auto x_pac = pacLocation.x;
     auto y_pac = pacLocation.y;
 
@@ -49,10 +52,26 @@ void Demon::move(float time, sf::Vector2f pacLocation) {
         }
     }
     default: {
-    }//FIXME what to do when the demon got to default - mining didnt move 
+    }//FIXME what to do when the demon got to default - mining didn't move
 
     }
+    setLastPosition(m_sprite.getPosition());
     moving(direction, time, pacLocation);
 }
 
+void Demon::handleCollision(Object& object) {
+    if(&object == this){
+        return;
+    } else {
+        object.handleCollision(*this);
+    }
+}
 
+void Demon::handleCollision(Door &door) {
+    if(m_sprite.getGlobalBounds().intersects(door.getSprite().getGlobalBounds()))
+        setPosition(getLastPosition());
+}
+
+void Demon::handleCollision(Wall &wall) {
+    DynamicObject::handleCollision(wall);
+}

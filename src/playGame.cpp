@@ -32,7 +32,6 @@ void PlayGame::play() {
     }
 }
 
-
 void PlayGame::playLevel() {
     //make a board
     LoadFile(m_board->getMap());
@@ -42,7 +41,7 @@ void PlayGame::playLevel() {
     while (m_window->isOpen()) {
         if (auto event = sf::Event{}; m_window->pollEvent(event)) {
 
-            if (sf::Event::Closed) {
+            if (event.type == sf::Event::Closed) {
                 m_window->close();
                 break;
             }
@@ -52,6 +51,14 @@ void PlayGame::playLevel() {
             m_dynamicObj[i]->move(time, m_pacLocation);
         }
 
+        for(int i = 0; i < m_dynamicObj.size(); i++){
+            for(int j = 0; j < m_dynamicObj.size(); j++) {
+                m_dynamicObj[i]->handleCollision(*m_dynamicObj[j]);
+            }
+            for(int j = 0; j < m_staticObj.size(); j++) {
+                m_dynamicObj[i]->handleCollision(*m_staticObj[j]);
+            }
+        }
         print();
 
     }
@@ -130,16 +137,16 @@ void PlayGame::print() {
     backgroundSprite = m_reso->getbackground();
     m_window->draw(backgroundSprite);
     
-    sf::Texture m_backBottunTexture;
-    if (!m_backBottunTexture.loadFromFile(PATH + "backBottun.png")) {
+    sf::Texture m_backButtonTexture;
+    if (!m_backButtonTexture.loadFromFile(PATH + "backButton.png")) {
         // Error loading image
     }
-    //m_backBottunTexture = m_reso->getTextureBackBottun();
+    //m_backButtonTexture = m_reso->getTextureBackButton();
 
-    sf::Sprite backBottunSprite;
-    backBottunSprite.setTexture(m_backBottunTexture);
-    backBottunSprite.setPosition(1670, 770);
-    backBottunSprite.setScale(0.1, 0.1);
+    sf::Sprite backButtonSprite;
+    backButtonSprite.setTexture(m_backButtonTexture);
+    backButtonSprite.setPosition(1670, 770);
+    backButtonSprite.setScale(0.1, 0.1);
 
     for (int i = 0; i < m_board->getRow(); i++) {
         for (int j = 0; j < m_board->getCol(); j++) {
@@ -179,7 +186,7 @@ void PlayGame::print() {
     text.setOutlineColor(sf::Color(600, 100, 28));
     text.setPosition(1000, 20);
     m_window->draw(text);
-    m_window->draw(backBottunSprite);
+    m_window->draw(backButtonSprite);
     m_window->display();
 }
 /*
@@ -232,7 +239,7 @@ bool PlayGame::validMove(int direction) {
 
 
 void PlayGame::LoadFile(std::vector<std::string> ) {
-    float tileSize = m_board->getTile();
+    float tileSize = m_board->getTile()*0.95;
     //tileSize /= TILE_SIZE;
     std::vector<std::string> map = m_board->getMap();
     for (int row = 0; row < m_board->getRow(); row++) {
@@ -255,7 +262,7 @@ void PlayGame::LoadFile(std::vector<std::string> ) {
                 break;
             }
             case DOOR_S: {
-               m_staticObj.push_back(std::make_unique<Door>(&m_reso->getObject(door), loc.getPosition(), tileSize, type));
+                m_staticObj.push_back(std::make_unique<Door>(&m_reso->getObject(door), loc.getPosition(), tileSize, type));
                 break;
             }
             case KEY_S: {

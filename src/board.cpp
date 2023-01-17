@@ -82,7 +82,7 @@ void Board::createBoard(){
             sf::RectangleShape rectangle;
             rectangle.setSize(sf::Vector2f(m_tileSize, m_tileSize));
             rectangle.setPosition(j * m_tileSize + START_ROW, i * m_tileSize + START_COL);
-            rectangle.setOutlineThickness(0.5);
+            //rectangle.setOutlineThickness(0.5);
             rectangle.setOutlineColor(sf::Color(192, 93, 150));
             rectangle.setFillColor(sf::Color(192, 194, 201));
             tempRec.push_back(rectangle);
@@ -203,7 +203,7 @@ void Board::eraserObj(int row, int col){
     } else if(m_objects[row][col]->getSprite().getTexture() == &m_texture[5]){
         m_cookieCount--;
     }
-    m_objects[row][col] = std::make_unique<Object>(nullptr, m_matrix[row][col].getPosition(), m_tileSize, ' ');
+    //m_objects[row][col] = std::make_unique<Object>(nullptr, m_matrix[row][col].getPosition(), m_tileSize, ' ');
 }
 
 //return tile

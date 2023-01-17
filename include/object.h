@@ -1,25 +1,39 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-/*
+
+class Pacman;
+class Demon;
 class Wall;
 class Key;
-class Demon;
 class Door;
 class Cookie;
 class Gift;
-class Pacman;
-*/
 
 class Object {
 public:
     //constructor of default position
     Object( sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type);
 
+    virtual void handleCollision(Object& object) = 0;
+
+    virtual void handleCollision(Pacman& pacman) = 0;
+
+    virtual void handleCollision(Demon& demon)   = 0;
+
+    virtual void handleCollision(Cookie& cookie) = 0;
+
+    virtual void handleCollision(Door& door)     = 0;
+
+    virtual void handleCollision(Gift& gift)     = 0;
+
+    virtual void handleCollision(Key& key)       = 0;
+
+    virtual void handleCollision(Wall& wall)     = 0;
+
     //set sprite
     void setSprite(sf::Sprite sprite);
 
     char getType();
-
 
     //return sprite
     sf::Sprite& getSprite() const;

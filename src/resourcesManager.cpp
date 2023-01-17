@@ -30,7 +30,7 @@ ResourcesManager::ResourcesManager() {
     }
 
     sf::Font title;
-    title.loadFromFile("HappyMonkey.ttf");
+    title.loadFromFile(PATH + "HappyMonkey.ttf");
     m_font = title;
 }
 

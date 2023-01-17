@@ -7,15 +7,23 @@ public:
 
     virtual void move(float time, sf::Vector2f pacLocation) = 0;
 
+    virtual void handleCollision(Object& object) = 0;
+
+    virtual void handleCollision(Pacman& pacman) = 0;
+
+    virtual void handleCollision(Demon& demon)   = 0;
+
+    virtual void handleCollision(Cookie& cookie) = 0;
+
+    virtual void handleCollision(Door& door)     = 0;
+
+    virtual void handleCollision(Gift& gift)     = 0;
+
+    virtual void handleCollision(Key& key)       = 0;
+
+    virtual void handleCollision(Wall& wall);
+
     void moving(sf::Vector2f direction, float time, sf::Vector2f pacLocation);
-
-    void moveObject();
-
-    bool validMove(int direction, char type);
-
-    void setNextPosition (int direction, float &x , float &y);
-
-    sf::Vector2f getNextPosition() const;
 
     int getNextRow() const;
 
@@ -30,10 +38,14 @@ protected:
 
     sf::Rect<float> getGlobalBounds() const;
 
-private:
-    sf::Vector2f m_nextPosition;
+    void setLastPosition(sf::Vector2f position);
 
+    sf::Vector2f getOriginPosition() const;
+
+private:
     sf::Vector2f m_lastPosition;
+
+    sf::Vector2f m_originPosition;
 
     int m_nextRow;
 
