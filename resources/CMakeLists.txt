@@ -16,7 +16,6 @@ configure_file ("menuBackground.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("levelBackground.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("backButton.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("HappyMonkey.ttf" ${CMAKE_BINARY_DIR} COPYONLY)
-configure_file ("backBottun.png" ${CMAKE_BINARY_DIR} COPYONLY)
 
 
 
