@@ -48,11 +48,14 @@ public:
 
     void draw(sf::RenderWindow& m_window);
 
+
 protected:
 
     sf::Sprite m_sprite;
 
 private:
+    bool is_delete = false;
+
     char m_type;
 
     int m_row;

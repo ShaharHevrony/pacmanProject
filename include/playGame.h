@@ -32,6 +32,9 @@ public:
 
     bool validMove(int direction);
 
+    void deleteFirstDoor();
+
+
 private:
     int m_level;
 
@@ -42,6 +45,8 @@ private:
     int m_catchCookie;
 
     BoardLimits m_boardLimits;
+
+    Cookie *m_cookie;
 
     std::vector<std::unique_ptr<StaticObject>> m_staticObj;
 

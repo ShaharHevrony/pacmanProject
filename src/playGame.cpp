@@ -33,6 +33,7 @@ void PlayGame::play() {
 }
 
 void PlayGame::playLevel() {
+    //int countDelete = 0;
     //make a board
     LoadFile(m_board->getMap());
     print();
@@ -47,20 +48,38 @@ void PlayGame::playLevel() {
             }
         }
         float time = timer.restart().asSeconds();
+        //move dunamic object
         for (int i = 0; i < m_dynamicObj.size(); i++) {
             m_dynamicObj[i]->move(time, m_pacLocation);
         }
-
-        for(int i = 0; i < m_dynamicObj.size(); i++){
-            for(int j = 0; j < m_dynamicObj.size(); j++) {
+        //dill with colision 
+        for (int i = 0; i < m_dynamicObj.size(); i++) {
+            for (int j = 0; j < m_dynamicObj.size(); j++) {
                 m_dynamicObj[i]->handleCollision(*m_dynamicObj[j]);
             }
-            for(int j = 0; j < m_staticObj.size(); j++) {
+            for (int j = 0; j < m_staticObj.size(); j++) {
                 m_dynamicObj[i]->handleCollision(*m_staticObj[j]);
+                if (m_staticObj[j]->getIsDelete()) {
+                    if (m_staticObj[j]->getIsDeleteDoor()) {
+                        //delete first door
+                        deleteFirstDoor();
+                    }
+                    m_staticObj[j]->setIsDeleteFalse();
+                    m_staticObj.erase(m_staticObj.begin() + j);
+                }
             }
         }
         print();
+    }
+}
 
+void PlayGame::deleteFirstDoor() {
+    for (int z = 0; z < m_staticObj.size(); z++) {
+        if (m_staticObj[z]->getType() == 'D') {
+            m_staticObj.erase(m_staticObj.begin() + z);
+            break;
+        }
+        m_staticObj[z]->setDeleteDoorFalse();
     }
 }
 
@@ -250,7 +269,7 @@ void PlayGame::LoadFile(std::vector<std::string> ) {
 
             switch (type) {
             case PACMAN_S: {
-                m_dynamicObj.push_back(std::make_unique<Pacman>(&m_reso->getObject(pacman),loc.getPosition(), tileSize,type));
+                m_dynamicObj.push_back(std::make_unique<Pacman>(&m_reso->getObject(pacman),loc.getPosition(), tileSize*0.75,type));
                 if (m_dynamicObj.size() != 0) {
                     m_dynamicObj[0].swap((m_dynamicObj[m_dynamicObj.size()-1]));
                     m_pacLocation = loc.getPosition();

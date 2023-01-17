@@ -13,5 +13,6 @@ public:
     virtual void handleCollision(Pacman& pacman);
 
     virtual void handleCollision(Demon& demon);
+
 private:
 };
