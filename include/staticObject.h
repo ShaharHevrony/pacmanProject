@@ -33,8 +33,6 @@ public:
 
     bool getIsDeleteDoor();
 
-
-
 protected:
     sf::Rect<float> getGlobalBounds() const;
 

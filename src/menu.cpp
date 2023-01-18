@@ -5,7 +5,7 @@
 #include "menu.h"
 #include "values.h"
 
-Menu::Menu(sf::RenderWindow& window, ResourcesManager& reso): m_window(&window), m_reso(&reso){}
+Menu::Menu(sf::RenderWindow& window): m_window(&window){}
 
 int Menu::run() {
     int tempRow = 0;
@@ -48,22 +48,20 @@ void Menu::print(int row) {
 
 void Menu::create() {
 
-    sf::Font font;
-    font = m_reso->getFont();
-    sf::Text text("Super Pacman", font, MENU_TEXT_SIZE);
+    sf::Text text("Super Pacman", ResourcesManager::inctance().getFont(), MENU_TEXT_SIZE);
     text.setFillColor(sf::Color(255, 253, 208));
     text.setOutlineThickness(2);
     text.setOutlineColor(sf::Color(255, 253, 208));
     text.setPosition(MENU_ROW, MENU_COL);
 
     sf::Texture backgroundTexture;
-    backgroundTexture = m_reso->getTextureBack();
+    backgroundTexture = ResourcesManager::inctance().getTextureBack();
     sf::Sprite backgroundSprite;
-    backgroundSprite = m_reso->getbackground();
+    backgroundSprite = ResourcesManager::inctance().getBackGround();
     m_window->draw(backgroundSprite);
 
     for (int index = 0; index < 4; index++) {
-        m_texture[index] = m_reso->getTextureMenuStart(index);
+        m_texture[index] = ResourcesManager::inctance().getTextureMenuStart(index);
     }
 
     sf::Sprite sprite;

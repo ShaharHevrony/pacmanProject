@@ -1,9 +1,12 @@
 #pragma once
+#include <vector>
+#include <memory>
+
 #include "keyBoard.h"
 #include "values.h"
 #include "board.h"
 #include "resourcesManager.h"
-
+#include "bar.h"
 class PlayGame {
 public:
     PlayGame(sf::RenderWindow& window);
@@ -11,16 +14,6 @@ public:
     void play();
 
     void print();
-
-    char deleteObject(sf::Vector2f position);
-
-    void demonMove();
-
-    bool comparePosition();
-
-    void respondToSymbol(char symbol);
-
-    void reloadLevel();
 
     void playLevel();
 
@@ -30,19 +23,14 @@ public:
 
     void LoadFile(std::vector<std::string>);
 
-    bool validMove(int direction);
-
     void deleteFirstDoor();
 
+    int getLife() const;
+
+    void setLife(int life);
 
 private:
     int m_level;
-
-    int m_score;
-
-    int m_life;
-
-    int m_catchCookie;
 
     BoardLimits m_boardLimits;
 
@@ -56,10 +44,12 @@ private:
 
     sf::RenderWindow* m_window;
 
-    ResourcesManager* m_reso;
+    Bar m_bar;
 
     Keyboard* m_key;
 
     sf::Vector2f m_pacLocation;
+
+    Values m_val;
 };
 

@@ -5,13 +5,12 @@
 #include "createLevel.h"
 #include "resourcesManager.h"
 #include <iostream>
-#include <sstream>
 #include <filesystem>
 #include <string> 
 #include <sstream>
 
 
-CreateLevel::CreateLevel(sf::RenderWindow& window, ResourcesManager& reso) : m_window(&window), m_board(), m_reso(&reso) {} //FIXME: get row and col
+CreateLevel::CreateLevel(sf::RenderWindow& window) : m_window(&window), m_val() ,m_board(m_val) {} //FIXME: get row and col
 
 void CreateLevel::run() {
     for (int index = 0; index < OBJECT; index++) {
@@ -43,9 +42,9 @@ void CreateLevel::run() {
     //while the window is open
     while (m_window->isOpen()) {
         sf::Texture backgroundTexture;
-        backgroundTexture = m_reso->getTextureBack();
+        backgroundTexture = ResourcesManager::inctance().getTextureBack();
         sf::Sprite backgroundSprite;
-        backgroundSprite = m_reso->getbackground();
+        backgroundSprite = ResourcesManager::inctance().getBackGround();
         m_window->draw(backgroundSprite);
 
         print(tempRow, tempCol);
@@ -71,9 +70,7 @@ void CreateLevel::run() {
 }
 
 void CreateLevel::print(int row, int col) {
-    sf::Font font;
-    font = m_reso->getFont();
-    sf::Text text("Menu", font, MENU_TEXT_SIZE);
+    sf::Text text("Menu", ResourcesManager::inctance().getFont(), MENU_TEXT_SIZE);
     text.setFillColor(sf::Color(500, 160, 28));
     text.setOutlineThickness(2);
     text.setOutlineColor(sf::Color(600, 100, 28));
@@ -136,11 +133,11 @@ void CreateLevel::handleMouseButton(sf::Event::MouseButtonEvent& event) {
                 //go from the beninge of the controller
                 m_board.createBoard();
                 //restart pacmen count to zero
-                m_board.setPacmanCount();
+                m_val.setNumOfPacman(0);
                 return;
                 break;
             }
-                        //if click on save
+            //if click on save
             case save: {
                 //function that make the object bigger
                 outLine(index);
@@ -175,16 +172,16 @@ void CreateLevel::outLine(int index) {
 
 //function that check if the board is valid befor saving him
 bool CreateLevel::isValid() {
-    if (m_board.getPacmanCount() != 1 && m_board.getDoorCount() != m_board.getKeyCount()) {
+    if (m_val.getNumOfPacman() != 1 && m_val.getNumOfDoor() != m_val.getNumOfKey()) {
         std::cout << "You need to have one pacman and the same number of doors and keys on the board to save"
             << std::endl;
         return false;
     }
-    else if (m_board.getPacmanCount() != 1) {
+    else if (m_val.getNumOfPacman() != 1) {
         std::cout << "You need to have one pacman on the board to save" << std::endl;
         return false;
     }
-    else if (m_board.getDoorCount() != m_board.getKeyCount()) {
+    else if (m_val.getNumOfDoor() != m_val.getNumOfKey()) {
         std::cout << "You need to have the same number of doors and keys on the board to save"
             << std::endl;
         return false;

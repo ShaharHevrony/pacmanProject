@@ -12,7 +12,7 @@ class Board {
 public:
 
     //constructor that put in the default member and load the sprites
-    Board();
+    Board(Values& val);
 
     //function that creat the board
     void createBoard();
@@ -50,27 +50,9 @@ public:
     //return tile
     float getTile() const;
 
-    //return pacman count
-    int getPacmanCount() const;
-
-    //return door count
-    int getDoorCount() const;
-
-    //return key count
-    int getKeyCount() const;
-
-    int getCookieCount() const;
-
-    int getDemonCount() const;
-
     float getBoardWidth() const;
 
     float getBoardHight() const;
-
-    //set pacman count to zero
-    void setPacmanCount();
-
-    void setCookieCount();
 
     sf::Texture* changeCharToTexture(char c);
 
@@ -84,7 +66,6 @@ public:
 
     std::vector<std::vector<sf::RectangleShape>> getMatrix();
 
-
 private:
     int m_row;
 
@@ -96,22 +77,7 @@ private:
 
     float m_boardHight;
 
-    int m_pacmanCount;
-
-    int m_doorCount;
-
-    int m_keyCount;
-
-    int m_demonCount;
-
-    int m_cookieCount;
-
-
     std::vector<std::string> m_map;
-
-    Pacman* m_pacman;
-
-    ResourcesManager* m_reso;
 
     std::vector<std::vector<sf::RectangleShape>> m_matrix;
 
@@ -120,5 +86,7 @@ private:
     sf::Texture m_texture[10];
 
     sf::RenderWindow* m_window;
+
+    Values m_val;
 
 };

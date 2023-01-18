@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "dynamicObject.h"
-
+#include "values.h"
 class Pacman: public DynamicObject{
 public:
     Pacman(sf::Texture* texture, const sf::Vector2f&, float tileSize, char type);
@@ -23,6 +23,14 @@ public:
     virtual void handleCollision(Key& key);
 
     virtual void handleCollision(Wall &wall);
+
+    bool checkIfSuper() const;
+
+    void makeSuper();
+
+    void makeRegular();
+
 private:
+    bool m_isSuper = false;
 };
 

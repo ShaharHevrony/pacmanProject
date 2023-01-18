@@ -34,7 +34,13 @@ ResourcesManager::ResourcesManager() {
     m_font = title;
 }
 
-sf::Font ResourcesManager::getFont() {
+
+ResourcesManager &ResourcesManager::inctance() {
+    static ResourcesManager m_instance;
+    return m_instance;
+}
+
+sf::Font& ResourcesManager::getFont() {
     return m_font;
 }
 
@@ -42,8 +48,7 @@ sf::Texture ResourcesManager::getTextureBack() {
     return m_backgroundTexture;
 }
 
-
-sf::Sprite &ResourcesManager::getbackground(){
+sf::Sprite &ResourcesManager::getBackGround(){
     return m_backgroundSprite; 
 }
 
@@ -51,7 +56,7 @@ sf::Texture ResourcesManager::getTextureMenuStart(int index) {
     return  m_textureMenuStart[index];
 }
 
-sf::Texture& ResourcesManager::getObject(int index) const{
+sf::Texture& ResourcesManager::getObject(int index) const {
     return *m_object[index];
 }
 

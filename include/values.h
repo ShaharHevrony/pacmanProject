@@ -28,13 +28,14 @@ struct BoardLimits {
     float tileSize;
 };
 
-//const std::string PATH = "../../../";
-const std::string PATH = "";
+const std::string PATH = "../../../";
+//const std::string PATH = "";
 const std::string m_names[4] = {"PlayButton.png", "HelpButton.png", "CreateButton.png",
                                 "ExitButton.png"};
 const std::string imagNames[10] = {"Pacman.png", "Demon.png", "Door.png", "Key.png",
                                    "Wall.png", "cookie.png", "Gift.png", "Eraser.png",
                                    "Restart.png", "Save.png"};
+const std::string gameBar[3] = {"Time: ", "Points: ", "Life: "};
 
 const int WINDOW_HEIGHT = sf::VideoMode::getDesktopMode().height;
 const int WINDOW_WIDTH  = sf::VideoMode::getDesktopMode().width;
@@ -76,3 +77,37 @@ const int KEY_S          = '%';
 const int COOKIE_S       = '*';
 const int GIFT_S         = '$';
 const int SKIP_TURN      = 100;
+
+const int INC = 1;
+const int DEC = -1;
+
+class Values {
+public:
+    int getLife() const {return m_life;}
+    int getScore() const {return m_score;}
+    int getNumOfPacman() const {return m_numOfPacman;}
+    int getNumOfDemon() const {return m_numOfDemon;}
+    int getNumOfCookie() const {return m_numOfCookie;}
+    int getNumOfDoor() const {return m_numOfDoor;}
+    int getNumOfKey() const {return m_numOfKey;}
+    int getNumOfGift() const {return m_numOfGift;}
+
+    void setLife(int life) { m_life += life;}
+    void setScore(int add) {m_score+= add;}
+    void setNumOfPacman(int num) {m_numOfPacman+= num;}
+    void setNumOfDemon(int num) {m_numOfDemon+= num;}
+    void setNumOfCookie(int num) {m_numOfCookie+= num;}
+    void setNumOfDoor(int num) {m_numOfDoor+= num;}
+    void setNumOfKey(int num) {m_numOfKey+= num;}
+    void setNumOfGift(int num){ m_numOfGift+= num;}
+
+private:
+    int m_life        = 3;
+    int m_score       = 0;
+    int m_numOfDemon  = 0;
+    int m_numOfCookie = 0;
+    int m_numOfDoor   = 0;
+    int m_numOfKey    = 0;
+    int m_numOfPacman = 0;
+    int m_numOfGift   = 0;
+};

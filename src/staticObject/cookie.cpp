@@ -20,6 +20,6 @@ void Cookie::handleCollision(Pacman& pacman) {
 void Cookie::handleCollision(Demon& demon) {
     if (m_sprite.getGlobalBounds().intersects(demon.getSprite().getGlobalBounds())) {
         setIsDeleteTrue();
-    }//FIXME save the cookie in temp and when the demon mived to another place retern her
+    } //FIXME save the cookie in temp and when the demon moved to another place return her
     demon.handleCollision(*this);
 }

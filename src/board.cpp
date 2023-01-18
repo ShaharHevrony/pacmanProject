@@ -19,8 +19,7 @@
 #include "board.h"
 
 //constructor that put in the default member and load the sprites
-Board::Board() :m_row(0), m_col(0), m_doorCount(0), m_keyCount(0), m_pacmanCount(0),m_boardWidth(0), m_boardHight(0) {
-   // m_reso = new ResourcesManager;
+Board::Board(Values& val) :m_row(0), m_col(0) ,m_boardWidth(0), m_boardHight(0), m_val(val) {
     //loop that load the sprite one by one
     for (int index = 0; index < 10; index++) {
         m_texture[index].loadFromFile(PATH + imagNames[index]);
@@ -130,13 +129,14 @@ void Board::setCol(int col) {
 
 //function that handel the object we click on
 void Board::handleObj(int type, sf::Event::MouseButtonEvent& currMove, sf::RenderWindow& window) {
+    ResourcesManager reso = ResourcesManager::inctance();
     for (int row = 0; row < m_row; row++) {
         for (int col = 0; col < m_col; col++) {
             //if click on the current rectangle
             if (m_matrix[row][col].getGlobalBounds().contains(window.mapPixelToCoords({ currMove.x, currMove.y }))) {
                 //if there is already texture in the rectangle
                 if (m_objects[row][col]->getSprite().getTexture() != nullptr) {
-                    if ((type == pacman && m_pacmanCount != 1) || (type != pacman)) {
+                    if ((type == pacman && m_val.getNumOfPacman() != 1) || (type != pacman)) {
                         eraserObj(row, col);
                     }
                 }
@@ -144,40 +144,41 @@ void Board::handleObj(int type, sf::Event::MouseButtonEvent& currMove, sf::Rende
                 switch (type) {
                 case pacman: {
                     //if there is no other pacman on the board
-                    if (m_pacmanCount == 0) {
-                        m_objects[row][col] = std::make_unique<Pacman>(&m_reso->getObject(pacman), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
-                        m_pacmanCount++;
+                    if (m_val.getNumOfPacman() == 0) {
+                        m_objects[row][col] = std::make_unique<Pacman>(&reso.getObject(pacman), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
+                        m_val.setNumOfPacman(INC);
                     }
                     break;
                 }
                 case demon: {
                     //put the object on the rectangle
-                    m_objects[row][col] = std::make_unique<Demon>(&m_reso->getObject(demon), m_matrix[row][col].getPosition(),m_tileSize, indexToChar(type));
-
+                    m_objects[row][col] = std::make_unique<Demon>(&reso.getObject(demon), m_matrix[row][col].getPosition(),m_tileSize, indexToChar(type));
+                    m_val.setNumOfDemon(INC);
                     break;
                 }
                 case door: {
                     //put the object on the rectangle
-                    m_objects[row][col] = std::make_unique<Door>(&m_reso->getObject(door), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
-                    m_doorCount++;
+                    m_objects[row][col] = std::make_unique<Door>(&reso.getObject(door), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
+                    m_val.setNumOfDoor(INC);
                     break;
                 }
                 case key: {
                     //put the object on the rectangle
-                    m_objects[row][col] = std::make_unique<Key>(&m_reso->getObject(key), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
-                    m_keyCount++;
+                    m_objects[row][col] = std::make_unique<Key>(&reso.getObject(key), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
+                    m_val.setNumOfKey(INC);
                     break;
                 }
                 case wall:
-                    m_objects[row][col] = std::make_unique<Wall>(&m_reso->getObject(wall), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
+                    m_objects[row][col] = std::make_unique<Wall>(&reso.getObject(wall), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
                     break;
                 case cookie:
-                    m_objects[row][col] = std::make_unique<Cookie>(&m_reso->getObject(cookie), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
-                    m_cookieCount++;
+                    m_objects[row][col] = std::make_unique<Cookie>(&reso.getObject(cookie), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
+                    m_val.setNumOfCookie(INC);
                     break;
                 case gift: {
                     //put the object on the rectangle
-                    m_objects[row][col] = std::make_unique<Gift>(&m_reso->getObject(gift), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
+                    m_objects[row][col] = std::make_unique<Gift>(&reso.getObject(gift), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
+                    m_val.setNumOfGift(INC);
                     break;
                 }
                 case eraser: {
@@ -190,18 +191,18 @@ void Board::handleObj(int type, sf::Event::MouseButtonEvent& currMove, sf::Rende
 }
 
 //function  that erase the object on the current rectangle
-void Board::eraserObj(int row, int col){
+void Board::eraserObj(int row, int col){ //FIXME: fix the count of other object on the screen
     //if erase pacman
     if (m_objects[row][col]->getSprite().getTexture() == &m_texture[0]) {
-        m_pacmanCount--;
+        m_val.setNumOfPacman(DEC);
         //if erase door
     } else if (m_objects[row][col]->getSprite().getTexture() == &m_texture[2]) {
-        m_doorCount--;
+        m_val.setNumOfDoor(DEC);
         //if erase key
     } else if (m_objects[row][col]->getSprite().getTexture() == &m_texture[3]) {
-        m_keyCount--;
+        m_val.setNumOfKey(DEC);
     } else if(m_objects[row][col]->getSprite().getTexture() == &m_texture[5]){
-        m_cookieCount--;
+        m_val.setNumOfCookie(DEC);
     }
     //m_objects[row][col] = std::make_unique<Object>(nullptr, m_matrix[row][col].getPosition(), m_tileSize, ' ');
 }
@@ -209,38 +210,6 @@ void Board::eraserObj(int row, int col){
 //return tile
 float Board::getTile() const{
     return m_tileSize;
-}
-
-//return pacman count
-int Board::getPacmanCount() const{
-    return m_pacmanCount;
-}
-
-//return door count
-int Board::getDoorCount() const{
-    return m_doorCount;
-}
-
-//return key count
-int Board::getKeyCount() const{
-    return m_keyCount;
-}
-
-int Board::getCookieCount() const{
-    return m_cookieCount;
-}
-
-int Board::getDemonCount() const{
-    return m_demonCount;
-}
-
-//set pacman count
-void Board::setPacmanCount() {
-    m_pacmanCount = 0;
-}
-
-void Board::setCookieCount() {
-    m_cookieCount++;
 }
 
 sf::Texture* Board::changeCharToTexture(char c) {

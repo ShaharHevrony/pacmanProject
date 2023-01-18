@@ -10,18 +10,15 @@ sf::Rect<float> StaticObject::getGlobalBounds() const {
     return m_sprite.getGlobalBounds();
 }
 
-bool StaticObject::getIsDelete() const
-{
+bool StaticObject::getIsDelete() const {
     return m_isDelete;
 }
 
-void StaticObject::setIsDeleteTrue()
-{
+void StaticObject::setIsDeleteTrue() {
     m_isDelete = true ;
 }
 
-void StaticObject::setIsDeleteFalse()
-{
+void StaticObject::setIsDeleteFalse() {
     m_isDelete = false;
 }
 

@@ -51,17 +51,22 @@ void Pacman::handleCollision(Object& object) {
 }
 
 void Pacman::handleCollision(Pacman& pacman) {
-    printf("pac with pac!!!!\n");
+    //printf("pac with pac!!!!\n");
 }
 
 void Pacman::handleCollision(Demon& demon) {
-    if(demon.getSprite().getGlobalBounds().intersects(getSprite().getGlobalBounds()))
+    if(demon.getSprite().getGlobalBounds().intersects(getSprite().getGlobalBounds())) {
         setPosition(getOriginPosition());
+        setDelete();
+    }
 }
 
 void Pacman::handleCollision(Cookie& cookie) {}
 
-void Pacman::handleCollision(Door& door) {}
+void Pacman::handleCollision(Door& door) {
+    if(m_sprite.getGlobalBounds().intersects(door.getSprite().getGlobalBounds()) && !m_isSuper)
+        m_sprite.setPosition(getLastPosition());
+}
 
 void Pacman::handleCollision(Gift& gift) {}
 
@@ -69,4 +74,16 @@ void Pacman::handleCollision(Key& key) {}
 
 void Pacman::handleCollision(Wall &wall) {
     DynamicObject::handleCollision(wall);
+}
+
+bool Pacman::checkIfSuper() const {
+    return m_isSuper;
+}
+
+void Pacman::makeSuper() {
+    m_isSuper = true;
+}
+
+void Pacman::makeRegular() {
+    m_isSuper = false;
 }

@@ -1,12 +1,11 @@
 //
 // Created by Shahar Hevrony on 29/12/2022.
 //
-
 #include "dynamicObject.h"
 #include "wall.h"
 
 DynamicObject::DynamicObject(sf::Texture* texture,const sf::Vector2f& position, float tileSize,char type)
-            :Object(texture, position, tileSize, type), m_lastPosition(position), m_originPosition(position) {}
+            :Object(texture, position, tileSize, type), m_lastPosition(position), m_originPosition(position){}
 
 void DynamicObject::moving(sf::Vector2f direction, float time , sf::Vector2f pacLocation) {
     m_sprite.move(direction * time * 120.f);
@@ -47,4 +46,12 @@ void DynamicObject::handleCollision(Wall& wall) {
 
 sf::Vector2f DynamicObject::getOriginPosition() const {
     return m_originPosition;
+}
+
+bool DynamicObject::getIsDelete() const {
+    return m_isDelete;
+}
+
+void DynamicObject::setDelete() {
+    !m_isDelete;
 }

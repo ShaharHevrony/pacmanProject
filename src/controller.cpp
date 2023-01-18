@@ -1,9 +1,7 @@
 #include "controller.h"
 #include <string.h>
 
-
 Controller::Controller() :m_window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Super Pacman") ,m_playGame(m_window){
-    m_reso = new ResourcesManager();
     create();
 }
 
@@ -18,7 +16,7 @@ void Controller::run() {
              //if the user clicks on the window
             case sf::Event::MouseButtonReleased: {
                 handleMouseButton(event.mouseButton);
-                
+
             }
             case sf::Event::MouseMoved: {
                  handleMouseMoved(event.mouseMove);
@@ -32,9 +30,7 @@ void Controller::run() {
 
 void Controller::create() {
     //m_window.clear();
-    sf::Font m_font;
-    m_font = m_reso->getFont();
-    sf::Text text("Super Pacman", m_font, MENU_TEXT_SIZE);
+    sf::Text text("Super Pacman", ResourcesManager::inctance().getFont(), MENU_TEXT_SIZE);
     text.setFillColor(sf::Color(255, 253, 208));
     text.setOutlineThickness(2);
     text.setOutlineColor(sf::Color(255, 253, 208));
@@ -42,14 +38,14 @@ void Controller::create() {
 
     m_text = text;
     sf::Texture m_backgroundTexture;
-    m_backgroundTexture = m_reso->getTextureBack();
+    m_backgroundTexture = ResourcesManager::inctance().getTextureBack();
 
     sf::Sprite m_backgroundSprite;
-    m_backgroundSprite = m_reso->getbackground();
+    m_backgroundSprite = ResourcesManager::inctance().getBackGround();
     m_window.draw(m_backgroundSprite);
 
     for (int index = 0; index < 4; index++) {
-        m_texture[index] = m_reso->getTextureMenuStart(index);
+        m_texture[index] = ResourcesManager::inctance().getTextureMenuStart(index);
     }
 
     sf::Sprite sprite;
@@ -85,7 +81,7 @@ void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
             case helpBotton:
                 break;
             case newMapBotton: {
-                CreateLevel createLevel = CreateLevel(m_window, *m_reso);
+                CreateLevel createLevel = CreateLevel(m_window);
                 createLevel.run();
                 break;
             }
