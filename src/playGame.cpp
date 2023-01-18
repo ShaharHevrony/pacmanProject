@@ -57,31 +57,35 @@ void PlayGame::playLevel() {
             for (int j = 0; j < m_dynamicObj.size(); j++) {
                 m_dynamicObj[i]->handleCollision(*m_dynamicObj[j]);
             }
-            for (int j = 0; j < m_staticObj.size(); j++) {
+            for (int j = 0; j < m_staticObj.size(); j++){
                 m_dynamicObj[i]->handleCollision(*m_staticObj[j]);
-                if (m_staticObj[j]->getIsDelete()) {
-                    if (m_staticObj[j]->getIsDeleteDoor()) {
-                        //delete first door
-                        deleteFirstDoor();
+                if (m_staticObj[j]->getIsDelete() && m_staticObj[j]->getType() == '%') {
+                    for (auto& obj : m_staticObj) {
+                        if (obj->getType() == 'D'){
+                            obj->setIsDeleteTrue();
+                            break;
+                        }
+
                     }
-                    m_staticObj[j]->setIsDeleteFalse();
-                    m_staticObj.erase(m_staticObj.begin() + j);
+                   
+                   // m_staticObj.erase(m_staticObj.begin() + j);
                 }
             }
         }
+        std::erase_if(m_staticObj, [](const auto& item) {return item->getIsDelete(); });
         print();
     }
 }
 
-void PlayGame::deleteFirstDoor() {
-    for (int z = 0; z < m_staticObj.size(); z++) {
-        if (m_staticObj[z]->getType() == 'D') {
-            m_staticObj.erase(m_staticObj.begin() + z);
-            break;
-        }
-        m_staticObj[z]->setDeleteDoorFalse();
-    }
-}
+//void PlayGame::deleteFirstDoor() {
+//    for (int z = 0; z < m_staticObj.size(); z++) {
+//        if (m_staticObj[z]->getType() == 'D') {
+//            m_staticObj.erase(m_staticObj.begin() + z);
+//            m_staticObj[z]->setDeleteDoorFalse();
+//            break;
+//        }
+//    }
+//}
 
 /*
 

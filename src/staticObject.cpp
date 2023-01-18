@@ -25,14 +25,14 @@ void StaticObject::setIsDeleteFalse()
     m_isDelete = false;
 }
 
-void StaticObject::setDeleteDoorTrue() {
-    m_deleteDoor = true;
-}
+//void StaticObject::setDeleteDoorTrue() {
+//    m_deleteDoor = true;
+//}
+//
+//void StaticObject::setDeleteDoorFalse() {
+//    m_deleteDoor = false;
+//}
 
-void StaticObject::setDeleteDoorFalse() {
-    m_deleteDoor = false;
-}
-
-bool StaticObject::getIsDeleteDoor(){
-    return m_deleteDoor;
-}
+//bool StaticObject::getIsDeleteDoor(){
+//    return m_deleteDoor;
+//}

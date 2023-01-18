@@ -13,7 +13,6 @@ void Key::handleCollision(Object& object) {
 void Key::handleCollision(Pacman& pacman) {
     if (m_sprite.getGlobalBounds().intersects(pacman.getSprite().getGlobalBounds())) {
         setIsDeleteTrue();
-        setDeleteDoorTrue();
     }
     pacman.handleCollision(*this);
 }
