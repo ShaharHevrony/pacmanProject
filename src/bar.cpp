@@ -38,7 +38,7 @@ void Bar::draw(sf::RenderWindow& window, const Values& val){
         m_bar[bar].setFillColor(sf::Color(500, 160, 28));
         m_bar[bar].setOutlineThickness(2);
         m_bar[bar].setOutlineColor(sf::Color(600, 100, 28));
-        m_bar[bar].setPosition(2000, 150 + 200 * bar);
+        m_bar[bar].setPosition(1200, 150 + 200 * bar);
         window.draw(m_bar[bar]);
     }
 }

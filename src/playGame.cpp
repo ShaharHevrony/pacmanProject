@@ -60,36 +60,26 @@ void PlayGame::playLevel() {
             }
             for (int j = 0; j < m_staticObj.size(); j++) {
                 m_dynamicObj[i]->handleCollision(*m_staticObj[j]);
-                if (m_staticObj[j]->getIsDelete()) {
-                    if (m_staticObj[j]->getIsDeleteDoor()) {
-                        //delete first door
-                        deleteFirstDoor();
-                        m_val.setNumOfDoor(DEC);
-                        m_val.setNumOfKey(DEC);
-                        m_val.setScore(7);
-                    } else {
+                    if (m_staticObj[j]->getIsDelete() && m_staticObj[j]->getType() == '%') {
+                        for (auto& obj : m_staticObj) {
+                            if (obj->getType() == 'D') {
+                                obj->setIsDeleteTrue();
+                                m_val.setNumOfDoor(DEC);
+                                m_val.setNumOfKey(DEC);
+                                m_val.setScore(7);
+                                break;
+                            }
+                        }
+                    }
+                    else if (m_staticObj[j]->getIsDelete() && m_staticObj[j]->getType() == '*') {
                         m_val.setNumOfCookie(DEC);
                         m_val.setScore(2);
                     }
-                    m_staticObj[j]->setIsDeleteFalse();
                     //m_staticObj.erase(remove(m_staticObj.begin(),m_staticObj.end(), m_staticObj[j]));
                     //m_staticObj.erase(m_staticObj.begin() + j);
                     //std::remove(m_staticObj.begin(),m_staticObj.end(), m_staticObj[j]);
                     //std::erase_if(m_staticObj, [](const auto& object){return object->getIsDelete();});
-                }
-            }
-        }
-                if (m_staticObj[j]->getIsDelete() && m_staticObj[j]->getType() == '%') {
-                    for (auto& obj : m_staticObj) {
-                        if (obj->getType() == 'D'){
-                            obj->setIsDeleteTrue();
-                            break;
-                        }
-
-                    }
-                   
-                   // m_staticObj.erase(m_staticObj.begin() + j);
-                }
+                
             }
         }
         std::erase_if(m_staticObj, [](const auto& item) {return item->getIsDelete(); });
