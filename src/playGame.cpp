@@ -1,10 +1,8 @@
-//
-// Created by Shahar Hevrony on 29/12/2022.
-//
 
 #include "playGame.h"
 #include "values.h"
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 #include <dynamicObject/pacman.h>
 #include <dynamicObject/demon.h>
@@ -15,16 +13,15 @@
 #include <staticObject/wall.h>
 #include <staticObject/gift/gift.h>
 
-PlayGame::PlayGame(sf::RenderWindow& window) :m_window(&window), m_catchCookie(0), m_score(0), m_level(1), m_life(3) {
-    m_board = new Board();
-    m_reso = new ResourcesManager();
-    m_key = new Keyboard(window);
+PlayGame::PlayGame(sf::RenderWindow& window) : m_window(&window), m_level(1), m_bar(60), m_val() {
+    m_board = new Board(m_val);
+    m_key   = new Keyboard(window);
 }
 
 void PlayGame::play() {
     for (m_level; m_level <= 1; m_level++){ //FIXME: num of levels is not set.
         //if i'm still alive then:
-        if (m_life > 0){
+        if (m_val.getLife() > 0){
             playLevel();
         } else{
             gameOver();
@@ -48,17 +45,40 @@ void PlayGame::playLevel() {
             }
         }
         float time = timer.restart().asSeconds();
-        //move dunamic object
+        //move dynamic object
         for (int i = 0; i < m_dynamicObj.size(); i++) {
-            m_dynamicObj[i]->move(time, m_pacLocation);
+            m_dynamicObj[i]->move(time, m_dynamicObj[0]->getSprite().getPosition());
         }
-        //dill with colision 
+        //deal with collision
         for (int i = 0; i < m_dynamicObj.size(); i++) {
             for (int j = 0; j < m_dynamicObj.size(); j++) {
                 m_dynamicObj[i]->handleCollision(*m_dynamicObj[j]);
+                if(m_dynamicObj[i]->getIsDelete()){
+                    m_val.setLife(DEC);
+                }
+                m_dynamicObj[i]->setDelete();
             }
-            for (int j = 0; j < m_staticObj.size(); j++){
+            for (int j = 0; j < m_staticObj.size(); j++) {
                 m_dynamicObj[i]->handleCollision(*m_staticObj[j]);
+                if (m_staticObj[j]->getIsDelete()) {
+                    if (m_staticObj[j]->getIsDeleteDoor()) {
+                        //delete first door
+                        deleteFirstDoor();
+                        m_val.setNumOfDoor(DEC);
+                        m_val.setNumOfKey(DEC);
+                        m_val.setScore(7);
+                    } else {
+                        m_val.setNumOfCookie(DEC);
+                        m_val.setScore(2);
+                    }
+                    m_staticObj[j]->setIsDeleteFalse();
+                    //m_staticObj.erase(remove(m_staticObj.begin(),m_staticObj.end(), m_staticObj[j]));
+                    //m_staticObj.erase(m_staticObj.begin() + j);
+                    //std::remove(m_staticObj.begin(),m_staticObj.end(), m_staticObj[j]);
+                    //std::erase_if(m_staticObj, [](const auto& object){return object->getIsDelete();});
+                }
+            }
+        }
                 if (m_staticObj[j]->getIsDelete() && m_staticObj[j]->getType() == '%') {
                     for (auto& obj : m_staticObj) {
                         if (obj->getType() == 'D'){
@@ -87,67 +107,10 @@ void PlayGame::playLevel() {
 //    }
 //}
 
-/*
-
-    //loop that control the game until the end
-    while(!endLevel){
-        //get the direction from the user
-        int direction = m_key->getKey();
-
-        //if the user decided to skip his turn
-        if (direction != sf::Keyboard::Space) {
-            m_board->getPacman()->setNextPosition(direction);
-            int nextRow = m_board->getPacman()->getNextRow();
-            int nextCol = m_board->getPacman()->getNextCol();
-
-            m_board->getPacman()->setRow(nextRow);
-            m_board->getPacman()->setCol(nextCol);
-
-            if (comparePosition()) {
-                /*
-                char symbol = deleteObject(((Object *) m_board->getPacman())->getPosition());
-                if (symbol != SPACE_S) {
-                    //respondToSymbol(symbol); //FIXME
-                }
-                
-
-                //print the new board
-                print();
-                //if the pacman ate all the cookies
-                if (m_catchCookie == m_board->getCookieCount()) {
-                    endLevel = true;
-                    break;
-                }
-            }
-        }
-    }
-}
-*/
-
 void PlayGame::gameOver() {
-
+    //FIXME;
 }
 
-/*
-char PlayGame::deleteObject(sf::Vector2f position) {
-    char type = SPACE_S;
-    Object temp = m_board->getTileObj(position.x, position.y);
-    if(temp.getPosition().y == position.y && temp.getPosition().x == position.x) {
-        if (temp.getType() != DOOR_S) {
-            type = temp.getType();
-            temp.setTexture(NULL);
-            temp.setType(SPACE_S);
-            return type;
-        } else if(((Object *)m_board->getPacman())->getType() == SUPER_PACMAN_S) {
-            type = temp.getType();
-            temp.setTexture(NULL);
-            temp.setType(SPACE_S);
-            return type;
-        }
-    }
-    return type;
-}
-*/
 bool PlayGame::validKey(int key) const {
     return (key == sf::Keyboard::Space || key == sf::Keyboard::Up || key == sf::Keyboard::Down
             || key == sf::Keyboard::Left || key == sf::Keyboard::Right);
@@ -155,16 +118,14 @@ bool PlayGame::validKey(int key) const {
 
 void PlayGame::print() {
     m_window->clear();
-
     sf::Sprite backgroundSprite;
-    backgroundSprite = m_reso->getbackground();
+    backgroundSprite = ResourcesManager::inctance().getBackGround();
     m_window->draw(backgroundSprite);
     
     sf::Texture m_backButtonTexture;
     if (!m_backButtonTexture.loadFromFile(PATH + "backButton.png")) {
         // Error loading image
     }
-    //m_backButtonTexture = m_reso->getTextureBackButton();
 
     sf::Sprite backButtonSprite;
     backButtonSprite.setTexture(m_backButtonTexture);
@@ -177,20 +138,12 @@ void PlayGame::print() {
         }
     }
 
-    
     float tileSize = m_board->getTile();
     tileSize /= TILE_SIZE;
     //draw the sprite
     for (int row = 0; row < m_board->getRow(); row++) {
         for (int col = 0; col < m_board->getCol(); col++) {
             Object& temp = m_board->getTileObj(row, col);
-            //if(temp.getType() != PACMAN_S){
-                //temp.getSprite().setScale(tileSize, tileSize);
-                //m_window->draw(temp.getSprite());
-            // else {
-                //m_board->getPacman()->getSprite().setScale(tileSize, tileSize);
-                //m_window->draw(m_board->getPacman()->getSprite());
-            
         }
     }
 
@@ -201,70 +154,22 @@ void PlayGame::print() {
         m_staticObj[i]->draw(*m_window);
     }
 
-    sf::Font font;
-    font = m_reso->getFont();
-    sf::Text text("play", font, MENU_TEXT_SIZE-20);
+    sf::Text text("play", ResourcesManager::inctance().getFont(), MENU_TEXT_SIZE-20);
     text.setFillColor(sf::Color(500, 160, 28));
     text.setOutlineThickness(2);
     text.setOutlineColor(sf::Color(600, 100, 28));
     text.setPosition(1000, 20);
     m_window->draw(text);
+    m_bar.draw(*m_window, m_val);
     m_window->draw(backButtonSprite);
     m_window->display();
 }
-/*
-bool PlayGame::comparePosition() {
-    int checkRow = m_board->getPacman()->getRow();
-    int checkCol = m_board->getPacman()->getCol();
-    if(m_board->getTileObj(checkRow, checkCol).getType() == DEMON_S){
-        return false;
-    }
-    return true;
-}
-
-void PlayGame::demonMove() {
-    for (int i = 0; i < m_board->getRow(); i++) {
-        for (int j = 0; j < m_board->getCol(); j++) {
-            if(m_board->getTileObj(i, j).getType() == DEMON_S){
-                //FIXME: demon algorithm
-            }
-        }
-    }
-}
-
-bool PlayGame::validMove(int direction) {
-    //check what is in the next location
-    m_board->getPacman()->setNextPosition(direction);
-    int nextRow = m_board->getPacman()->getNextRow();
-    int nextCol = m_board->getPacman()->getNextCol();
-
-    //float nextPositionX = m_board->getPacman()->getNextPosition().x;
-    //float nextPosotionY = m_board->getPacman()->getNextPosition().y;
-
-
-    if (nextRow >= 0 && nextRow <= m_board->getBoardHight() && nextCol >= 0 && nextCol <= m_board->getBoardWidth()
-        && m_board->getTileObj(nextRow, nextCol).getType() == SPACE_S) {
-        return true;
-    }
-    else {
-        return false;
-    }
-
-
-    if (nextRow >= 0 && nextRow <= m_board->getRow() && nextCol >= 0 && nextCol <= m_board->getCol()
-        && m_board->getTileObj(nextRow, nextCol).getType() == SPACE_S) {
-        return true;
-    }
-    else {
-        return false;
-    }
-}*/
-
 
 void PlayGame::LoadFile(std::vector<std::string> ) {
     float tileSize = m_board->getTile()*0.95;
     //tileSize /= TILE_SIZE;
     std::vector<std::string> map = m_board->getMap();
+    ResourcesManager reso = ResourcesManager::inctance();
     for (int row = 0; row < m_board->getRow(); row++) {
         for (int col = 0; col < m_board->getCol(); col++) {
             auto loc = m_board->getRectangle(row,col);
@@ -273,36 +178,40 @@ void PlayGame::LoadFile(std::vector<std::string> ) {
 
             switch (type) {
             case PACMAN_S: {
-                m_dynamicObj.push_back(std::make_unique<Pacman>(&m_reso->getObject(pacman),loc.getPosition(), tileSize*0.75,type));
+                m_dynamicObj.push_back(std::make_unique<Pacman>(&reso.getObject(pacman),loc.getPosition(), tileSize*0.75,type));
                 if (m_dynamicObj.size() != 0) {
                     m_dynamicObj[0].swap((m_dynamicObj[m_dynamicObj.size()-1]));
                     m_pacLocation = loc.getPosition();
                 }
+                m_val.setNumOfPacman(INC);
                 break;
             }
             case DEMON_S: {
-                m_dynamicObj.push_back(std::make_unique<Demon>(&m_reso->getObject(demon),loc.getPosition(), tileSize, type));
+                m_dynamicObj.push_back(std::make_unique<Demon>(&reso.getObject(demon),loc.getPosition(), tileSize, type));
+                m_val.setNumOfDemon(INC);
                 break;
             }
             case DOOR_S: {
-                m_staticObj.push_back(std::make_unique<Door>(&m_reso->getObject(door), loc.getPosition(), tileSize, type));
+                m_staticObj.push_back(std::make_unique<Door>(&reso.getObject(door), loc.getPosition(), tileSize, type));
+                m_val.setNumOfDoor(INC);
                 break;
             }
             case KEY_S: {
-                m_staticObj.push_back( std::make_unique<Key>(&m_reso->getObject(key), loc.getPosition(), tileSize, type));
+                m_staticObj.push_back(std::make_unique<Key>(&reso.getObject(key), loc.getPosition(), tileSize, type));
+                m_val.setNumOfKey(INC);
                 break;
             }
             case WALL_S: {
-                m_staticObj.push_back(std::make_unique<Wall>(&m_reso->getObject(wall), loc.getPosition(), tileSize, type));
+                m_staticObj.push_back(std::make_unique<Wall>(&reso.getObject(wall), loc.getPosition(), tileSize, type));
                 break;
             }
             case COOKIE_S: {
-                m_staticObj.push_back(std::make_unique<Cookie>(&m_reso->getObject(cookie), loc.getPosition(), tileSize, type));
-                m_board->setCookieCount();
+                m_staticObj.push_back(std::make_unique<Cookie>(&reso.getObject(cookie), loc.getPosition(), tileSize, type));
+                m_val.setNumOfCookie(INC);
                 break;
             }
             case GIFT_S: {
-                m_staticObj.push_back( std::make_unique<Gift>(&m_reso->getObject(gift), loc.getPosition(), tileSize, type));
+                m_staticObj.push_back( std::make_unique<Gift>(&reso.getObject(gift), loc.getPosition(), tileSize, type));
                 break;
             }
             default:

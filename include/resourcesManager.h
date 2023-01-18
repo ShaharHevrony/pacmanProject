@@ -6,14 +6,13 @@
 #include "values.h"
 #include <SFML/Graphics.hpp>
 
-
 class ResourcesManager {
 public:
-	ResourcesManager();
+	static ResourcesManager& inctance();
 
-	sf::Font getFont();
+	sf::Font& getFont();
 
-	sf::Sprite &getbackground();
+	sf::Sprite &getBackGround();
 
 	sf::Texture getTextureBack();
 
@@ -22,14 +21,14 @@ public:
 	sf::Sprite getSpriteMenuStart();
 
     sf::Texture& getObject(int index) const;
-	\
+
 	sf::Sprite& getSpritebackBottun();
 
 	sf::Texture getTextureBackBottun();
 
-
-
 private:
+
+    ResourcesManager();
 
 	sf::Font m_font;
 

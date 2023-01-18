@@ -1,5 +1,6 @@
 #pragma once
 #include "object.h"
+#include "values.h"
 
 class DynamicObject: public Object {
 public:
@@ -29,6 +30,10 @@ public:
 
     int getNextCol() const;
 
+    bool getIsDelete() const;
+
+    void setDelete();
+
 protected:
     sf::Vector2f getPosition() const;
 
@@ -46,6 +51,8 @@ private:
     sf::Vector2f m_lastPosition;
 
     sf::Vector2f m_originPosition;
+
+    bool m_isDelete = false;
 
     int m_nextRow;
 

@@ -48,7 +48,6 @@ public:
 
     void draw(sf::RenderWindow& m_window);
 
-
 protected:
 
     sf::Sprite m_sprite;

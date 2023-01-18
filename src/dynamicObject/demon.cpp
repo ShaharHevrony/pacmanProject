@@ -6,57 +6,51 @@
 #include "pacman.h"
 #include "door.h"
 
-Demon::Demon(sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type) : DynamicObject(texture, position, tileSize, type) {}
+Demon::Demon(sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type) : DynamicObject(texture, position, tileSize, type), m_lastDirection(sf::Vector2f(1,0)) {}
 
 void Demon::move(float time, sf::Vector2f pacLocation) {
-
-    auto x_pac = pacLocation.x;
-    auto y_pac = pacLocation.y;
-
     sf::Vector2f direction;
+    sf::Vector2f dirArray[4] = {sf::Vector2f (1,0), sf::Vector2f (-1,0), sf::Vector2f (0,1), sf::Vector2f (0, -1)};
 
-    auto x_demon = m_sprite.getPosition().x;
-    auto y_demon = m_sprite.getPosition().y;
-    //FIXME add valid for each move;
-
-    switch (rand() % 4) {
-    case 0: {
-        //go left
-        if (x_pac < x_demon) {
-            direction.x = -1;
-            direction.y = 0;
-            break;
+    int random = rand() % 4;
+    bool findDirection = false;
+    while (!findDirection){
+        switch(random) {
+            case 0: { //random - right
+                if (pacLocation.x > getPosition().x && getLastDirection() != dirArray[random]) {
+                    direction = dirArray[0];
+                    findDirection = true;
+                }
+                break;
+            }
+            case 1:{ //random -left
+                if (pacLocation.x <= getPosition().x && getLastDirection() != dirArray[random]) {
+                    direction = dirArray[1];
+                    findDirection = true;
+                }
+                break;
+            }
+            case 2:{ //random - dawn
+                if (pacLocation.y > getPosition().y && getLastDirection() != dirArray[random]) {
+                    direction = dirArray[2];
+                    findDirection = true;
+                }
+                break;
+            }
+            case 3:{ //random - up
+                if (pacLocation.y <= getPosition().y && getLastDirection() != dirArray[random]) {
+                    direction = dirArray[3];
+                    findDirection = true;
+                }
+            }
+            default:
+                break;
         }
-    }
-    case 1: {
-        // go right
-        if (x_pac > x_demon) {
-            direction.x = +1;
-            direction.y = 0;
-            break;
-        }
-    }
-    case 2: {
-        //go dwon
-        if (y_pac < y_demon) {
-            direction.x = 0;
-            direction.y = +1;
-            break;
-        }
-    }
-    case 3: {
-        if (y_pac > y_demon) {
-            direction.x = 0;
-            direction.y = -1;
-            break;
-        }
-    }
-    default: {
-    }//FIXME what to do when the demon got to default - mining didn't move
-
+        random = rand() % 4;
     }
     setLastPosition(m_sprite.getPosition());
     moving(direction, time, pacLocation);
+    setLastDirection(direction);
 }
 
 void Demon::handleCollision(Object& object) {
@@ -74,4 +68,12 @@ void Demon::handleCollision(Door &door) {
 
 void Demon::handleCollision(Wall &wall) {
     DynamicObject::handleCollision(wall);
+}
+
+sf::Vector2f Demon::getLastDirection() const {
+    return m_lastDirection;
+}
+
+void Demon::setLastDirection(sf::Vector2f direction) {
+    m_lastDirection = direction;
 }

@@ -14,7 +14,7 @@
 
 class CreateLevel {
 public:
-    CreateLevel(sf::RenderWindow& window, ResourcesManager& reso);
+    CreateLevel(sf::RenderWindow& window);
 
     void run();
 
@@ -35,11 +35,11 @@ private:
 
     Board m_board;
 
+    Values m_val;
+
     std::vector<sf::Sprite> m_menu;
 
     sf::RenderWindow* m_window;
-
-    ResourcesManager* m_reso;
 
     int m_currObj;
 

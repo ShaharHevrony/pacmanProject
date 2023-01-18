@@ -24,5 +24,12 @@ public:
     virtual void handleCollision(Key& key) {}
 
     virtual void handleCollision(Wall &wall);
+
+    sf::Vector2f getLastDirection() const;
+
+    void setLastDirection(sf::Vector2f direction);
+
 private:
+
+    sf::Vector2f m_lastDirection;
 };

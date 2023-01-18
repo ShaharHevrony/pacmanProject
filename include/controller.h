@@ -10,7 +10,9 @@
 class Controller {
 public:
     Controller();
+
     ~Controller() = default;
+
     void run();
 
     void create();
@@ -31,15 +33,11 @@ private:
 
     std::vector<sf::Sprite> m_menu;
 
-    sf::Sprite m_font;
-
     sf::Text m_text;
 
     sf::Texture m_backgroundTexture;
 
     sf::Sprite m_backgroundSprite;
-
-    ResourcesManager* m_reso;
 
     int  m_tempButton = 0;
 };

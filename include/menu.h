@@ -5,7 +5,7 @@
 
 class Menu {
 public:
-    Menu(sf::RenderWindow& window, ResourcesManager& reso);
+    Menu(sf::RenderWindow& window);
 
     void create();
 
@@ -26,6 +26,4 @@ private:
     sf::Texture m_texture[4];
 
     bool m_inBounds = false;
-
-    ResourcesManager* m_reso;
 };
