@@ -31,6 +31,6 @@ public:
     void makeRegular();
 
 private:
-    bool m_isSuper = false;
+    bool m_isSuper = true;
 };
 

@@ -29,6 +29,9 @@ public:
 
     void setLife(int life);
 
+    void dealWithCollision();
+
+
 private:
     int m_level;
 

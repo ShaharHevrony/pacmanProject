@@ -12,6 +12,9 @@ void Gift::handleCollision(Object& object) {
 }
 
 void Gift::handleCollision(Pacman& pacman) {
+    if (m_sprite.getGlobalBounds().intersects(pacman.getSprite().getGlobalBounds())) {
+        setDelete();
+    }
     pacman.handleCollision(*this);
 }
 

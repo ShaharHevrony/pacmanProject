@@ -18,13 +18,7 @@ public:
 
 	sf::Texture getTextureMenuStart(int index);
 
-	sf::Sprite getSpriteMenuStart();
-
     sf::Texture& getObject(int index) const;
-
-	sf::Sprite& getSpritebackBottun();
-
-	sf::Texture getTextureBackBottun();
 
 private:
 

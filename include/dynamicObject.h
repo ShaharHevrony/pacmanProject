@@ -30,14 +30,21 @@ public:
 
     int getNextCol() const;
 
-    bool getIsDelete() const;
+    bool getCollided() const;
 
-    void setDelete();
+    void setCollided();
+
+    void setPosition(sf::Vector2f position);
+
+    sf::Vector2f getOriginPosition() ;
+
+
+    bool getReastarDemon() const;
+
+    void setRestarDemond();
 
 protected:
     sf::Vector2f getPosition() const;
-
-    void setPosition(sf::Vector2f position);
 
     sf::Vector2f getLastPosition() const;
 
@@ -45,14 +52,15 @@ protected:
 
     void setLastPosition(sf::Vector2f position);
 
-    sf::Vector2f getOriginPosition() const;
 
 private:
     sf::Vector2f m_lastPosition;
 
     sf::Vector2f m_originPosition;
 
-    bool m_isDelete = false;
+    bool m_collided = false;
+
+    bool m_restarDemon = false;
 
     int m_nextRow;
 

@@ -10,26 +10,10 @@ sf::Rect<float> StaticObject::getGlobalBounds() const {
     return m_sprite.getGlobalBounds();
 }
 
-bool StaticObject::getIsDelete() const {
+bool StaticObject::getDelete() const {
     return m_isDelete;
 }
 
-void StaticObject::setIsDeleteTrue() {
-    m_isDelete = true ;
+void StaticObject::setDelete() {
+    m_isDelete = !m_isDelete;
 }
-
-void StaticObject::setIsDeleteFalse() {
-    m_isDelete = false;
-}
-
-//void StaticObject::setDeleteDoorTrue() {
-//    m_deleteDoor = true;
-//}
-//
-//void StaticObject::setDeleteDoorFalse() {
-//    m_deleteDoor = false;
-//}
-
-//bool StaticObject::getIsDeleteDoor(){
-//    return m_deleteDoor;
-//}

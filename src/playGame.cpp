@@ -50,52 +50,66 @@ void PlayGame::playLevel() {
             m_dynamicObj[i]->move(time, m_dynamicObj[0]->getSprite().getPosition());
         }
         //deal with collision
-        for (int i = 0; i < m_dynamicObj.size(); i++) {
-            for (int j = 0; j < m_dynamicObj.size(); j++) {
-                m_dynamicObj[i]->handleCollision(*m_dynamicObj[j]);
-                if(m_dynamicObj[i]->getIsDelete()){
-                    m_val.setLife(DEC);
-                }
-                m_dynamicObj[i]->setDelete();
-            }
-            for (int j = 0; j < m_staticObj.size(); j++) {
-                m_dynamicObj[i]->handleCollision(*m_staticObj[j]);
-                    if (m_staticObj[j]->getIsDelete() && m_staticObj[j]->getType() == '%') {
-                        for (auto& obj : m_staticObj) {
-                            if (obj->getType() == 'D') {
-                                obj->setIsDeleteTrue();
-                                m_val.setNumOfDoor(DEC);
-                                m_val.setNumOfKey(DEC);
-                                m_val.setScore(7);
-                                break;
-                            }
-                        }
-                    }
-                    else if (m_staticObj[j]->getIsDelete() && m_staticObj[j]->getType() == '*') {
-                        m_val.setNumOfCookie(DEC);
-                        m_val.setScore(2);
-                    }
-                    //m_staticObj.erase(remove(m_staticObj.begin(),m_staticObj.end(), m_staticObj[j]));
-                    //m_staticObj.erase(m_staticObj.begin() + j);
-                    //std::remove(m_staticObj.begin(),m_staticObj.end(), m_staticObj[j]);
-                    //std::erase_if(m_staticObj, [](const auto& object){return object->getIsDelete();});
-                
-            }
-        }
-        std::erase_if(m_staticObj, [](const auto& item) {return item->getIsDelete(); });
+        dealWithCollision();
+       
+         //m_staticObj.erase(remove(m_staticObj.begin(),m_staticObj.end(), m_staticObj[j]));
+         //m_staticObj.erase(m_staticObj.begin() + j);
+        //std::remove(m_staticObj.begin(),m_staticObj.end(), m_staticObj[j]);
+        //std::erase_if(m_staticObj, [](const auto& object){return object->getIsDelete();});
+           
         print();
     }
 }
 
-//void PlayGame::deleteFirstDoor() {
-//    for (int z = 0; z < m_staticObj.size(); z++) {
-//        if (m_staticObj[z]->getType() == 'D') {
-//            m_staticObj.erase(m_staticObj.begin() + z);
-//            m_staticObj[z]->setDeleteDoorFalse();
-//            break;
-//        }
-//    }
-//}
+void PlayGame::dealWithCollision() {
+    //loop that go on dynamic object
+    for (auto& myDynamic : m_dynamicObj) {
+        for (auto& otherDynamic : m_dynamicObj) {
+            //check dynamic with dynamic
+            myDynamic->handleCollision(*otherDynamic);
+            if (myDynamic->getCollided() && myDynamic->getReastarDemon()) {
+                //return all demond to the original position
+                for (auto& resetDemon : m_dynamicObj) { 
+                    if (resetDemon->getType() == '&') {
+                        resetDemon->setPosition(resetDemon->getOriginPosition());
+                    }
+                }
+                //return the boolian object to false 
+                myDynamic->setRestarDemond();
+                //decrice life in 1 
+                m_val.setLife(DEC);
+            }
+            //return the boolian object to false 
+            myDynamic->setCollided();
+        }
+        //loop that go on the static object check with dynamic
+        for (auto& myStatic : m_staticObj) {
+            myDynamic->handleCollision(*myStatic);
+            if (myStatic->getDelete() && myStatic->getType() == '%' && myDynamic->getType() == 'a') {
+                for (auto& objStatic : m_staticObj) { //FIXME: way to many loops.
+                    if (objStatic->getType() == 'D') {
+                        objStatic->setDelete();
+                        m_val.setNumOfDoor(DEC);
+                        m_val.setNumOfKey(DEC);
+                        m_val.setScore(7);
+                        break;
+                    }
+                }
+            }
+            //if the pacman collosion with a cookie 
+            else if (myStatic->getDelete() && myStatic->getType() == '*' && myDynamic->getType() == 'a') {
+                m_val.setNumOfCookie(DEC);
+                m_val.setScore(2);
+            }
+            else if (myStatic->getDelete() && myStatic->getType() == '$' && myDynamic->getType() == 'a') {
+                m_val.setScore(5);
+            }
+        }
+    }
+    //earase the static object we need 
+    std::erase_if(m_staticObj, [](const auto& item) {return item->getDelete(); });
+}
+
 
 void PlayGame::gameOver() {
     //FIXME;
@@ -210,3 +224,4 @@ void PlayGame::LoadFile(std::vector<std::string> ) {
         }
     }
 }
+

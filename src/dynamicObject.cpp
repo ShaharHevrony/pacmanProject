@@ -44,14 +44,22 @@ void DynamicObject::handleCollision(Wall& wall) {
         m_sprite.setPosition(m_lastPosition);
 }
 
-sf::Vector2f DynamicObject::getOriginPosition() const {
+sf::Vector2f DynamicObject::getOriginPosition() {
     return m_originPosition;
 }
 
-bool DynamicObject::getIsDelete() const {
-    return m_isDelete;
+bool DynamicObject::getCollided() const {
+    return m_collided;
 }
 
-void DynamicObject::setDelete() {
-    !m_isDelete;
+void DynamicObject::setCollided() {
+    m_collided = !m_collided ;
+}
+
+bool DynamicObject::getReastarDemon() const {
+    return m_restarDemon;
+}
+
+void DynamicObject::setRestarDemond() {
+    m_restarDemon = !m_restarDemon;
 }

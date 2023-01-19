@@ -61,6 +61,7 @@ void Demon::handleCollision(Object& object) {
     }
 }
 
+
 void Demon::handleCollision(Door &door) {
     if(m_sprite.getGlobalBounds().intersects(door.getSprite().getGlobalBounds()))
         setPosition(getLastPosition());

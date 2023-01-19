@@ -13,7 +13,7 @@ public:
 
     virtual void handleCollision(Door& door);
 
-    virtual void handleCollision(Pacman& pacman) {}
+    virtual void handleCollision(Pacman& pacman){}
 
     virtual void handleCollision(Demon& demon) {}
 

@@ -57,7 +57,9 @@ void Pacman::handleCollision(Pacman& pacman) {
 void Pacman::handleCollision(Demon& demon) {
     if(demon.getSprite().getGlobalBounds().intersects(getSprite().getGlobalBounds())) {
         setPosition(getOriginPosition());
-        setDelete();
+		setRestarDemond();
+		//demon.setPosition(demon.getOriginPosition());
+        setCollided();
     }
 }
 

@@ -21,24 +21,14 @@ public:
 
     virtual void handleCollision(Wall& wall) {}
 
-    bool getIsDelete() const;
+    bool getDelete() const;
 
-    void setIsDeleteTrue();
-
-    void setIsDeleteFalse();
-
-    void setDeleteDoorTrue();
-
-    void setDeleteDoorFalse();
-
-    bool getIsDeleteDoor();
+    void setDelete();
 
 protected:
     sf::Rect<float> getGlobalBounds() const;
 
 private:
         bool m_isDelete = false;
-
-        bool m_deleteDoor = false;
 
 };
