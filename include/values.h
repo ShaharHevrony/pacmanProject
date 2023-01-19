@@ -37,14 +37,15 @@ const std::string imagNames[10] = {"Pacman.png", "Demon.png", "Door.png", "Key.p
                                    "Restart.png", "Save.png"};
 const std::string gameBar[3] = {"Time: ", "Points: ", "Life: "};
 
-const int WINDOW_HEIGHT = sf::VideoMode::getDesktopMode().height;
-const int WINDOW_WIDTH  = sf::VideoMode::getDesktopMode().width;
+const int WINDOW_HEIGHT = 1068;
+const int WINDOW_WIDTH  = 1900;
 const int BACHGRAUND_SCALE = WINDOW_HEIGHT/(2*508); //FIXME
 
 const int MENU_CENTER    = WINDOW_WIDTH / 2;
 const int MENU_START_ROW = WINDOW_HEIGHT / 2.2;
 const float MENU_SCALE   = 0.0003* WINDOW_WIDTH;
 const int MENU_GAP       = MENU_SCALE * 200;
+const int MENU_TITLE     = 0.3;
 const int MENU_PIC_WIDTH = 508;
 const int MENU_PIC_HEIGHT = 161;
 const int MENU_TEXT_SIZE = WINDOW_HEIGHT / 8.5;

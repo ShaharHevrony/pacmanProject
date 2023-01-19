@@ -14,6 +14,10 @@ public:
 
 	sf::Sprite &getBackGround();
 
+	sf::Texture SuperPacmanText();
+
+	sf::Sprite& SuperPacmanSprite();
+
 	sf::Texture getTextureBack();
 
 	sf::Texture getTextureMenuStart(int index);
@@ -33,6 +37,10 @@ private:
 	sf::Sprite m_backgroundSprite;
 
 	sf::Texture m_backgroundTexture;
+
+	sf::Texture m_superPacmanTexter;
+
+	sf::Sprite m_superPacmanSprite;
 
 	sf::Texture m_textureMenuStart[4];
 

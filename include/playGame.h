@@ -2,7 +2,6 @@
 #include <vector>
 #include <memory>
 
-#include "keyBoard.h"
 #include "values.h"
 #include "board.h"
 #include "resourcesManager.h"
@@ -48,8 +47,6 @@ private:
     sf::RenderWindow* m_window;
 
     Bar m_bar;
-
-    Keyboard* m_key;
 
     sf::Vector2f m_pacLocation;
 
