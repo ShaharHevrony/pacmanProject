@@ -18,11 +18,7 @@ public:
 
     void gameOver();
 
-    bool validKey(int key) const;
-
     void LoadFile(std::vector<std::string>);
-
-    void deleteFirstDoor();
 
     int getLife() const;
 
