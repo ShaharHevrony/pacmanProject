@@ -30,19 +30,20 @@ void Controller::run() {
 
 void Controller::create() {
     //m_window.clear();
-    sf::Text text("Super Pacman", ResourcesManager::inctance().getFont(), MENU_TEXT_SIZE);
-    text.setFillColor(sf::Color(255, 253, 208));
-    text.setOutlineThickness(2);
-    text.setOutlineColor(sf::Color(255, 253, 208));
-    text.setPosition(MENU_ROW, MENU_COL);
 
-    m_text = text;
     sf::Texture m_backgroundTexture;
     m_backgroundTexture = ResourcesManager::inctance().getTextureBack();
 
     sf::Sprite m_backgroundSprite;
     m_backgroundSprite = ResourcesManager::inctance().getBackGround();
     m_window.draw(m_backgroundSprite);
+
+    sf::Texture titleTexture;
+    titleTexture = ResourcesManager::inctance().SuperPacmanText();
+    sf::Sprite titleSprite;
+    titleSprite = ResourcesManager::inctance().SuperPacmanSprite();
+    titleSprite.setScale(0.5, 0.5);
+    titleSprite.setPosition(MENU_ROW-120, MENU_COL-100);
 
     for (int index = 0; index < 4; index++) {
         m_texture[index] = ResourcesManager::inctance().getTextureMenuStart(index);
@@ -60,7 +61,7 @@ void Controller::create() {
     for (int i = 0; i < 4; i++) {
         m_window.draw(m_menu[i]);
     }
-    m_window.draw(text);
+    m_window.draw(titleSprite);
     m_window.display();
 }
 

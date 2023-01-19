@@ -22,16 +22,33 @@ ResourcesManager::ResourcesManager() {
     m_backgroundTexture = backgroundTexture;
     m_backgroundSprite.setTexture(m_backgroundTexture);
     m_backgroundSprite.setScale(BACHGRAUND_SCALE, BACHGRAUND_SCALE);
-
+    
+    sf::Texture superPacmanTexter;
+    if (!superPacmanTexter.loadFromFile(PATH + "SuperPacman.png")) {
+        // Error loading image
+    }
+    m_superPacmanTexter = superPacmanTexter;
+    m_superPacmanSprite.setTexture(m_superPacmanTexter);
+    
     for(int object = 0; object < NUM_OF_OBJECTS; object++){
         sf::Texture* temp = new sf::Texture;
         temp->loadFromFile(PATH + imagNames[object]);
         m_object[object] = temp;
     }
-
+    //load the front 
     sf::Font title;
     title.loadFromFile(PATH + "HappyMonkey.ttf");
     m_font = title;
+
+    //load the back button 
+    sf::Texture backButtonTexture;
+    if (!backButtonTexture.loadFromFile(PATH + "backButton.png")) {
+        // Error loading image
+    }
+    m_backButtonTexture = backButtonTexture;
+    sf::Sprite backButtonSprite;
+    backButtonSprite.setTexture(m_backButtonTexture);
+    m_backButtonSprite = backButtonSprite;
 }
 
 
@@ -52,6 +69,14 @@ sf::Sprite &ResourcesManager::getBackGround(){
     return m_backgroundSprite; 
 }
 
+sf::Texture ResourcesManager::SuperPacmanText() {
+    return m_superPacmanTexter;
+}
+
+sf::Sprite &ResourcesManager::SuperPacmanSprite() {
+    return m_superPacmanSprite;
+}
+
 sf::Texture ResourcesManager::getTextureMenuStart(int index) {
     return  m_textureMenuStart[index];
 }
@@ -59,5 +84,11 @@ sf::Texture ResourcesManager::getTextureMenuStart(int index) {
 sf::Texture& ResourcesManager::getObject(int index) const {
     return *m_object[index];
 }
+//
+sf::Texture ResourcesManager::backButtonTexture() {
+    return m_backButtonTexture;
+}
 
-sf::Sprite getSpriteMenuStart();
+sf::Sprite& ResourcesManager::backButtonSprite() {
+    return m_backButtonSprite;
+}

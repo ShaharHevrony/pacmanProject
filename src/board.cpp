@@ -20,11 +20,7 @@
 
 //constructor that put in the default member and load the sprites
 Board::Board(Values& val) :m_row(0), m_col(0) ,m_boardWidth(0), m_boardHight(0), m_val(val) {
-    //loop that load the sprite one by one
-    for (int index = 0; index < 10; index++) {
-        m_texture[index].loadFromFile(PATH + imagNames[index]);
-    }
-
+    //load the level from a file is exist
     if (std::filesystem::exists("Board.txt")) {
         std::ifstream m_boardFile;
         m_boardFile.open("Board.txt");
@@ -37,7 +33,7 @@ Board::Board(Values& val) :m_row(0), m_col(0) ,m_boardWidth(0), m_boardHight(0),
         m_boardFile >> m_row >> m_col;
         m_boardFile.get();
 
-
+        //load from the file to the str
         for (int row = 0; row < m_row; row++) {
             std::string tempStr;
             std::getline(m_boardFile, tempStr);
@@ -49,7 +45,6 @@ Board::Board(Values& val) :m_row(0), m_col(0) ,m_boardWidth(0), m_boardHight(0),
         }
         m_boardFile.get(); //skip the \n
         createBoard();
-        //LoadFile(m_boardFile);
         m_boardFile.close();
     }
     else {

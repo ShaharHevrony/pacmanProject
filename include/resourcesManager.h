@@ -17,6 +17,10 @@ public:
 	sf::Texture SuperPacmanText();
 
 	sf::Sprite& SuperPacmanSprite();
+	
+	sf::Texture backButtonTexture();
+
+	sf::Sprite& backButtonSprite();
 
 	sf::Texture getTextureBack();
 
@@ -29,6 +33,10 @@ private:
     ResourcesManager();
 
 	sf::Font m_font;
+
+	sf::Texture m_backButtonTexture;
+
+	sf::Sprite m_backButtonSprite;
 
 	sf::Sprite m_backBottunSprite;
 

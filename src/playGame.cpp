@@ -15,7 +15,6 @@
 
 PlayGame::PlayGame(sf::RenderWindow& window) : m_window(&window), m_level(1), m_bar(60), m_val() {
     m_board = new Board(m_val);
-    m_key   = new Keyboard(window);
 }
 
 void PlayGame::play() {
@@ -30,7 +29,6 @@ void PlayGame::play() {
 }
 
 void PlayGame::playLevel() {
-    //int countDelete = 0;
     //make a board
     LoadFile(m_board->getMap());
     print();
@@ -49,14 +47,8 @@ void PlayGame::playLevel() {
         for (int i = 0; i < m_dynamicObj.size(); i++) {
             m_dynamicObj[i]->move(time, m_dynamicObj[0]->getSprite().getPosition());
         }
-        //deal with collision
+        //deal with collision and eares
         dealWithCollision();
-
-         //m_staticObj.erase(remove(m_staticObj.begin(),m_staticObj.end(), m_staticObj[j]));
-         //m_staticObj.erase(m_staticObj.begin() + j);
-        //std::remove(m_staticObj.begin(),m_staticObj.end(), m_staticObj[j]);
-        //std::erase_if(m_staticObj, [](const auto& object){return object->getIsDelete();});
-
         print();
     }
 }
@@ -101,6 +93,7 @@ void PlayGame::dealWithCollision() {
                 m_val.setNumOfCookie(DEC);
                 m_val.setScore(2);
             }
+            //if the pacman colision with a gift
             else if (myStatic->getDelete() && myStatic->getType() == '$' && myDynamic->getType() == 'a') {
                 m_val.setScore(5);
             }
@@ -115,22 +108,21 @@ void PlayGame::gameOver() {
     //FIXME;
 }
 
+//print the board game 
 void PlayGame::print() {
     m_window->clear();
+    //back round print 
     sf::Sprite backgroundSprite;
     backgroundSprite = ResourcesManager::inctance().getBackGround();
     m_window->draw(backgroundSprite);
-    
-    sf::Texture m_backButtonTexture;
-    if (!m_backButtonTexture.loadFromFile(PATH + "backButton.png")) {
-        // Error loading image
-    }
 
-    sf::Sprite backButtonSprite;
-    backButtonSprite.setTexture(m_backButtonTexture);
-    backButtonSprite.setPosition(1670, 770);
-    backButtonSprite.setScale(0.1, 0.1);
+    sf::Sprite m_backButtonSprite;
+    m_backButtonSprite = ResourcesManager::inctance().backButtonSprite();
+    m_backButtonSprite.setPosition(1670, 770);
+    m_backButtonSprite.setScale(0.1, 0.1);
+    m_window->draw(backgroundSprite);
 
+    //print the board without the objects
     for (int i = 0; i < m_board->getRow(); i++) {
         for (int j = 0; j < m_board->getCol(); j++) {
             m_window->draw(m_board->getRectangle(i, j));
@@ -139,7 +131,7 @@ void PlayGame::print() {
 
     float tileSize = m_board->getTile();
     tileSize /= TILE_SIZE;
-    //draw the sprite
+    //draw the sprite on the board 
     for (int row = 0; row < m_board->getRow(); row++) {
         for (int col = 0; col < m_board->getCol(); col++) {
             Object& temp = m_board->getTileObj(row, col);
@@ -153,20 +145,21 @@ void PlayGame::print() {
         m_staticObj[i]->draw(*m_window);
     }
 
-    sf::Text text("play", ResourcesManager::inctance().getFont(), MENU_TEXT_SIZE-20);
-    text.setFillColor(sf::Color(500, 160, 28));
-    text.setOutlineThickness(2);
-    text.setOutlineColor(sf::Color(600, 100, 28));
-    text.setPosition(1000, 20);
-    m_window->draw(text);
+    //sf::Text text("play", ResourcesManager::inctance().getFont(), MENU_TEXT_SIZE-20);
+    //text.setFillColor(sf::Color(500, 160, 28));
+    //text.setOutlineThickness(2);
+    //text.setOutlineColor(sf::Color(600, 100, 28));
+    //text.setPosition(1000, 20);
+    //m_window->draw(text);
     m_bar.draw(*m_window, m_val);
-    m_window->draw(backButtonSprite);
+    m_window->draw(m_backButtonSprite);
     m_window->display();
 }
 
+//load the object and put them in two diffrent uniq ptr arrays 
 void PlayGame::LoadFile(std::vector<std::string> ) {
     float tileSize = m_board->getTile()*0.95;
-    //tileSize /= TILE_SIZE;
+    //map hold the string with the object from the file 
     std::vector<std::string> map = m_board->getMap();
     ResourcesManager reso = ResourcesManager::inctance();
     for (int row = 0; row < m_board->getRow(); row++) {
