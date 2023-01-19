@@ -10,6 +10,7 @@ Bar::Bar(int startTime):m_startTime(startTime) {
 
 void Bar::draw(sf::RenderWindow& window, const Values& val){
 
+    std::stringstream str[3];
     //Create the timer
     std::stringstream remainTime;
     float elapse = m_startTime - round(m_timer.getElapsedTime().asSeconds());
@@ -38,7 +39,7 @@ void Bar::draw(sf::RenderWindow& window, const Values& val){
         m_bar[bar].setFillColor(sf::Color(500, 160, 28));
         m_bar[bar].setOutlineThickness(2);
         m_bar[bar].setOutlineColor(sf::Color(600, 100, 28));
-        m_bar[bar].setPosition(1200, 150 + 200 * bar);
+        m_bar[bar].setPosition(2000, 150 + 200 * bar);
         window.draw(m_bar[bar]);
     }
 }

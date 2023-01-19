@@ -11,7 +11,9 @@
 #include "door.h"
 
 Pacman::Pacman(sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type)
-        :DynamicObject(texture, position, tileSize, type) {}
+        :DynamicObject(texture, position, tileSize, type) {
+    m_sprite.setOrigin(sf::Vector2f (m_sprite.getTexture()->getSize()/2u));
+}
 
 void Pacman::move(float time, sf::Vector2f pacLocation) {
     setLastPosition(getPosition());
@@ -20,22 +22,22 @@ void Pacman::move(float time, sf::Vector2f pacLocation) {
 	sf::Sprite pac;
 	int angle = 0;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		//m_sprite.setRotation(-90);
+		m_sprite.setRotation(-90);
 		direction.x = 0;
 		direction.y = -1;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		//m_sprite.setRotation(90);
+		m_sprite.setRotation(90);
 		direction.x = 0;
 		direction.y = +1;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		//m_sprite.setRotation(-180);
+		m_sprite.setRotation(-180);
 		direction.x =-1;
 		direction.y = 0;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		//m_sprite.setRotation(0);
+		m_sprite.setRotation(0);
 		direction.x = +1;
 		direction.y = 0;
 	}

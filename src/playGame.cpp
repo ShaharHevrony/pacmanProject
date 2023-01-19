@@ -51,12 +51,12 @@ void PlayGame::playLevel() {
         }
         //deal with collision
         dealWithCollision();
-       
+
          //m_staticObj.erase(remove(m_staticObj.begin(),m_staticObj.end(), m_staticObj[j]));
          //m_staticObj.erase(m_staticObj.begin() + j);
         //std::remove(m_staticObj.begin(),m_staticObj.end(), m_staticObj[j]);
         //std::erase_if(m_staticObj, [](const auto& object){return object->getIsDelete();});
-           
+
         print();
     }
 }
@@ -69,17 +69,17 @@ void PlayGame::dealWithCollision() {
             myDynamic->handleCollision(*otherDynamic);
             if (myDynamic->getCollided() && myDynamic->getReastarDemon()) {
                 //return all demond to the original position
-                for (auto& resetDemon : m_dynamicObj) { 
+                for (auto& resetDemon : m_dynamicObj) {
                     if (resetDemon->getType() == '&') {
                         resetDemon->setPosition(resetDemon->getOriginPosition());
                     }
                 }
-                //return the boolian object to false 
+                //return the boolian object to false
                 myDynamic->setRestarDemond();
-                //decrice life in 1 
+                //decrice life in 1
                 m_val.setLife(DEC);
             }
-            //return the boolian object to false 
+            //return the boolian object to false
             myDynamic->setCollided();
         }
         //loop that go on the static object check with dynamic
@@ -96,7 +96,7 @@ void PlayGame::dealWithCollision() {
                     }
                 }
             }
-            //if the pacman collosion with a cookie 
+            //if the pacman collision with a cookie
             else if (myStatic->getDelete() && myStatic->getType() == '*' && myDynamic->getType() == 'a') {
                 m_val.setNumOfCookie(DEC);
                 m_val.setScore(2);
@@ -106,18 +106,13 @@ void PlayGame::dealWithCollision() {
             }
         }
     }
-    //earase the static object we need 
+    //erase the static object we need
     std::erase_if(m_staticObj, [](const auto& item) {return item->getDelete(); });
 }
 
 
 void PlayGame::gameOver() {
     //FIXME;
-}
-
-bool PlayGame::validKey(int key) const {
-    return (key == sf::Keyboard::Space || key == sf::Keyboard::Up || key == sf::Keyboard::Down
-            || key == sf::Keyboard::Left || key == sf::Keyboard::Right);
 }
 
 void PlayGame::print() {
@@ -224,4 +219,3 @@ void PlayGame::LoadFile(std::vector<std::string> ) {
         }
     }
 }
-
