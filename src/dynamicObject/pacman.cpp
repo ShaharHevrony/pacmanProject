@@ -10,8 +10,8 @@
 #include "gift.h"
 #include "door.h"
 
-Pacman::Pacman(sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type)
-        :DynamicObject(texture, position, tileSize, type) {
+Pacman::Pacman(sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type, Values& values)
+        :DynamicObject(texture, position, tileSize, type, values) {
     m_sprite.setOrigin(sf::Vector2f (m_sprite.getTexture()->getSize()/2u));
 }
 
@@ -52,42 +52,70 @@ void Pacman::handleCollision(Object& object) {
     }
 }
 
-void Pacman::handleCollision(Pacman& pacman) {
-    //printf("pac with pac!!!!\n");
-}
+void Pacman::handleCollision(Pacman& pacman) {}
 
 void Pacman::handleCollision(Demon& demon) {
     if(demon.getSprite().getGlobalBounds().intersects(getSprite().getGlobalBounds())) {
         setPosition(getOriginPosition());
-		setRestarDemond();
-		//demon.setPosition(demon.getOriginPosition());
+        setRestarDemon();
         setCollided();
+        m_values.setLife(DEC);
     }
 }
 
-void Pacman::handleCollision(Cookie& cookie) {}
-
-void Pacman::handleCollision(Door& door) {
-    if(m_sprite.getGlobalBounds().intersects(door.getSprite().getGlobalBounds()) && !m_isSuper)
-        m_sprite.setPosition(getLastPosition());
+void Pacman::handleCollision(Cookie& cookie) {
+    if (cookie.getSprite().getGlobalBounds().intersects(getSprite().getGlobalBounds())) {
+        m_values.setScore(2);
+        m_values.setNumOfCookie(DEC);
+        cookie.setDelete();
+    }
 }
 
-void Pacman::handleCollision(Gift& gift) {}
+void Pacman::handleCollision(Door& door) {
+    if(door.getSprite().getGlobalBounds().intersects(getSprite().getGlobalBounds())) {
+        m_sprite.setPosition(getLastPosition());
+    }
+}
 
-void Pacman::handleCollision(Key& key) {}
+void Pacman::handleCollision(Gift& gift) {
+    if (gift.getSprite().getGlobalBounds().intersects(getSprite().getGlobalBounds())) {
+        m_values.setScore(5);
+        gift.setDelete();
+        int chooseGift = m_values.getNumOfGift() % 4;
+        switch (chooseGift) {
+            case 0:{
+                //giftFreeze
+                gift.setFreeze();
+                break;
+            }
+            case 1:{
+                //giftLife
+                m_values.setLife(INC);
+                break;
+            }
+            case 2:{
+                //giftSuper
+                m_values.setLife(INC);
+                break;
+            }
+            default:{
+                //giftTime
+                m_values.setTime(15);
+                break;
+            }
+        }
+        m_values.setNumOfGift(DEC);
+    }
+}
+
+void Pacman::handleCollision(Key& key) {
+    if (key.getSprite().getGlobalBounds().intersects(getSprite().getGlobalBounds())) {
+        m_values.setScore(7);
+        m_values.setNumOfKey(DEC);
+        key.setDelete();
+    }
+}
 
 void Pacman::handleCollision(Wall &wall) {
     DynamicObject::handleCollision(wall);
-}
-
-bool Pacman::checkIfSuper() const {
-    return m_isSuper;
-}
-
-void Pacman::makeSuper() {
-    m_isSuper = true;
-}
-
-void Pacman::makeRegular() {
-    m_isSuper = false;
 }

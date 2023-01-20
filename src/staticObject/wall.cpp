@@ -1,7 +1,8 @@
 
 #include "staticObject/wall.h"
 
-Wall::Wall(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type) : StaticObject(texture, position, tileSize, type) {}
+Wall::Wall(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type, Values& values)
+        : StaticObject(texture, position, tileSize, type, values) {}
 
 void Wall::handleCollision(Object& object) {
     object.handleCollision(*this);

@@ -4,8 +4,8 @@
 #include "dynamicObject.h"
 #include "wall.h"
 
-DynamicObject::DynamicObject(sf::Texture* texture,const sf::Vector2f& position, float tileSize,char type)
-            :Object(texture, position, tileSize, type), m_lastPosition(position), m_originPosition(position){}
+DynamicObject::DynamicObject(sf::Texture* texture,const sf::Vector2f& position, float tileSize,char type, Values& values)
+            :Object(texture, position, tileSize, type, values), m_lastPosition(position), m_originPosition(position){}
 
 void DynamicObject::moving(sf::Vector2f direction, float time , sf::Vector2f pacLocation) {
     m_sprite.move(direction * time * 120.f);
@@ -60,6 +60,6 @@ bool DynamicObject::getReastarDemon() const {
     return m_restarDemon;
 }
 
-void DynamicObject::setRestarDemond() {
+void DynamicObject::setRestarDemon() {
     m_restarDemon = !m_restarDemon;
 }

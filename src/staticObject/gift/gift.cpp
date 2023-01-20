@@ -5,16 +5,14 @@
 #include "staticObject/gift/gift.h"
 
 
-Gift::Gift(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type): StaticObject(texture, position, tileSize, type) {}
+Gift::Gift(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type, Values& values)
+            : StaticObject(texture, position, tileSize, type, values) {}
 
 void Gift::handleCollision(Object& object) {
     object.handleCollision(*this);
 }
 
 void Gift::handleCollision(Pacman& pacman) {
-    if (m_sprite.getGlobalBounds().intersects(pacman.getSprite().getGlobalBounds())) {
-        setDelete();
-    }
     pacman.handleCollision(*this);
 }
 

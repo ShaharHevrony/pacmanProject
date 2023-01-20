@@ -4,16 +4,14 @@
 
 #include "staticObject/key.h"
 
-Key::Key(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type): StaticObject(texture, position, tileSize, type) {}
+Key::Key(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type, Values& values)
+        : StaticObject(texture, position, tileSize, type, values) {}
 
 void Key::handleCollision(Object& object) {
     object.handleCollision(*this);
 }
 
 void Key::handleCollision(Pacman& pacman) {
-    if (m_sprite.getGlobalBounds().intersects(pacman.getSprite().getGlobalBounds())) {
-        setDelete();
-    }
     pacman.handleCollision(*this);
 }
 

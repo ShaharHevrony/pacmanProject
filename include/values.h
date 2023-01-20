@@ -16,11 +16,12 @@ enum Symbols {
 };
 
 enum Buttons{
-    playBotton,
-    helpBotton,
-    newMapBotton,
-    exitBotton,
+    playButton,
+    helpButton,
+    newMapButton,
+    exitButton,
 };
+
 
 struct BoardLimits {
     sf::Vector2f topLeft;
@@ -28,8 +29,8 @@ struct BoardLimits {
     float tileSize;
 };
 
-//const std::string PATH = "../../../";
-const std::string PATH = "";
+const std::string PATH = "../../../";
+//const std::string PATH = "";
 const std::string m_names[4] = {"PlayButton.png", "HelpButton.png", "CreateButton.png",
                                 "ExitButton.png"};
 const std::string imagNames[10] = {"Pacman.png", "Demon.png", "Door.png", "Key.png",
@@ -38,19 +39,16 @@ const std::string imagNames[10] = {"Pacman.png", "Demon.png", "Door.png", "Key.p
 const std::string gameBar[3] = {"Time: ", "Points: ", "Life: "};
 
 const int WINDOW_HEIGHT = 1068;
-const int WINDOW_WIDTH  = 1900;
-const int BACHGRAUND_SCALE = WINDOW_HEIGHT/(2*508); //FIXME
+const int WINDOW_WIDTH  = 1898;
 
 const int MENU_CENTER    = WINDOW_WIDTH / 2;
-const int MENU_START_ROW = WINDOW_HEIGHT / 2.2;
-const float MENU_SCALE   = 0.0003* WINDOW_WIDTH;
-const int MENU_GAP       = MENU_SCALE * 200;
-const int MENU_TITLE     = 0.3;
-const int MENU_PIC_WIDTH = 508;
-const int MENU_PIC_HEIGHT = 161;
+const int MENU_START_ROW = WINDOW_HEIGHT / 2;
+const int MENU_GAP       = 150;
+const int MENU_PIC_WIDTH = 420;
+const int MENU_PIC_HEIGHT = 133;
 const int MENU_TEXT_SIZE = WINDOW_HEIGHT / 8.5;
-const int MENU_ROW = WINDOW_WIDTH / 4;
-const int MENU_COL = WINDOW_HEIGHT / 4.7;
+const int MENU_ROW = 600;
+const int MENU_COL = 308;
 
 const int BOARD_WIDTH = WINDOW_HEIGHT;
 const int BOARD_HEIGHT = 7 * WINDOW_HEIGHT / 8;
@@ -92,6 +90,7 @@ public:
     int getNumOfDoor() const {return m_numOfDoor;}
     int getNumOfKey() const {return m_numOfKey;}
     int getNumOfGift() const {return m_numOfGift;}
+    int getTime() const {return m_time;}
 
     void setLife(int life) { m_life += life;}
     void setScore(int add) {m_score+= add;}
@@ -101,6 +100,7 @@ public:
     void setNumOfDoor(int num) {m_numOfDoor+= num;}
     void setNumOfKey(int num) {m_numOfKey+= num;}
     void setNumOfGift(int num){ m_numOfGift+= num;}
+    void setTime(int time) {m_time+= time;}
 
 private:
     int m_life        = 3;
@@ -111,4 +111,5 @@ private:
     int m_numOfKey    = 0;
     int m_numOfPacman = 0;
     int m_numOfGift   = 0;
+    int m_time        = 60;
 };

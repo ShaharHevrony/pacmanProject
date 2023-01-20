@@ -140,39 +140,39 @@ void Board::handleObj(int type, sf::Event::MouseButtonEvent& currMove, sf::Rende
                 case pacman: {
                     //if there is no other pacman on the board
                     if (m_val.getNumOfPacman() == 0) {
-                        m_objects[row][col] = std::make_unique<Pacman>(&reso.getObject(pacman), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
+                        m_objects[row][col] = std::make_unique<Pacman>(&reso.getObject(pacman), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type), m_val);
                         m_val.setNumOfPacman(INC);
                     }
                     break;
                 }
                 case demon: {
                     //put the object on the rectangle
-                    m_objects[row][col] = std::make_unique<Demon>(&reso.getObject(demon), m_matrix[row][col].getPosition(),m_tileSize, indexToChar(type));
+                    m_objects[row][col] = std::make_unique<Demon>(&reso.getObject(demon), m_matrix[row][col].getPosition(),m_tileSize, indexToChar(type), m_val);
                     m_val.setNumOfDemon(INC);
                     break;
                 }
                 case door: {
                     //put the object on the rectangle
-                    m_objects[row][col] = std::make_unique<Door>(&reso.getObject(door), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
+                    m_objects[row][col] = std::make_unique<Door>(&reso.getObject(door), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type), m_val);
                     m_val.setNumOfDoor(INC);
                     break;
                 }
                 case key: {
                     //put the object on the rectangle
-                    m_objects[row][col] = std::make_unique<Key>(&reso.getObject(key), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
+                    m_objects[row][col] = std::make_unique<Key>(&reso.getObject(key), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type), m_val);
                     m_val.setNumOfKey(INC);
                     break;
                 }
                 case wall:
-                    m_objects[row][col] = std::make_unique<Wall>(&reso.getObject(wall), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
+                    m_objects[row][col] = std::make_unique<Wall>(&reso.getObject(wall), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type), m_val);
                     break;
                 case cookie:
-                    m_objects[row][col] = std::make_unique<Cookie>(&reso.getObject(cookie), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
+                    m_objects[row][col] = std::make_unique<Cookie>(&reso.getObject(cookie), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type), m_val);
                     m_val.setNumOfCookie(INC);
                     break;
                 case gift: {
                     //put the object on the rectangle
-                    m_objects[row][col] = std::make_unique<Gift>(&reso.getObject(gift), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type));
+                    m_objects[row][col] = std::make_unique<Gift>(&reso.getObject(gift), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type), m_val);
                     m_val.setNumOfGift(INC);
                     break;
                 }

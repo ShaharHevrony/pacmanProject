@@ -39,10 +39,9 @@ void Controller::create() {
     m_window.draw(m_backgroundSprite);
 
     sf::Texture titleTexture;
-    titleTexture = ResourcesManager::inctance().SuperPacmanText();
     sf::Sprite titleSprite;
     titleSprite = ResourcesManager::inctance().SuperPacmanSprite();
-    titleSprite.setScale(0.5, 0.5);
+    //titleSprite.setScale(0.5, 0.5);
     titleSprite.setPosition(MENU_ROW-120, MENU_COL-100);
 
     for (int index = 0; index < 4; index++) {
@@ -54,7 +53,7 @@ void Controller::create() {
         sf::Texture* tempText = &m_texture[i];
         sprite.setTexture(*tempText);
         sprite.setPosition(MENU_CENTER, i * MENU_GAP + MENU_START_ROW);
-        sprite.setScale(MENU_SCALE, MENU_SCALE);
+
         sprite.setOrigin(MENU_PIC_WIDTH / 2, MENU_PIC_HEIGHT / 2);
         m_menu.push_back(sprite);
     }
@@ -68,25 +67,25 @@ void Controller::create() {
 
 //function that handel the case in a mouse button
 void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
-    //get the location of the klik
+    //get the location of the click
     auto location = m_window.mapPixelToCoords({ event.x, event.y });
-    //loop that go on the object in the menu and check if the user cklik on one of them
+    //loop that go on the object in the menu and check if the user click on one of them
     for (int index = 0; index < 4; index++) {
         //if the user click on the button
         if (m_menu[index].getGlobalBounds().contains(m_window.mapPixelToCoords({ event.x, event.y }))) {
             switch (index) {
                 //if click on eraser
-            case playBotton:
+            case playButton:
                 m_playGame.play();
                 break;
-            case helpBotton:
+            case helpButton:
                 break;
-            case newMapBotton: {
+            case newMapButton: {
                 CreateLevel createLevel = CreateLevel(m_window);
                 createLevel.run();
                 break;
             }
-            case exitBotton:
+            case exitButton:
                 m_window.close();
                 break;
             default:
@@ -96,11 +95,11 @@ void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
     }
 }
 void Controller::handleMouseMoved(sf::Event::MouseMoveEvent& event) {
-      m_menu[m_tempButton].setScale(MENU_SCALE, MENU_SCALE);
+      m_menu[m_tempButton].setScale(1, 1);
       auto location = m_window.mapPixelToCoords({ event.x, event.y });
     for (int row = 0; row < 4; row++){
         if (m_menu[row].getGlobalBounds().contains(location)) {
-            m_menu[row].setScale(MENU_SCALE * 1.15, MENU_SCALE * 1.15);
+            m_menu[row].setScale(1.15, 1.15);
             m_tempButton = row;
         }
     }

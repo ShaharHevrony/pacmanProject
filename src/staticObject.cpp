@@ -4,7 +4,8 @@
 
 #include "staticObject.h"
 
-StaticObject::StaticObject( sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type) : Object(texture, position, tileSize, type) {}
+StaticObject::StaticObject( sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type, Values& values)
+        : Object(texture, position, tileSize, type, values) {}
 
 sf::Rect<float> StaticObject::getGlobalBounds() const {
     return m_sprite.getGlobalBounds();
@@ -16,4 +17,12 @@ bool StaticObject::getDelete() const {
 
 void StaticObject::setDelete() {
     m_isDelete = !m_isDelete;
+}
+
+bool StaticObject::getFreeze() const {
+    return m_isFreeze;
+}
+
+void StaticObject::setFreeze() {
+    m_isFreeze = !m_isFreeze;
 }

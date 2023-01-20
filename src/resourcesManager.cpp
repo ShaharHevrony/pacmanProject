@@ -21,14 +21,13 @@ ResourcesManager::ResourcesManager() {
     }
     m_backgroundTexture = backgroundTexture;
     m_backgroundSprite.setTexture(m_backgroundTexture);
-    m_backgroundSprite.setScale(BACHGRAUND_SCALE, BACHGRAUND_SCALE);
-    
-    sf::Texture superPacmanTexter;
-    if (!superPacmanTexter.loadFromFile(PATH + "SuperPacman.png")) {
+
+    sf::Texture superPacmanTexture;
+    if (!superPacmanTexture.loadFromFile(PATH + "SuperPacman.png")) {
         // Error loading image
     }
-    m_superPacmanTexter = superPacmanTexter;
-    m_superPacmanSprite.setTexture(m_superPacmanTexter);
+    m_superPacmanTexture = superPacmanTexture;
+    m_superPacmanSprite.setTexture(m_superPacmanTexture);
     
     for(int object = 0; object < NUM_OF_OBJECTS; object++){
         sf::Texture* temp = new sf::Texture;
@@ -70,7 +69,7 @@ sf::Sprite &ResourcesManager::getBackGround(){
 }
 
 sf::Texture ResourcesManager::SuperPacmanText() {
-    return m_superPacmanTexter;
+    return m_superPacmanTexture;
 }
 
 sf::Sprite &ResourcesManager::SuperPacmanSprite() {

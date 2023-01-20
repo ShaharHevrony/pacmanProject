@@ -6,7 +6,7 @@
 
 class Door :public StaticObject{
 public:
-    Door(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type);
+    Door(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type, Values& values);
 
     virtual void handleCollision(Object& object);
 

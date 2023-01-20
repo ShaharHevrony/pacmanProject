@@ -6,7 +6,8 @@
 #include "pacman.h"
 #include "door.h"
 
-Demon::Demon(sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type) : DynamicObject(texture, position, tileSize, type), m_lastDirection(sf::Vector2f(1,0)) {}
+Demon::Demon(sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type, Values& values)
+            : DynamicObject(texture, position, tileSize, type, values), m_lastDirection(sf::Vector2f(1,0)) {}
 
 void Demon::move(float time, sf::Vector2f pacLocation) {
     sf::Vector2f direction;
@@ -49,6 +50,11 @@ void Demon::move(float time, sf::Vector2f pacLocation) {
         random = rand() % 4;
     }
     setLastPosition(m_sprite.getPosition());
+
+    if(m_isFreeze){
+        direction = sf::Vector2f (0,0);
+    }
+
     moving(direction, time, pacLocation);
     setLastDirection(direction);
 }
@@ -77,4 +83,12 @@ sf::Vector2f Demon::getLastDirection() const {
 
 void Demon::setLastDirection(sf::Vector2f direction) {
     m_lastDirection = direction;
+}
+
+bool Demon::getFreeze() const {
+    return m_isFreeze;
+}
+
+void Demon::setFreeze() {
+    m_isFreeze = !m_isFreeze;
 }

@@ -5,7 +5,7 @@
 
 class Demon: public DynamicObject{
 public:
-    Demon(sf::Texture* texture, const sf::Vector2f& position, float tileSize ,char type);
+    Demon(sf::Texture* texture, const sf::Vector2f& position, float tileSize ,char type, Values& values);
 
     virtual void move(float time, sf::Vector2f pacLocation);
 
@@ -29,7 +29,12 @@ public:
 
     void setLastDirection(sf::Vector2f direction);
 
-private:
+    bool getFreeze() const;
 
+    void setFreeze();
+
+private:
     sf::Vector2f m_lastDirection;
+
+    bool m_isFreeze = false;
 };

@@ -2,9 +2,10 @@
 #include <SFML/Graphics.hpp>
 #include "dynamicObject.h"
 #include "values.h"
+
 class Pacman: public DynamicObject{
 public:
-    Pacman(sf::Texture* texture, const sf::Vector2f&, float tileSize, char type);
+    Pacman(sf::Texture* texture, const sf::Vector2f&, float tileSize, char type, Values& values);
 
     virtual void move(float time, sf::Vector2f pacLocation);
 
@@ -31,6 +32,6 @@ public:
     void makeRegular();
 
 private:
-    bool m_isSuper = true;
+    bool m_isSuper = false;
 };
 

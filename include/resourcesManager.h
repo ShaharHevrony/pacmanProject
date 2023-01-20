@@ -38,15 +38,11 @@ private:
 
 	sf::Sprite m_backButtonSprite;
 
-	sf::Sprite m_backBottunSprite;
-
-	sf::Texture m_backBottunTexture;
-
 	sf::Sprite m_backgroundSprite;
 
 	sf::Texture m_backgroundTexture;
 
-	sf::Texture m_superPacmanTexter;
+	sf::Texture m_superPacmanTexture;
 
 	sf::Sprite m_superPacmanSprite;
 

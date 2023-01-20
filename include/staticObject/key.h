@@ -7,7 +7,7 @@
 
 class Key :public StaticObject{
 public:
-    Key(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type);
+    Key(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type, Values& values);
 
     virtual void handleCollision(Object& object);
 

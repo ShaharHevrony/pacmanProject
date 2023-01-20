@@ -3,7 +3,8 @@
 //
 
 #include "staticObject/door.h"
-Door::Door(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type): StaticObject(texture, position, tileSize, type){}
+Door::Door(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type, Values& values)
+        : StaticObject(texture, position, tileSize, type, values){}
 
 void Door::handleCollision(Object& object) {
     object.handleCollision(*this);

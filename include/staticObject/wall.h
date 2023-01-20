@@ -6,7 +6,7 @@
 
 class Wall :public StaticObject{
 public:
-    Wall(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type);
+    Wall(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type, Values& values);
 
     virtual void handleCollision(Object& object);
 

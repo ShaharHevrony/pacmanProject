@@ -18,25 +18,14 @@ public:
 
     void gameOver();
 
-    bool validKey(int key) const;
-
     void LoadFile(std::vector<std::string>);
 
-    void deleteFirstDoor();
-
-    int getLife() const;
-
-    void setLife(int life);
-
-    void dealWithCollision();
-
+    void dealWithCollision(bool& isFreeze);
 
 private:
     int m_level;
 
     BoardLimits m_boardLimits;
-
-    Cookie *m_cookie;
 
     std::vector<std::unique_ptr<StaticObject>> m_staticObj;
 
@@ -47,6 +36,8 @@ private:
     sf::RenderWindow* m_window;
 
     Bar m_bar;
+
+    sf::Clock m_giftTime;
 
     sf::Vector2f m_pacLocation;
 

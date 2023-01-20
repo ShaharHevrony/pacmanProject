@@ -13,7 +13,7 @@
 #include <staticObject/wall.h>
 #include <staticObject/gift/gift.h>
 
-PlayGame::PlayGame(sf::RenderWindow& window) : m_window(&window), m_level(1), m_bar(60), m_val() {
+PlayGame::PlayGame(sf::RenderWindow& window) : m_window(&window), m_level(1), m_bar(m_val), m_val() {
     m_board = new Board(m_val);
 }
 
@@ -33,7 +33,8 @@ void PlayGame::playLevel() {
     LoadFile(m_board->getMap());
     print();
     bool endLevel = false;
-    sf::Clock timer;
+    bool isFreeze = false;
+    sf::Clock playTime;
     while (m_window->isOpen()) {
         if (auto event = sf::Event{}; m_window->pollEvent(event)) {
 
@@ -42,61 +43,60 @@ void PlayGame::playLevel() {
                 break;
             }
         }
-        float time = timer.restart().asSeconds();
+        float time = playTime.restart().asSeconds();
         //move dynamic object
         for (int i = 0; i < m_dynamicObj.size(); i++) {
             m_dynamicObj[i]->move(time, m_dynamicObj[0]->getSprite().getPosition());
+            if(isFreeze)
+                break;
         }
-        //deal with collision and eares
-        dealWithCollision();
+        //deal with collision and erase
+        dealWithCollision(isFreeze);
+        if(isFreeze && m_giftTime.getElapsedTime().asSeconds() > 5){
+            isFreeze = false;
+        }
         print();
     }
 }
 
-void PlayGame::dealWithCollision() {
+void PlayGame::dealWithCollision(bool& isFreeze) {
     //loop that go on dynamic object
     for (auto& myDynamic : m_dynamicObj) {
         for (auto& otherDynamic : m_dynamicObj) {
             //check dynamic with dynamic
             myDynamic->handleCollision(*otherDynamic);
-            if (myDynamic->getCollided() && myDynamic->getReastarDemon()) {
-                //return all demond to the original position
+            if (myDynamic->getCollided() && myDynamic->getReastarDemon()){
+                //return all demon to the original position
                 for (auto& resetDemon : m_dynamicObj) {
                     if (resetDemon->getType() == '&') {
                         resetDemon->setPosition(resetDemon->getOriginPosition());
                     }
                 }
-                //return the boolian object to false
-                myDynamic->setRestarDemond();
-                //decrice life in 1
-                m_val.setLife(DEC);
+                //return the boolean object to false
+                myDynamic->setRestarDemon();
             }
-            //return the boolian object to false
+            //return the boolean object to false
             myDynamic->setCollided();
         }
         //loop that go on the static object check with dynamic
         for (auto& myStatic : m_staticObj) {
             myDynamic->handleCollision(*myStatic);
-            if (myStatic->getDelete() && myStatic->getType() == '%' && myDynamic->getType() == 'a') {
+            if (myStatic->getDelete() && myStatic->getType() == '%') {
                 for (auto& objStatic : m_staticObj) { //FIXME: way to many loops.
                     if (objStatic->getType() == 'D') {
                         objStatic->setDelete();
                         m_val.setNumOfDoor(DEC);
-                        m_val.setNumOfKey(DEC);
-                        m_val.setScore(7);
                         break;
                     }
                 }
             }
-            //if the pacman collision with a cookie
-            else if (myStatic->getDelete() && myStatic->getType() == '*' && myDynamic->getType() == 'a') {
-                m_val.setNumOfCookie(DEC);
-                m_val.setScore(2);
+            if(myStatic->getType() == '$' && myStatic->getFreeze()){
+                m_giftTime.restart();
+                isFreeze = true;
             }
-            //if the pacman colision with a gift
-            else if (myStatic->getDelete() && myStatic->getType() == '$' && myDynamic->getType() == 'a') {
-                m_val.setScore(5);
-            }
+        }
+        if(isFreeze){
+            break;
         }
     }
     //erase the static object we need
@@ -144,13 +144,6 @@ void PlayGame::print() {
     for (int i = 0; i < m_staticObj.size(); i++) {
         m_staticObj[i]->draw(*m_window);
     }
-
-    //sf::Text text("play", ResourcesManager::inctance().getFont(), MENU_TEXT_SIZE-20);
-    //text.setFillColor(sf::Color(500, 160, 28));
-    //text.setOutlineThickness(2);
-    //text.setOutlineColor(sf::Color(600, 100, 28));
-    //text.setPosition(1000, 20);
-    //m_window->draw(text);
     m_bar.draw(*m_window, m_val);
     m_window->draw(m_backButtonSprite);
     m_window->display();
@@ -170,7 +163,7 @@ void PlayGame::LoadFile(std::vector<std::string> ) {
 
             switch (type) {
             case PACMAN_S: {
-                m_dynamicObj.push_back(std::make_unique<Pacman>(&reso.getObject(pacman),loc.getPosition(), tileSize*0.75,type));
+                m_dynamicObj.push_back(std::make_unique<Pacman>(&reso.getObject(pacman),loc.getPosition(), tileSize*0.75,type, m_val));
                 if (m_dynamicObj.size() != 0) {
                     m_dynamicObj[0].swap((m_dynamicObj[m_dynamicObj.size()-1]));
                     m_pacLocation = loc.getPosition();
@@ -179,31 +172,32 @@ void PlayGame::LoadFile(std::vector<std::string> ) {
                 break;
             }
             case DEMON_S: {
-                m_dynamicObj.push_back(std::make_unique<Demon>(&reso.getObject(demon),loc.getPosition(), tileSize, type));
+                m_dynamicObj.push_back(std::make_unique<Demon>(&reso.getObject(demon),loc.getPosition(), tileSize, type, m_val));
                 m_val.setNumOfDemon(INC);
                 break;
             }
             case DOOR_S: {
-                m_staticObj.push_back(std::make_unique<Door>(&reso.getObject(door), loc.getPosition(), tileSize, type));
+                m_staticObj.push_back(std::make_unique<Door>(&reso.getObject(door), loc.getPosition(), tileSize, type, m_val));
                 m_val.setNumOfDoor(INC);
                 break;
             }
             case KEY_S: {
-                m_staticObj.push_back(std::make_unique<Key>(&reso.getObject(key), loc.getPosition(), tileSize, type));
+                m_staticObj.push_back(std::make_unique<Key>(&reso.getObject(key), loc.getPosition(), tileSize, type, m_val));
                 m_val.setNumOfKey(INC);
                 break;
             }
             case WALL_S: {
-                m_staticObj.push_back(std::make_unique<Wall>(&reso.getObject(wall), loc.getPosition(), tileSize, type));
+                m_staticObj.push_back(std::make_unique<Wall>(&reso.getObject(wall), loc.getPosition(), tileSize, type, m_val));
                 break;
             }
             case COOKIE_S: {
-                m_staticObj.push_back(std::make_unique<Cookie>(&reso.getObject(cookie), loc.getPosition(), tileSize, type));
+                m_staticObj.push_back(std::make_unique<Cookie>(&reso.getObject(cookie), loc.getPosition(), tileSize, type, m_val));
                 m_val.setNumOfCookie(INC);
                 break;
             }
             case GIFT_S: {
-                m_staticObj.push_back( std::make_unique<Gift>(&reso.getObject(gift), loc.getPosition(), tileSize, type));
+                m_staticObj.push_back( std::make_unique<Gift>(&reso.getObject(gift), loc.getPosition(), tileSize, type, m_val));
+                m_val.setNumOfGift(INC);
                 break;
             }
             default:

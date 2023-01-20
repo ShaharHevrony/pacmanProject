@@ -4,23 +4,23 @@
 
 class DynamicObject: public Object {
 public:
-    DynamicObject(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type);
+    DynamicObject(sf::Texture* texture, const sf::Vector2f& position, float tileSize,char type, Values& values);
 
     virtual void move(float time, sf::Vector2f pacLocation) = 0;
 
-    virtual void handleCollision(Object& object) = 0;
+    virtual void handleCollision(Object& object)                   = 0;
 
-    virtual void handleCollision(Pacman& pacman) = 0;
+    virtual void handleCollision(Pacman& pacman)                   = 0;
 
-    virtual void handleCollision(Demon& demon)   = 0;
+    virtual void handleCollision(Demon& demon)                     = 0;
 
-    virtual void handleCollision(Cookie& cookie) = 0;
+    virtual void handleCollision(Cookie& cookie)                   = 0;
 
-    virtual void handleCollision(Door& door)     = 0;
+    virtual void handleCollision(Door& door)                       = 0;
 
-    virtual void handleCollision(Gift& gift)     = 0;
+    virtual void handleCollision(Gift& gift)                       = 0;
 
-    virtual void handleCollision(Key& key)       = 0;
+    virtual void handleCollision(Key& key)                         = 0;
 
     virtual void handleCollision(Wall& wall);
 
@@ -41,7 +41,7 @@ public:
 
     bool getReastarDemon() const;
 
-    void setRestarDemond();
+    void setRestarDemon();
 
 protected:
     sf::Vector2f getPosition() const;

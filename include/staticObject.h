@@ -3,7 +3,9 @@
 
 class StaticObject: public Object{
 public:
-    StaticObject(sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type);
+    StaticObject(sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type, Values& values);
+
+    virtual ~StaticObject() = default;
 
     virtual void handleCollision(Object& object) = 0;
 
@@ -25,10 +27,16 @@ public:
 
     void setDelete();
 
+    bool getFreeze() const;
+
+    void setFreeze();
+
 protected:
     sf::Rect<float> getGlobalBounds() const;
 
-private:
-        bool m_isDelete = false;
 
+private:
+    bool m_isDelete = false;
+
+    bool m_isFreeze = false;
 };
