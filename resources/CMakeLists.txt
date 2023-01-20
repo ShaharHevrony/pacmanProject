@@ -15,3 +15,13 @@ configure_file ("HelpButton.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("menuBackground.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("backButton.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("HappyMonkey.ttf" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("levelSound.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("pacmanDeath.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("cookieEat.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("bird.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("bottunTuch.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("helpWall.png" ${CMAKE_BINARY_DIR} COPYONLY)
+
+
+
+

@@ -1,5 +1,6 @@
 #pragma once
 #include "playGame.h"
+#include "help.h"
 #include "resourcesManager.h"
 #include "values.h"
 #include "createLevel.h"
@@ -37,6 +38,8 @@ private:
     sf::Texture m_backgroundTexture;
 
     sf::Sprite m_backgroundSprite;
+
+    sf::Sound m_soundTuch;
 
     int  m_tempButton = 0;
 };

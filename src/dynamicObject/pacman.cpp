@@ -13,6 +13,9 @@
 Pacman::Pacman(sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type, Values& values)
         :DynamicObject(texture, position, tileSize, type, values) {
     m_sprite.setOrigin(sf::Vector2f (m_sprite.getTexture()->getSize()/2u));
+    m_eat.setBuffer(ResourcesManager::inctance().getEatCookie());
+    m_pacmanDeath.setBuffer(ResourcesManager::inctance().getSoundDeath());
+
 }
 
 void Pacman::move(float time, sf::Vector2f pacLocation) {
@@ -60,6 +63,11 @@ void Pacman::handleCollision(Demon& demon) {
         setRestarDemon();
         setCollided();
         m_values.setLife(DEC);
+        //sound death pacman
+        if (m_values.getLife() == 0) {
+            m_pacmanDeath.play();
+
+        }
     }
 }
 
@@ -68,6 +76,9 @@ void Pacman::handleCollision(Cookie& cookie) {
         m_values.setScore(2);
         m_values.setNumOfCookie(DEC);
         cookie.setDelete();
+        //sound eat cookie
+        m_eat.play();
+
     }
 }
 
@@ -81,6 +92,7 @@ void Pacman::handleCollision(Gift& gift) {
     if (gift.getSprite().getGlobalBounds().intersects(getSprite().getGlobalBounds())) {
         m_values.setScore(5);
         gift.setDelete();
+        m_eat.play();
         int chooseGift = m_values.getNumOfGift() % 4;
         switch (chooseGift) {
             case 0:{

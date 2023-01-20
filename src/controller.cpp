@@ -6,6 +6,11 @@ Controller::Controller() :m_window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "
 }
 
 void Controller::run() {
+    sf::Music music;
+    if (!music.openFromFile("bird.wav")) {
+        // Error loading music file
+    }
+    music.play();
     while (m_window.isOpen()){
         if (auto event = sf::Event{}; m_window.pollEvent(event)) {
             switch (event.type) {
@@ -19,6 +24,7 @@ void Controller::run() {
 
             }
             case sf::Event::MouseMoved: {
+                 music.stop();
                  handleMouseMoved(event.mouseMove);
             }
             }
@@ -30,9 +36,6 @@ void Controller::run() {
 
 void Controller::create() {
     //m_window.clear();
-
-    sf::Texture m_backgroundTexture;
-    m_backgroundTexture = ResourcesManager::inctance().getTextureBack();
 
     sf::Sprite m_backgroundSprite;
     m_backgroundSprite = ResourcesManager::inctance().getBackGround();
@@ -78,7 +81,10 @@ void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
             case playButton:
                 m_playGame.play();
                 break;
-            case helpButton:
+            case helpButton: {
+                Help help = Help(m_window);
+                help.run();
+            }
                 break;
             case newMapButton: {
                 CreateLevel createLevel = CreateLevel(m_window);
@@ -99,6 +105,9 @@ void Controller::handleMouseMoved(sf::Event::MouseMoveEvent& event) {
       auto location = m_window.mapPixelToCoords({ event.x, event.y });
     for (int row = 0; row < 4; row++){
         if (m_menu[row].getGlobalBounds().contains(location)) {
+            m_soundTuch.setBuffer(ResourcesManager::inctance().getSoundTuch());
+
+            m_soundTuch.play();
             m_menu[row].setScale(1.15, 1.15);
             m_tempButton = row;
         }

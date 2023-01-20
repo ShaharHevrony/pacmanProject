@@ -16,6 +16,8 @@ public:
 
     void playLevel();
 
+    void sound(); 
+
     void gameOver();
 
     void LoadFile(std::vector<std::string>);
@@ -24,6 +26,8 @@ public:
 
 private:
     int m_level;
+
+    bool  m_isFirstRound = true;
 
     BoardLimits m_boardLimits;
 
@@ -42,5 +46,7 @@ private:
     sf::Vector2f m_pacLocation;
 
     Values m_val;
+
+    sf::Music m_music;
 };
 

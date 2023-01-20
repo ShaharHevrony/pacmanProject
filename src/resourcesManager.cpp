@@ -48,6 +48,35 @@ ResourcesManager::ResourcesManager() {
     sf::Sprite backButtonSprite;
     backButtonSprite.setTexture(m_backButtonTexture);
     m_backButtonSprite = backButtonSprite;
+
+    //load pacman death sound 
+    sf::SoundBuffer soundDeath;
+    if (!soundDeath.loadFromFile("pacmanDeath.wav")) {
+        // Error loading sound file
+    }
+    m_soundDeath = soundDeath;
+
+    //load sound eat cookie
+    sf::SoundBuffer soundCookieEat;
+    if (!soundCookieEat.loadFromFile("cookieEat.wav")) {
+        // Error loading sound file
+    }
+    m_soundEatCookie = soundCookieEat;
+
+    //load sound tuch button
+    sf::SoundBuffer soundTuch;
+    if (!soundTuch.loadFromFile("bottunTuch.wav")) {
+        // Error loading sound file
+    }
+    m_soundTuch = soundTuch;
+
+    //load help wall
+    sf::Texture helpWallTexture;
+    if (!helpWallTexture.loadFromFile(PATH + "helpWall.png")) {
+        // Error loading image
+    }
+    m_helpWallTexture = helpWallTexture;
+    m_helpWallSprite.setTexture(m_helpWallTexture);
 }
 
 
@@ -66,6 +95,16 @@ sf::Texture ResourcesManager::getTextureBack() {
 
 sf::Sprite &ResourcesManager::getBackGround(){
     return m_backgroundSprite; 
+}
+
+sf::Texture ResourcesManager::getHelpWallTextur() {
+    return m_helpWallTexture;
+
+}
+
+sf::Sprite& ResourcesManager::getHelpWallSprite() {
+    return m_helpWallSprite;
+
 }
 
 sf::Texture ResourcesManager::SuperPacmanText() {
@@ -90,4 +129,16 @@ sf::Texture ResourcesManager::backButtonTexture() {
 
 sf::Sprite& ResourcesManager::backButtonSprite() {
     return m_backButtonSprite;
+}
+
+sf::SoundBuffer& ResourcesManager::getSoundDeath() {
+    return m_soundDeath;
+}
+
+sf::SoundBuffer& ResourcesManager::getEatCookie() {
+    return m_soundEatCookie;
+}
+
+sf::SoundBuffer& ResourcesManager::getSoundTuch() {
+    return m_soundTuch;
 }

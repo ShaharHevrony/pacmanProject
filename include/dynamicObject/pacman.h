@@ -33,5 +33,9 @@ public:
 
 private:
     bool m_isSuper = false;
+
+    sf::Sound m_eat;
+
+    sf::Sound m_pacmanDeath;
 };
 

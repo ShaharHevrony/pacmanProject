@@ -3,6 +3,7 @@
 #include "values.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <SFML/Audio.hpp>
 
 #include <dynamicObject/pacman.h>
 #include <dynamicObject/demon.h>
@@ -12,6 +13,8 @@
 #include <staticObject/door.h>
 #include <staticObject/wall.h>
 #include <staticObject/gift/gift.h>
+#include <chrono>
+#include <thread>
 
 PlayGame::PlayGame(sf::RenderWindow& window) : m_window(&window), m_level(1), m_bar(m_val), m_val() {
     m_board = new Board(m_val);
@@ -34,6 +37,14 @@ void PlayGame::playLevel() {
     print();
     bool endLevel = false;
     bool isFreeze = false;
+    //Fix me do stati
+    //load the sound level 
+    sf::Music music;
+    if (!music.openFromFile("levelSound.wav")) {
+        // Error loading music file
+    }
+    music.play();
+    music.setLoop(true); // set the music to loop
     sf::Clock playTime;
     while (m_window->isOpen()) {
         if (auto event = sf::Event{}; m_window->pollEvent(event)) {
@@ -47,16 +58,17 @@ void PlayGame::playLevel() {
         //move dynamic object
         for (int i = 0; i < m_dynamicObj.size(); i++) {
             m_dynamicObj[i]->move(time, m_dynamicObj[0]->getSprite().getPosition());
-            if(isFreeze)
+            if (isFreeze)
                 break;
         }
         //deal with collision and erase
         dealWithCollision(isFreeze);
-        if(isFreeze && m_giftTime.getElapsedTime().asSeconds() > 5){
+        if (isFreeze && m_giftTime.getElapsedTime().asSeconds() > 5) {
             isFreeze = false;
         }
         print();
     }
+
 }
 
 void PlayGame::dealWithCollision(bool& isFreeze) {
@@ -147,6 +159,8 @@ void PlayGame::print() {
     m_bar.draw(*m_window, m_val);
     m_window->draw(m_backButtonSprite);
     m_window->display();
+
+ 
 }
 
 //load the object and put them in two diffrent uniq ptr arrays 

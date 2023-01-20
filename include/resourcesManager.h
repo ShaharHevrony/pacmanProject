@@ -5,6 +5,8 @@
 
 #include "values.h"
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+
 
 class ResourcesManager {
 public:
@@ -27,6 +29,17 @@ public:
 	sf::Texture getTextureMenuStart(int index);
 
     sf::Texture& getObject(int index) const;
+
+	sf::SoundBuffer& getSoundDeath();
+
+	sf::SoundBuffer& getEatCookie();
+
+	sf::SoundBuffer& getSoundTuch();
+
+	sf::Sprite& getHelpWallSprite();
+
+	sf::Texture getHelpWallTextur();
+
 
 private:
 
@@ -51,4 +64,15 @@ private:
     sf::Texture* m_object[NUM_OF_OBJECTS];
 
 	sf::Texture m_imagNames[10];
+
+	sf::SoundBuffer m_soundDeath;
+
+	sf::SoundBuffer m_soundEatCookie;
+
+	sf::SoundBuffer m_soundTuch;
+
+	sf::Texture m_helpWallTexture;
+
+	sf::Sprite m_helpWallSprite;
+
 };

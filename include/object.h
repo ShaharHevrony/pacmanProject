@@ -1,6 +1,9 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "values.h"
+#include "resourcesManager.h"
+
 
 class Pacman;
 class Demon;
