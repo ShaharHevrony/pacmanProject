@@ -40,13 +40,6 @@ void Controller::create() {
     sf::Sprite m_backgroundSprite;
     m_backgroundSprite = ResourcesManager::inctance().getBackGround();
     m_window.draw(m_backgroundSprite);
-
-    sf::Texture titleTexture;
-    sf::Sprite titleSprite;
-    titleSprite = ResourcesManager::inctance().SuperPacmanSprite();
-    titleSprite.setScale(0.5, 0.5);
-    titleSprite.setPosition(MENU_ROW-120, MENU_COL-100);
-
     for (int index = 0; index < 4; index++) {
         m_texture[index] = ResourcesManager::inctance().getTextureMenuStart(index);
     }
@@ -63,7 +56,6 @@ void Controller::create() {
     for (int i = 0; i < 4; i++) {
         m_window.draw(m_menu[i]);
     }
-    m_window.draw(titleSprite);
     m_window.display();
 }
 
