@@ -34,6 +34,8 @@ ResourcesManager::ResourcesManager() {
         temp->loadFromFile(PATH + imagNames[object]);
         m_object[object] = temp;
     }
+    m_pacmanObj = m_object[0];
+
     //load the front 
     sf::Font title;
     title.loadFromFile(PATH + "HappyMonkey.ttf");
@@ -51,21 +53,21 @@ ResourcesManager::ResourcesManager() {
 
     //load pacman death sound 
     sf::SoundBuffer soundDeath;
-    if (!soundDeath.loadFromFile("pacmanDeath.wav")) {
+    if (!soundDeath.loadFromFile(PATH + "pacmanDeath.wav")) {
         // Error loading sound file
     }
     m_soundDeath = soundDeath;
 
     //load sound eat cookie
     sf::SoundBuffer soundCookieEat;
-    if (!soundCookieEat.loadFromFile("cookieEat.wav")) {
+    if (!soundCookieEat.loadFromFile(PATH + "cookieEat.wav")) {
         // Error loading sound file
     }
     m_soundEatCookie = soundCookieEat;
 
     //load sound tuch button
     sf::SoundBuffer soundTuch;
-    if (!soundTuch.loadFromFile("bottunTuch.wav")) {
+    if (!soundTuch.loadFromFile(PATH + "bottunTuch.wav")) {
         // Error loading sound file
     }
     m_soundTuch = soundTuch;
@@ -77,6 +79,12 @@ ResourcesManager::ResourcesManager() {
     }
     m_helpWallTexture = helpWallTexture;
     m_helpWallSprite.setTexture(m_helpWallTexture);
+
+    sf::Texture* superPacmanObjTexture = new sf::Texture;
+    if (!superPacmanObjTexture->loadFromFile(PATH + "superPacmanObj.png")) {
+        // Error loading sound file
+    }
+    m_superPacmanObj = superPacmanObjTexture;
 }
 
 
@@ -97,14 +105,12 @@ sf::Sprite &ResourcesManager::getBackGround(){
     return m_backgroundSprite; 
 }
 
-sf::Texture ResourcesManager::getHelpWallTextur() {
+sf::Texture ResourcesManager::getHelpWallTexture() {
     return m_helpWallTexture;
-
 }
 
 sf::Sprite& ResourcesManager::getHelpWallSprite() {
     return m_helpWallSprite;
-
 }
 
 sf::Texture ResourcesManager::SuperPacmanText() {
@@ -141,4 +147,12 @@ sf::SoundBuffer& ResourcesManager::getEatCookie() {
 
 sf::SoundBuffer& ResourcesManager::getSoundTuch() {
     return m_soundTuch;
+}
+
+sf::Texture* ResourcesManager::getSuperPacmanObj() {
+    return m_superPacmanObj;
+}
+
+sf::Texture* ResourcesManager::getPacmanObj() {
+    return m_pacmanObj;
 }

@@ -56,10 +56,10 @@ void DynamicObject::setCollided() {
     m_collided = !m_collided ;
 }
 
-bool DynamicObject::getReastarDemon() const {
+bool DynamicObject::getRestartDemon() const {
     return m_restarDemon;
 }
 
-void DynamicObject::setRestarDemon() {
+void DynamicObject::setRestartDemon() {
     m_restarDemon = !m_restarDemon;
 }

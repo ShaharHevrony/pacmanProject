@@ -38,9 +38,11 @@ public:
 
 	sf::Sprite& getHelpWallSprite();
 
-	sf::Texture getHelpWallTextur();
+	sf::Texture getHelpWallTexture();
 
+    sf::Texture* getSuperPacmanObj ();
 
+    sf::Texture* getPacmanObj ();
 private:
 
     ResourcesManager();
@@ -75,4 +77,7 @@ private:
 
 	sf::Sprite m_helpWallSprite;
 
+    sf::Texture* m_superPacmanObj;
+
+    sf::Texture* m_pacmanObj;
 };

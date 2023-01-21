@@ -4,7 +4,6 @@
 #include "values.h"
 #include "resourcesManager.h"
 
-
 class Pacman;
 class Demon;
 class Wall;
@@ -17,6 +16,8 @@ class Object {
 public:
     //constructor of default position
     Object( sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type, Values& value);
+
+    virtual ~Object() = default;
 
     virtual void handleCollision(Object& object)                   = 0;
 
@@ -34,20 +35,22 @@ public:
 
     virtual void handleCollision(Gift& gift)                       = 0;
 
-    //set sprite
+    //set the sprite of the object
     void setSprite(sf::Sprite sprite);
 
+    //get the char of the object
     char getType();
 
-    //return sprite
+    //get the sprite of the object
     sf::Sprite& getSprite() const;
 
+    //draw the object on the board
     void draw(sf::RenderWindow& m_window);
 
+    //get the values of the game
     Values getVal() const;
 
 protected:
-
     sf::Sprite m_sprite;
 
     Values& m_values;

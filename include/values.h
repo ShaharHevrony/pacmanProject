@@ -29,8 +29,8 @@ struct BoardLimits {
     float tileSize;
 };
 
-//const std::string PATH = "../../../";
-const std::string PATH = "";
+const std::string PATH = "../../../";
+//const std::string PATH = "";
 const std::string m_names[4] = {"PlayButton.png", "HelpButton.png", "CreateButton.png",
                                 "ExitButton.png"};
 const std::string imagNames[10] = {"Pacman.png", "Demon.png", "Door.png", "Key.png",

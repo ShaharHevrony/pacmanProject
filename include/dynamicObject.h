@@ -36,17 +36,16 @@ public:
 
     void setPosition(sf::Vector2f position);
 
-    sf::Vector2f getOriginPosition() ;
+    sf::Vector2f getOriginPosition();
 
+    sf::Vector2f getLastPosition() const;
 
-    bool getReastarDemon() const;
+    bool getRestartDemon() const;
 
-    void setRestarDemon();
+    void setRestartDemon();
 
 protected:
     sf::Vector2f getPosition() const;
-
-    sf::Vector2f getLastPosition() const;
 
     sf::Rect<float> getGlobalBounds() const;
 

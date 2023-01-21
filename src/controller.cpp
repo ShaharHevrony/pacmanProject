@@ -7,7 +7,7 @@ Controller::Controller() :m_window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "
 
 void Controller::run() {
     sf::Music music;
-    if (!music.openFromFile("bird.wav")) {
+    if (!music.openFromFile(PATH + "bird.wav")) {
         // Error loading music file
     }
     music.play();
@@ -44,7 +44,7 @@ void Controller::create() {
     sf::Texture titleTexture;
     sf::Sprite titleSprite;
     titleSprite = ResourcesManager::inctance().SuperPacmanSprite();
-    //titleSprite.setScale(0.5, 0.5);
+    titleSprite.setScale(0.5, 0.5);
     titleSprite.setPosition(MENU_ROW-120, MENU_COL-100);
 
     for (int index = 0; index < 4; index++) {

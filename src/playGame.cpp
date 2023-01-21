@@ -37,16 +37,15 @@ void PlayGame::playLevel() {
     print();
     bool endLevel = false;
     bool isFreeze = false;
-    //Fix me do stati
-    //load the sound level 
+    //load the sound level
     sf::Music music;
-    if (!music.openFromFile("levelSound.wav")) {
+    if (!music.openFromFile(PATH + "levelSound.wav")) {
         // Error loading music file
     }
     music.play();
     music.setLoop(true); // set the music to loop
     sf::Clock playTime;
-    while (m_window->isOpen()) {
+    while (m_window->isOpen() && !endLevel) {
         if (auto event = sf::Event{}; m_window->pollEvent(event)) {
 
             if (event.type == sf::Event::Closed) {
@@ -66,6 +65,9 @@ void PlayGame::playLevel() {
         if (isFreeze && m_giftTime.getElapsedTime().asSeconds() > 5) {
             isFreeze = false;
         }
+        if(m_val.getLife() == 0){
+            endLevel = true;
+        }
         print();
     }
 
@@ -77,7 +79,7 @@ void PlayGame::dealWithCollision(bool& isFreeze) {
         for (auto& otherDynamic : m_dynamicObj) {
             //check dynamic with dynamic
             myDynamic->handleCollision(*otherDynamic);
-            if (myDynamic->getCollided() && myDynamic->getReastarDemon()){
+            if (myDynamic->getCollided() && myDynamic->getRestartDemon()){
                 //return all demon to the original position
                 for (auto& resetDemon : m_dynamicObj) {
                     if (resetDemon->getType() == '&') {
@@ -85,7 +87,7 @@ void PlayGame::dealWithCollision(bool& isFreeze) {
                     }
                 }
                 //return the boolean object to false
-                myDynamic->setRestarDemon();
+                myDynamic->setRestartDemon();
             }
             //return the boolean object to false
             myDynamic->setCollided();

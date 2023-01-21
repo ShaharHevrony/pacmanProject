@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "dynamicObject.h"
 #include "values.h"
+#include "state.h"
 
 class Pacman: public DynamicObject{
 public:
@@ -32,10 +33,12 @@ public:
     void makeRegular();
 
 private:
-    bool m_isSuper = false;
-
     sf::Sound m_eat;
 
     sf::Sound m_pacmanDeath;
+
+    std::unique_ptr<State> m_pacmanState;
+
+    sf::Clock m_superClock;
 };
 

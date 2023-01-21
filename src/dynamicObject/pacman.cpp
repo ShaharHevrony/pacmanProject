@@ -15,15 +15,18 @@ Pacman::Pacman(sf::Texture* texture, const sf::Vector2f& position, float tileSiz
     m_sprite.setOrigin(sf::Vector2f (m_sprite.getTexture()->getSize()/2u));
     m_eat.setBuffer(ResourcesManager::inctance().getEatCookie());
     m_pacmanDeath.setBuffer(ResourcesManager::inctance().getSoundDeath());
-
+    m_pacmanState = std::make_unique<RegularPacman>(values);
 }
 
 void Pacman::move(float time, sf::Vector2f pacLocation) {
+
+    if(m_pacmanState->getSuperState() && m_superClock.getElapsedTime().asSeconds() > 5){
+        makeRegular();
+    }
     setLastPosition(getPosition());
 	pacLocation = getLastPosition();
 	sf::Vector2f direction(0,0);
-	sf::Sprite pac;
-	int angle = 0;
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 		m_sprite.setRotation(-90);
 		direction.x = 0;
@@ -59,14 +62,10 @@ void Pacman::handleCollision(Pacman& pacman) {}
 
 void Pacman::handleCollision(Demon& demon) {
     if(demon.getSprite().getGlobalBounds().intersects(getSprite().getGlobalBounds())) {
-        setPosition(getOriginPosition());
-        setRestarDemon();
-        setCollided();
-        m_values.setLife(DEC);
+        m_pacmanState->handleCollision(*this, demon);
         //sound death pacman
         if (m_values.getLife() == 0) {
             m_pacmanDeath.play();
-
         }
     }
 }
@@ -84,7 +83,7 @@ void Pacman::handleCollision(Cookie& cookie) {
 
 void Pacman::handleCollision(Door& door) {
     if(door.getSprite().getGlobalBounds().intersects(getSprite().getGlobalBounds())) {
-        m_sprite.setPosition(getLastPosition());
+        m_pacmanState->handleCollision(*this, door);
     }
 }
 
@@ -107,7 +106,8 @@ void Pacman::handleCollision(Gift& gift) {
             }
             case 2:{
                 //giftSuper
-                m_values.setLife(INC);
+                makeSuper();
+                m_superClock.restart().asSeconds();
                 break;
             }
             default:{
@@ -130,4 +130,14 @@ void Pacman::handleCollision(Key& key) {
 
 void Pacman::handleCollision(Wall &wall) {
     DynamicObject::handleCollision(wall);
+}
+
+void Pacman::makeSuper() {
+    m_pacmanState.reset(new SuperPacman(m_values));
+    m_sprite.setTexture(*ResourcesManager::inctance().getSuperPacmanObj());
+}
+
+void Pacman::makeRegular() {
+    m_pacmanState.reset(new RegularPacman(m_values));
+    m_sprite.setTexture(*ResourcesManager::inctance().getPacmanObj());
 }
