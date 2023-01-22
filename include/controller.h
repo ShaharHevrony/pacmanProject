@@ -27,8 +27,6 @@ private:
 
     bool m_sound = true;
 
-    PlayGame m_playGame;
-
     sf::Texture m_texture[4];
 
     std::vector<sf::Sprite> m_menu;

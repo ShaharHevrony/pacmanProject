@@ -73,16 +73,24 @@ void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
         if (m_menu[index].getGlobalBounds().contains(location)) {
             switch (index) {
                 //if click on eraser
-            case playButton:
+            case playButton: {
                 m_level = 1;
-                for (m_level; m_level <= 3; m_level++) { //FIXME: num of levels is not set.
-                    PlayGame* play = new PlayGame(m_window, m_level);
-                    play->playLevel(m_level);
-                    if (m_level == 3) {
+                PlayGame* play = new PlayGame(m_window, m_level, m_sound);
+                play->playLevel(m_level);
+                while (!(play->getEndAllLevels())) {
+                    if (play->getEndAllLevels()) {
                         play->gameOv(1);
                     }
+                    else if (play->getBack()) {
+                        play->setBack();
+                        break;
+                    }
+                    m_level++;
+                    PlayGame* play = new PlayGame(m_window, m_level, m_sound);
+                    play->playLevel(m_level);
                 }
                 break;
+            }
             case helpButton: {
                 Help help = Help(m_window);
                 help.run();

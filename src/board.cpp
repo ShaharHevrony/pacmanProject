@@ -49,18 +49,14 @@ Board::Board(Values& val, int m_level) :m_row(0), m_col(0) ,m_boardWidth(0), m_b
             std::getline(m_boardFile, tempStr);
             m_map[row] = tempStr;
         }
+
+        if (m_boardFile.eof()) {
+            m_endAllLevel = true;
+        }
         //m_boardFile.get(); //skip the \n
         createBoard();
         m_boardFile.close();
     }
-    //else {
-    //    //put in the col and row number
-    //    //std::cout << "Enter a row and col numbers:" << std::endl;
-    //    //std::cin >> m_row >> m_col;
-    //    m_col = 10;
-    //    m_row = 10;
-    //    createBoard();
-    //}
     
 }
 
@@ -271,4 +267,12 @@ float Board::getBoardHight() const {
 
 std::vector<std::string> Board::getMap(){
     return m_map;
+}
+
+bool Board::getEndAllLevels() {
+    return m_endAllLevel;
+}
+
+void Board::setEndAllLevels() {
+    m_endAllLevel = !m_endAllLevel;
 }
