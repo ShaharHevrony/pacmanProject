@@ -76,18 +76,19 @@ void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
             case playButton: {
                 m_level = 1;
                 PlayGame* play = new PlayGame(m_window, m_level, m_sound);
-                play->playLevel(m_level);
                 while (!(play->getEndAllLevels())) {
+                    PlayGame* play = new PlayGame(m_window, m_level, m_sound);
+                    play->playLevel(m_level);
                     if (play->getEndAllLevels()) {
                         play->gameOv(1);
+                        break;
                     }
                     else if (play->getBack()) {
                         play->setBack();
                         break;
                     }
                     m_level++;
-                    PlayGame* play = new PlayGame(m_window, m_level, m_sound);
-                    play->playLevel(m_level);
+
                 }
                 break;
             }
