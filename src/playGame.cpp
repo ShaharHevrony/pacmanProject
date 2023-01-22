@@ -2,7 +2,6 @@
 #include "playGame.h"
 #include "values.h"
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include <SFML/Audio.hpp>
 
 #include <dynamicObject/pacman.h>
@@ -13,11 +12,24 @@
 #include <staticObject/door.h>
 #include <staticObject/wall.h>
 #include <staticObject/gift/gift.h>
-#include <chrono>
 #include <thread>
 
-PlayGame::PlayGame(sf::RenderWindow& window) : m_window(&window), m_level(1), m_bar(m_val), m_val() {
+PlayGame::PlayGame(sf::RenderWindow& window, bool& sound)
+        : m_window(&window), m_level(1), m_bar(m_val), m_val(), m_sound(sound) {
     m_board = new Board(m_val);
+    m_backButton = ResourcesManager::inctance().backButtonSprite();
+    m_backButton.setPosition(1700, 950);
+    m_backButton.setScale(0.05, 0.05);
+    m_backButton.setOrigin(1000, 1000);
+    if(m_sound){
+        m_soundButton = ResourcesManager::inctance().soundButtonSprite();
+    } else {
+        m_soundButton = ResourcesManager::inctance().noSoundButtonSprite();
+    }
+    m_soundButton.setPosition(1550, 950);
+    m_soundButton.setScale(0.05, 0.05);
+    m_soundButton.setOrigin(1000, 1000);
+
 }
 
 void PlayGame::play() {
@@ -42,15 +54,20 @@ void PlayGame::playLevel() {
     if (!music.openFromFile(PATH + "levelSound.wav")) {
         // Error loading music file
     }
-    music.play();
-    music.setLoop(true); // set the music to loop
+    if(m_sound){
+        music.play();
+        music.setLoop(true); // set the music to loop
+    }
     sf::Clock playTime;
     while (m_window->isOpen() && !endLevel) {
         if (auto event = sf::Event{}; m_window->pollEvent(event)) {
-
             if (event.type == sf::Event::Closed) {
                 m_window->close();
                 break;
+            } else if (event.type == sf::Event::MouseMoved){
+                handleMouseMoved(event.mouseMove);
+            } else if (event.type == sf::Event::MouseButtonReleased){
+                handleMouseButton(event.mouseButton);
             }
         }
         float time = playTime.restart().asSeconds();
@@ -127,15 +144,13 @@ void PlayGame::print() {
     m_window->clear();
     //back round print 
     sf::Sprite backgroundSprite;
-    backgroundSprite = ResourcesManager::inctance().getBackGround();
+    backgroundSprite = ResourcesManager::inctance().getPlayBackGround();
     m_window->draw(backgroundSprite);
-
-    sf::Sprite m_backButtonSprite;
-    m_backButtonSprite = ResourcesManager::inctance().backButtonSprite();
-    m_backButtonSprite.setPosition(1670, 770);
-    m_backButtonSprite.setScale(0.1, 0.1);
-    m_window->draw(backgroundSprite);
-
+    if(m_sound){
+        m_soundButton.setTexture(*ResourcesManager::inctance().soundButtonTexture());
+    } else {
+        m_soundButton.setTexture(*ResourcesManager::inctance().noSoundButtonTexture());
+    }
     //print the board without the objects
     for (int i = 0; i < m_board->getRow(); i++) {
         for (int j = 0; j < m_board->getCol(); j++) {
@@ -159,13 +174,12 @@ void PlayGame::print() {
         m_staticObj[i]->draw(*m_window);
     }
     m_bar.draw(*m_window, m_val);
-    m_window->draw(m_backButtonSprite);
+    m_window->draw(m_soundButton);
+    m_window->draw(m_backButton);
     m_window->display();
-
- 
 }
 
-//load the object and put them in two diffrent uniq ptr arrays 
+//load the object and put them in two different uniq ptr arrays
 void PlayGame::LoadFile(std::vector<std::string> ) {
     float tileSize = m_board->getTile()*0.95;
     //map hold the string with the object from the file 
@@ -220,5 +234,29 @@ void PlayGame::LoadFile(std::vector<std::string> ) {
                 break;
             }
         }
+    }
+}
+
+bool PlayGame::changeSound() {
+    return m_sound;
+}
+
+void PlayGame::handleMouseMoved(sf::Event::MouseMoveEvent& event) {
+    m_backButton.setScale(0.05, 0.05);
+    m_soundButton.setScale(0.05, 0.05);
+    auto location = m_window->mapPixelToCoords({ event.x, event.y });
+    if (m_backButton.getGlobalBounds().contains(location)) {
+        m_backButton.setScale(0.06, 0.06);
+    } else if(m_soundButton.getGlobalBounds().contains(location)){
+        m_soundButton.setScale(0.06, 0.06);
+    }
+}
+
+void PlayGame::handleMouseButton(sf::Event::MouseButtonEvent& event) {
+    auto location = m_window->mapPixelToCoords({ event.x, event.y });
+    if (m_backButton.getGlobalBounds().contains(location)) {
+        //FIXME: go back to the menu
+    } else if(m_soundButton.getGlobalBounds().contains(location)){
+        m_sound = !m_sound;
     }
 }

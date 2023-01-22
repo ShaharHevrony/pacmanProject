@@ -44,7 +44,7 @@ void CreateLevel::run() {
         sf::Texture backgroundTexture;
         backgroundTexture = ResourcesManager::inctance().getTextureBack();
         sf::Sprite backgroundSprite;
-        backgroundSprite = ResourcesManager::inctance().getBackGround();
+        backgroundSprite = ResourcesManager::inctance().getMenuBackGround();
         m_window->draw(backgroundSprite);
 
         print(tempRow, tempCol);

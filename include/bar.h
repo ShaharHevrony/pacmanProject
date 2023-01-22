@@ -16,7 +16,7 @@ private:
 
     Values& m_val;
 
-    sf::Text m_text[3];
+    sf::Text m_text[4];
 
-    sf::Text m_bar[3];
+    sf::Text m_bar[4];
 };

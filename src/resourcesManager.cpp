@@ -15,12 +15,20 @@ ResourcesManager::ResourcesManager() {
         m_imagNames[index].loadFromFile(PATH + imagNames[index]);
     }
 
-    sf::Texture backgroundTexture;
-    if (!backgroundTexture.loadFromFile(PATH + "menuBackground.png")) {
+    sf::Texture menuBackgroundTexture;
+    if (!menuBackgroundTexture.loadFromFile(PATH + "menuBackground.png")) {
         // Error loading image
     }
-    m_backgroundTexture = backgroundTexture;
-    m_backgroundSprite.setTexture(m_backgroundTexture);
+    m_menuBackgroundTexture = menuBackgroundTexture;
+    m_menuBackgroundSprite.setTexture(m_menuBackgroundTexture);
+
+    sf::Texture playBackgroundTexture;
+    if (!playBackgroundTexture.loadFromFile(PATH + "playBackground.png")) {
+        // Error loading image
+    }
+    m_playBackgroundTexture = playBackgroundTexture;
+    m_playBackgroundSprite.setTexture(m_playBackgroundTexture);
+
 
     sf::Texture superPacmanTexture;
     if (!superPacmanTexture.loadFromFile(PATH + "SuperPacman.png")) {
@@ -51,6 +59,26 @@ ResourcesManager::ResourcesManager() {
     backButtonSprite.setTexture(m_backButtonTexture);
     m_backButtonSprite = backButtonSprite;
 
+    //load the sound button
+    sf::Texture soundButtonTexture;
+    if (!soundButtonTexture.loadFromFile(PATH + "sound.png")) {
+        // Error loading image
+    }
+    m_soundButtonTexture = soundButtonTexture;
+    sf::Sprite soundButtonSprite;
+    soundButtonSprite.setTexture(m_soundButtonTexture);
+    m_soundButtonSprite = soundButtonSprite;
+
+    //load the no sound button
+    sf::Texture noSoundButtonTexture;
+    if (!noSoundButtonTexture.loadFromFile(PATH + "noSound.png")) {
+        // Error loading image
+    }
+    m_noSoundButtonTexture = noSoundButtonTexture;
+    sf::Sprite noSoundButtonSprite;
+    noSoundButtonSprite.setTexture(m_noSoundButtonTexture);
+    m_noSoundButtonSprite = noSoundButtonSprite;
+
     //load pacman death sound 
     sf::SoundBuffer soundDeath;
     if (!soundDeath.loadFromFile(PATH + "pacmanDeath.wav")) {
@@ -65,12 +93,12 @@ ResourcesManager::ResourcesManager() {
     }
     m_soundEatCookie = soundCookieEat;
 
-    //load sound tuch button
-    sf::SoundBuffer soundTuch;
-    if (!soundTuch.loadFromFile(PATH + "bottunTuch.wav")) {
+    //load sound touch button
+    sf::SoundBuffer soundTouch;
+    if (!soundTouch.loadFromFile(PATH + "bottunTouch.wav")) {
         // Error loading sound file
     }
-    m_soundTuch = soundTuch;
+    m_soundTouch = soundTouch;
 
     //load help wall
     sf::Texture helpWallTexture;
@@ -101,8 +129,12 @@ sf::Texture ResourcesManager::getTextureBack() {
     return m_backgroundTexture;
 }
 
-sf::Sprite &ResourcesManager::getBackGround(){
-    return m_backgroundSprite; 
+sf::Sprite &ResourcesManager::getMenuBackGround(){
+    return m_menuBackgroundSprite;
+}
+
+sf::Sprite &ResourcesManager::getPlayBackGround(){
+    return m_playBackgroundSprite;
 }
 
 sf::Texture ResourcesManager::getHelpWallTexture() {
@@ -113,14 +145,6 @@ sf::Sprite& ResourcesManager::getHelpWallSprite() {
     return m_helpWallSprite;
 }
 
-sf::Texture ResourcesManager::SuperPacmanText() {
-    return m_superPacmanTexture;
-}
-
-sf::Sprite &ResourcesManager::SuperPacmanSprite() {
-    return m_superPacmanSprite;
-}
-
 sf::Texture ResourcesManager::getTextureMenuStart(int index) {
     return  m_textureMenuStart[index];
 }
@@ -128,9 +152,21 @@ sf::Texture ResourcesManager::getTextureMenuStart(int index) {
 sf::Texture& ResourcesManager::getObject(int index) const {
     return *m_object[index];
 }
-//
-sf::Texture ResourcesManager::backButtonTexture() {
-    return m_backButtonTexture;
+
+sf::Sprite& ResourcesManager::soundButtonSprite() {
+    return m_soundButtonSprite;
+}
+
+sf::Texture* ResourcesManager::soundButtonTexture() {
+    return &m_soundButtonTexture;
+}
+
+sf::Sprite& ResourcesManager::noSoundButtonSprite() {
+    return m_noSoundButtonSprite;
+}
+
+sf::Texture* ResourcesManager::noSoundButtonTexture() {
+    return &m_noSoundButtonTexture;
 }
 
 sf::Sprite& ResourcesManager::backButtonSprite() {
@@ -145,8 +181,8 @@ sf::SoundBuffer& ResourcesManager::getEatCookie() {
     return m_soundEatCookie;
 }
 
-sf::SoundBuffer& ResourcesManager::getSoundTuch() {
-    return m_soundTuch;
+sf::SoundBuffer& ResourcesManager::getSoundTouch() {
+    return m_soundTouch;
 }
 
 sf::Texture* ResourcesManager::getSuperPacmanObj() {

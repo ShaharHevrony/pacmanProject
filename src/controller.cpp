@@ -1,16 +1,18 @@
 #include "controller.h"
 #include <string.h>
 
-Controller::Controller() :m_window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Super Pacman") ,m_playGame(m_window){
+Controller::Controller() :m_window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Super Pacman") ,m_playGame(m_window, m_sound){
     create();
 }
 
 void Controller::run() {
-    sf::Music music;
-    if (!music.openFromFile(PATH + "bird.wav")) {
-        // Error loading music file
+    if(m_sound){
+        if (!m_music.openFromFile(PATH + "bird.wav")) {
+            // Error loading music file
+        }
+        m_music.play();
     }
-    music.play();
+
     while (m_window.isOpen()){
         if (auto event = sf::Event{}; m_window.pollEvent(event)) {
             switch (event.type) {
@@ -20,12 +22,11 @@ void Controller::run() {
             }
              //if the user clicks on the window
             case sf::Event::MouseButtonReleased: {
+                m_music.stop();
                 handleMouseButton(event.mouseButton);
-
             }
             case sf::Event::MouseMoved: {
-                 music.stop();
-                 handleMouseMoved(event.mouseMove);
+                handleMouseMoved(event.mouseMove);
             }
             }
         }
@@ -38,7 +39,7 @@ void Controller::create() {
     //m_window.clear();
 
     sf::Sprite m_backgroundSprite;
-    m_backgroundSprite = ResourcesManager::inctance().getBackGround();
+    m_backgroundSprite = ResourcesManager::inctance().getMenuBackGround();
     m_window.draw(m_backgroundSprite);
     for (int index = 0; index < 4; index++) {
         m_texture[index] = ResourcesManager::inctance().getTextureMenuStart(index);
@@ -59,7 +60,6 @@ void Controller::create() {
     m_window.display();
 }
 
-
 //function that handel the case in a mouse button
 void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
     //get the location of the click
@@ -67,7 +67,7 @@ void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
     //loop that go on the object in the menu and check if the user click on one of them
     for (int index = 0; index < 4; index++) {
         //if the user click on the button
-        if (m_menu[index].getGlobalBounds().contains(m_window.mapPixelToCoords({ event.x, event.y }))) {
+        if (m_menu[index].getGlobalBounds().contains(location)) {
             switch (index) {
                 //if click on eraser
             case playButton:
@@ -92,13 +92,13 @@ void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
         }
     }
 }
+
 void Controller::handleMouseMoved(sf::Event::MouseMoveEvent& event) {
-      m_menu[m_tempButton].setScale(1, 1);
-      auto location = m_window.mapPixelToCoords({ event.x, event.y });
+    m_menu[m_tempButton].setScale(1, 1);
+    auto location = m_window.mapPixelToCoords({ event.x, event.y });
     for (int row = 0; row < 4; row++){
         if (m_menu[row].getGlobalBounds().contains(location)) {
-            m_soundTuch.setBuffer(ResourcesManager::inctance().getSoundTuch());
-
+            m_soundTuch.setBuffer(ResourcesManager::inctance().getSoundTouch());
             m_soundTuch.play();
             m_menu[row].setScale(1.15, 1.15);
             m_tempButton = row;

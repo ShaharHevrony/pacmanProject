@@ -22,10 +22,10 @@ public:
 
     void handleMouseMoved(sf::Event::MouseMoveEvent& event);
 
-
-
 private:
     sf::RenderWindow m_window;
+
+    bool m_sound = true;
 
     PlayGame m_playGame;
 
@@ -40,6 +40,10 @@ private:
     sf::Sprite m_backgroundSprite;
 
     sf::Sound m_soundTuch;
+
+    sf::Sprite m_saundButton;
+
+    sf::Music m_music;
 
     int  m_tempButton = 0;
 };

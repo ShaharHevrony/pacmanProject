@@ -14,15 +14,19 @@ public:
 
 	sf::Font& getFont();
 
-	sf::Sprite &getBackGround();
+	sf::Sprite &getMenuBackGround();
 
-	sf::Texture SuperPacmanText();
+    sf::Sprite &getPlayBackGround();
 
-	sf::Sprite& SuperPacmanSprite();
-	
-	sf::Texture backButtonTexture();
+    sf::Sprite& soundButtonSprite();
 
-	sf::Sprite& backButtonSprite();
+    sf::Texture* soundButtonTexture();
+
+    sf::Sprite& noSoundButtonSprite();
+
+    sf::Texture* noSoundButtonTexture();
+
+    sf::Sprite& backButtonSprite();
 
 	sf::Texture getTextureBack();
 
@@ -34,7 +38,7 @@ public:
 
 	sf::SoundBuffer& getEatCookie();
 
-	sf::SoundBuffer& getSoundTuch();
+	sf::SoundBuffer& getSoundTouch();
 
 	sf::Sprite& getHelpWallSprite();
 
@@ -49,9 +53,25 @@ private:
 
 	sf::Font m_font;
 
-	sf::Texture m_backButtonTexture;
+    sf::Texture m_backButtonTexture;
 
-	sf::Sprite m_backButtonSprite;
+    sf::Texture m_soundButtonTexture;
+
+    sf::Texture m_noSoundButtonTexture;
+
+    sf::Sprite m_backButtonSprite;
+
+    sf::Sprite m_soundButtonSprite;
+
+    sf::Sprite m_noSoundButtonSprite;
+
+    sf::Texture m_menuBackgroundTexture;
+
+	sf::Sprite m_menuBackgroundSprite;
+
+    sf::Texture m_playBackgroundTexture;
+
+    sf::Sprite m_playBackgroundSprite;
 
 	sf::Sprite m_backgroundSprite;
 
@@ -71,9 +91,11 @@ private:
 
 	sf::SoundBuffer m_soundEatCookie;
 
-	sf::SoundBuffer m_soundTuch;
+	sf::SoundBuffer m_soundTouch;
 
 	sf::Texture m_helpWallTexture;
+
+    sf::Sprite m_soundButton;
 
 	sf::Sprite m_helpWallSprite;
 

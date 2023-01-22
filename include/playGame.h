@@ -8,7 +8,7 @@
 #include "bar.h"
 class PlayGame {
 public:
-    PlayGame(sf::RenderWindow& window);
+    PlayGame(sf::RenderWindow& window, bool& sound);
 
     void play();
 
@@ -16,20 +16,24 @@ public:
 
     void playLevel();
 
-    void sound(); 
-
     void gameOver();
 
     void LoadFile(std::vector<std::string>);
 
     void dealWithCollision(bool& isFreeze);
 
+    bool changeSound();
+
+    void handleMouseMoved(sf::Event::MouseMoveEvent& event);
+
+    void handleMouseButton(sf::Event::MouseButtonEvent& event);
+
 private:
     int m_level;
 
-    bool  m_isFirstRound = true;
-
     BoardLimits m_boardLimits;
+
+    bool m_sound;
 
     std::vector<std::unique_ptr<StaticObject>> m_staticObj;
 
@@ -43,10 +47,14 @@ private:
 
     sf::Clock m_giftTime;
 
-    sf::Vector2f m_pacLocation;
-
     Values m_val;
 
     sf::Music m_music;
+
+    sf::Vector2f m_pacLocation;
+
+    sf::Sprite m_backButton;
+
+    sf::Sprite m_soundButton;
 };
 
