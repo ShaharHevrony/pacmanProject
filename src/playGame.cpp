@@ -34,13 +34,12 @@ PlayGame::PlayGame(sf::RenderWindow& window,int level, bool& sound)
 }
 
 void PlayGame::playLevel(int m_level) {
-
+    m_endGame = false;
     m_board = new Board(m_val, m_level);
     //make a board
     LoadFile(m_board->getMap());
     print();
     bool isFreeze = false;
-    bool cunGame = false;
     m_endLevel = false;
     //Fix me do stati
     //load the sound level 
@@ -53,7 +52,7 @@ void PlayGame::playLevel(int m_level) {
         music.setLoop(true); // set the music to loop
     }
     sf::Clock playTime;
-    while (m_window->isOpen() && !(m_endLevel || m_endGame)) {
+    while (m_window->isOpen() && !(m_endLevel || m_endGame || m_back)){
         if (auto event = sf::Event{}; m_window->pollEvent(event)) {
 
             if (event.type == sf::Event::Closed) {
@@ -86,7 +85,12 @@ void PlayGame::playLevel(int m_level) {
         }
         print();
     }
+    if (m_board->getEndAllLevels()) {
+        m_endGame = true;
+
+    }
     delete m_board;
+    return;
 }
 
 void PlayGame::dealWithCollision(bool& isFreeze) {
@@ -137,6 +141,7 @@ void PlayGame::dealWithCollision(bool& isFreeze) {
 void PlayGame::gameOv(int i) {
     GameOver gameOver = GameOver(*m_window);
     gameOver.run(i);
+    m_back = true;
 }
 
 //print the board game 
@@ -262,8 +267,24 @@ void PlayGame::handleMouseMoved(sf::Event::MouseMoveEvent& event) {
 void PlayGame::handleMouseButton(sf::Event::MouseButtonEvent& event) {
     auto location = m_window->mapPixelToCoords({ event.x, event.y });
     if (m_backButton.getGlobalBounds().contains(location)) {
-        //FIXME: go back to the menu
+        m_back = true;
     } else if(m_soundButton.getGlobalBounds().contains(location)){
         m_sound = !m_sound;
     }
+}
+
+bool PlayGame::getBack() {
+    return m_back;
+}
+
+void PlayGame::setBack() {
+    m_back = !m_back;
+}
+
+bool PlayGame::getEndAllLevels() {
+    return m_endGame;
+}
+
+void PlayGame::setEndAllLevels() {
+    m_endGame = !m_endGame;
 }

@@ -66,10 +66,16 @@ public:
 
     std::vector<std::vector<sf::RectangleShape>> getMatrix();
 
+    bool getEndAllLevels();
+
+    void setEndAllLevels();
+
 private:
     int m_row;
 
     int m_col;
+
+    bool  m_endAllLevel = false;
 
     float m_tileSize;
 

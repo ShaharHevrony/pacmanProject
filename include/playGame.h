@@ -10,8 +10,6 @@ class PlayGame {
 public:
     PlayGame(sf::RenderWindow& window, int level, bool& sound);
 
-    void play();
-
     void print();
 
     void playLevel(int m_level);
@@ -28,6 +26,14 @@ public:
 
     void handleMouseButton(sf::Event::MouseButtonEvent& event);
 
+    bool getBack();
+
+    void setBack();
+
+    bool getEndAllLevels();
+
+    void setEndAllLevels();
+
 private:
     int m_level;
 
@@ -36,6 +42,8 @@ private:
     bool m_endLevel = false;
 
     bool m_endGame = false;
+    
+    bool m_back = false;
 
     BoardLimits m_boardLimits;
 
