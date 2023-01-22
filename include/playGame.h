@@ -8,26 +8,27 @@
 #include "bar.h"
 class PlayGame {
 public:
-    PlayGame(sf::RenderWindow& window);
-
-    void play();
+    PlayGame(sf::RenderWindow& window, int level);
 
     void print();
 
-    void playLevel();
+    void playLevel(int m_level);
 
-    void sound(); 
-
-    void gameOver();
+    void gameOv(int i);
 
     void LoadFile(std::vector<std::string>);
 
     void dealWithCollision(bool& isFreeze);
 
+
 private:
     int m_level;
 
     bool  m_isFirstRound = true;
+
+    bool m_endLevel = false;
+
+    bool m_endGame = false;
 
     BoardLimits m_boardLimits;
 

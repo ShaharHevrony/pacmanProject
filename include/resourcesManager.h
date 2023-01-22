@@ -40,6 +40,16 @@ public:
 
 	sf::Texture getHelpWallTextur();
 
+	sf::Sprite& getGameOverSprite();
+
+	sf::Texture getGameOverTextur();
+
+	sf::Sprite& getsecssesSprite();
+
+	sf::Texture getsecssesTextur();
+
+	//sf::Music& getBirdMusic();
+
 
 private:
 
@@ -74,5 +84,13 @@ private:
 	sf::Texture m_helpWallTexture;
 
 	sf::Sprite m_helpWallSprite;
+
+	sf::Sprite m_gameOverSprite;
+
+	sf::Texture m_gameOverTextur;
+
+	sf::Sprite  m_getsecssesSprite;
+
+	sf::Texture m_getsecssesTextur;
 
 };

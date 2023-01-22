@@ -1,16 +1,19 @@
 #include "controller.h"
 #include <string.h>
 
-Controller::Controller() :m_window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Super Pacman") ,m_playGame(m_window){
+Controller::Controller() :m_window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Super Pacman"){
     create();
 }
 
 void Controller::run() {
-    sf::Music music;
-    if (!music.openFromFile("bird.wav")) {
+    //sf::Music m_birdMusic;
+    //m_birdMusic = ResourcesManager::inctance().getBirdMusic();
+       //load the bird music
+    sf::Music birsMusic;
+    if (!birsMusic.openFromFile("bird.wav")) {
         // Error loading music file
     }
-    music.play();
+    birsMusic.play();
     while (m_window.isOpen()){
         if (auto event = sf::Event{}; m_window.pollEvent(event)) {
             switch (event.type) {
@@ -20,11 +23,11 @@ void Controller::run() {
             }
              //if the user clicks on the window
             case sf::Event::MouseButtonReleased: {
+                birsMusic.stop();
                 handleMouseButton(event.mouseButton);
 
             }
             case sf::Event::MouseMoved: {
-                 music.stop();
                  handleMouseMoved(event.mouseMove);
             }
             }
@@ -44,7 +47,6 @@ void Controller::create() {
     sf::Texture titleTexture;
     sf::Sprite titleSprite;
     titleSprite = ResourcesManager::inctance().SuperPacmanSprite();
-    //titleSprite.setScale(0.5, 0.5);
     titleSprite.setPosition(MENU_ROW-120, MENU_COL-100);
 
     for (int index = 0; index < 4; index++) {
@@ -67,7 +69,6 @@ void Controller::create() {
     m_window.display();
 }
 
-
 //function that handel the case in a mouse button
 void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
     //get the location of the click
@@ -79,7 +80,14 @@ void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
             switch (index) {
                 //if click on eraser
             case playButton:
-                m_playGame.play();
+                m_level = 1;
+                for (m_level; m_level <= 3; m_level++) { //FIXME: num of levels is not set.
+                    PlayGame* play = new PlayGame(m_window, m_level);
+                    play->playLevel(m_level);
+                    if (m_level == 3) {
+                        play->gameOv(1);
+                    }
+                }
                 break;
             case helpButton: {
                 Help help = Help(m_window);

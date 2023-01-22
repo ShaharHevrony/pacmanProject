@@ -27,6 +27,10 @@ public:
 
     void setDelete();
 
+    bool getIfDraw() const;
+
+    void setIfDraw(bool draw);
+
     bool getFreeze() const;
 
     void setFreeze();
@@ -39,4 +43,7 @@ private:
     bool m_isDelete = false;
 
     bool m_isFreeze = false;
+
+    bool m_ifDraw   = false;
+
 };

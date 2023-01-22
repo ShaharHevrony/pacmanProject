@@ -1,6 +1,7 @@
 #pragma once
 #include "playGame.h"
 #include "help.h"
+#include "gameOver.h"
 #include "resourcesManager.h"
 #include "values.h"
 #include "createLevel.h"
@@ -27,8 +28,6 @@ public:
 private:
     sf::RenderWindow m_window;
 
-    PlayGame m_playGame;
-
     sf::Texture m_texture[4];
 
     std::vector<sf::Sprite> m_menu;
@@ -42,5 +41,7 @@ private:
     sf::Sound m_soundTuch;
 
     int  m_tempButton = 0;
+
+    int m_level;
 };
 

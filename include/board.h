@@ -12,7 +12,7 @@ class Board {
 public:
 
     //constructor that put in the default member and load the sprites
-    Board(Values& val);
+    Board(Values& val, int m_level);
 
     //function that creat the board
     void createBoard();

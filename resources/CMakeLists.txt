@@ -21,6 +21,9 @@ configure_file ("cookieEat.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("bird.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("bottunTuch.wav" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("helpWall.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("gameOver.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("congratulations.png" ${CMAKE_BINARY_DIR} COPYONLY)
+
 
 
 

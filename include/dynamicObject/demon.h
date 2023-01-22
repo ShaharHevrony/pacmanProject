@@ -17,11 +17,11 @@ public:
 
     virtual void handleCollision(Demon& demon) {}
 
-    virtual void handleCollision(Cookie& cookie) {}
+    virtual void handleCollision(Cookie& cookie);
 
-    virtual void handleCollision(Gift& gift) {}
+    virtual void handleCollision(Gift& gift);
 
-    virtual void handleCollision(Key& key) {}
+    virtual void handleCollision(Key& key);
 
     virtual void handleCollision(Wall &wall);
 

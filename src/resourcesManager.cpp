@@ -49,9 +49,16 @@ ResourcesManager::ResourcesManager() {
     backButtonSprite.setTexture(m_backButtonTexture);
     m_backButtonSprite = backButtonSprite;
 
+    ////load the bird music
+    //sf::Music birsMusic;
+    //if (!birsMusic.openFromFile("bird.wav")) {
+    //    // Error loading music file
+    //}
+    //m_birsMusic = birsMusic;
+
     //load pacman death sound 
     sf::SoundBuffer soundDeath;
-    if (!soundDeath.loadFromFile("pacmanDeath.wav")) {
+    if (!soundDeath.loadFromFile(PATH+"pacmanDeath.wav")) {
         // Error loading sound file
     }
     m_soundDeath = soundDeath;
@@ -65,7 +72,7 @@ ResourcesManager::ResourcesManager() {
 
     //load sound tuch button
     sf::SoundBuffer soundTuch;
-    if (!soundTuch.loadFromFile("bottunTuch.wav")) {
+    if (!soundTuch.loadFromFile(PATH+"bottunTuch.wav")) {
         // Error loading sound file
     }
     m_soundTuch = soundTuch;
@@ -77,6 +84,23 @@ ResourcesManager::ResourcesManager() {
     }
     m_helpWallTexture = helpWallTexture;
     m_helpWallSprite.setTexture(m_helpWallTexture);
+
+    //game over backround
+    sf::Texture gameOverTexture;
+    if (!gameOverTexture.loadFromFile(PATH + "gameOver.png")) {
+        // Error loading image
+    }
+    m_gameOverTextur = gameOverTexture;
+    m_gameOverSprite.setTexture(m_gameOverTextur);
+
+    //game done backround
+    sf::Texture gameDoneTexture;
+    if (!gameDoneTexture.loadFromFile(PATH + "congratulations.png")) {
+        // Error loading image
+    }
+    m_getsecssesTextur = gameDoneTexture;
+    m_getsecssesSprite.setTexture(m_getsecssesTextur);
+    
 }
 
 
@@ -142,3 +166,23 @@ sf::SoundBuffer& ResourcesManager::getEatCookie() {
 sf::SoundBuffer& ResourcesManager::getSoundTuch() {
     return m_soundTuch;
 }
+
+sf::Sprite& ResourcesManager::getGameOverSprite() {
+    return m_gameOverSprite;
+}
+
+sf::Texture ResourcesManager::getGameOverTextur() {
+    return m_gameOverTextur;
+}
+
+sf::Sprite& ResourcesManager::getsecssesSprite() {
+    return m_getsecssesSprite;
+}
+
+sf::Texture ResourcesManager::getsecssesTextur() {
+    return m_getsecssesTextur;
+}
+
+//sf::Music& ResourcesManager::getBirdMusic() {
+//    return m_birsMusic;
+//}

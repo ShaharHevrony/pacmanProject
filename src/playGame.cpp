@@ -1,5 +1,6 @@
 
 #include "playGame.h"
+#include "gameOver.h"
 #include "values.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -16,27 +17,17 @@
 #include <chrono>
 #include <thread>
 
-PlayGame::PlayGame(sf::RenderWindow& window) : m_window(&window), m_level(1), m_bar(m_val), m_val() {
-    m_board = new Board(m_val);
-}
+PlayGame::PlayGame(sf::RenderWindow& window, int level) : m_window(&window), m_level(level), m_bar(m_val), m_val() {}
 
-void PlayGame::play() {
-    for (m_level; m_level <= 1; m_level++){ //FIXME: num of levels is not set.
-        //if i'm still alive then:
-        if (m_val.getLife() > 0){
-            playLevel();
-        } else{
-            gameOver();
-        }
-    }
-}
+void PlayGame::playLevel(int m_level) {
 
-void PlayGame::playLevel() {
+    m_board = new Board(m_val, m_level);
     //make a board
     LoadFile(m_board->getMap());
     print();
-    bool endLevel = false;
     bool isFreeze = false;
+    bool cunGame = false;
+    m_endLevel = false;
     //Fix me do stati
     //load the sound level 
     sf::Music music;
@@ -46,7 +37,7 @@ void PlayGame::playLevel() {
     music.play();
     music.setLoop(true); // set the music to loop
     sf::Clock playTime;
-    while (m_window->isOpen()) {
+    while (m_window->isOpen() && !(m_endLevel || m_endGame)) {
         if (auto event = sf::Event{}; m_window->pollEvent(event)) {
 
             if (event.type == sf::Event::Closed) {
@@ -66,9 +57,16 @@ void PlayGame::playLevel() {
         if (isFreeze && m_giftTime.getElapsedTime().asSeconds() > 5) {
             isFreeze = false;
         }
+        if (m_val.getLife() == 0) {
+            music.stop();
+            gameOv(0);
+        }
+        if (m_val.getNumOfCookie() == 0) {
+            m_endLevel = true;
+        }
         print();
     }
-
+    delete m_board;
 }
 
 void PlayGame::dealWithCollision(bool& isFreeze) {
@@ -116,8 +114,9 @@ void PlayGame::dealWithCollision(bool& isFreeze) {
 }
 
 
-void PlayGame::gameOver() {
-    //FIXME;
+void PlayGame::gameOv(int i) {
+    GameOver gameOver = GameOver(*m_window);
+    gameOver.run(i);
 }
 
 //print the board game 
@@ -154,7 +153,12 @@ void PlayGame::print() {
         m_dynamicObj[i]->draw(*m_window);
     }
     for (int i = 0; i < m_staticObj.size(); i++) {
-        m_staticObj[i]->draw(*m_window);
+        if (!(m_staticObj[i]->getIfDraw())) {
+            m_staticObj[i]->draw(*m_window);
+        }
+        else {
+            m_staticObj[i]->setIfDraw(false);
+        }
     }
     m_bar.draw(*m_window, m_val);
     m_window->draw(m_backButtonSprite);
@@ -220,3 +224,4 @@ void PlayGame::LoadFile(std::vector<std::string> ) {
         }
     }
 }
+

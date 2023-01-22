@@ -5,6 +5,10 @@
 #include "dynamicObject/demon.h"
 #include "pacman.h"
 #include "door.h"
+#include "cookie.h"
+#include "gift.h"
+#include "key.h"
+
 
 Demon::Demon(sf::Texture* texture, const sf::Vector2f& position, float tileSize, char type, Values& values)
             : DynamicObject(texture, position, tileSize, type, values), m_lastDirection(sf::Vector2f(1,0)) {}
@@ -67,6 +71,29 @@ void Demon::handleCollision(Object& object) {
     }
 }
 
+void Demon::handleCollision(Cookie& cookie) {
+    if (m_sprite.getGlobalBounds().intersects(cookie.getSprite().getGlobalBounds())) {
+        cookie.setIfDraw(true);
+    }
+}
+
+void Demon::handleCollision(Gift& gift) {
+    if (m_sprite.getGlobalBounds().intersects(gift.getSprite().getGlobalBounds())) {
+        gift.setIfDraw(true);
+    }
+    else {
+        gift.setIfDraw(false);
+    }
+}
+
+void Demon::handleCollision(Key& key) {
+    if (m_sprite.getGlobalBounds().intersects(key.getSprite().getGlobalBounds())) {
+        key.setIfDraw(true);
+    }
+    else {
+        key.setIfDraw(false);
+    }
+}
 
 void Demon::handleCollision(Door &door) {
     if(m_sprite.getGlobalBounds().intersects(door.getSprite().getGlobalBounds()))

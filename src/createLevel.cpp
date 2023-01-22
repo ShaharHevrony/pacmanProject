@@ -10,7 +10,7 @@
 #include <sstream>
 
 
-CreateLevel::CreateLevel(sf::RenderWindow& window) : m_window(&window), m_val() ,m_board(m_val) {} //FIXME: get row and col
+CreateLevel::CreateLevel(sf::RenderWindow& window) : m_window(&window), m_val() ,m_board(m_val, m_level) {} //FIXME: get row and col
 
 void CreateLevel::run() {
     for (int index = 0; index < OBJECT; index++) {
@@ -100,6 +100,7 @@ void CreateLevel::print(int row, int col) {
             Object& temp = m_board.getTileObj(row, col);
             temp.getSprite().setScale(tileSize, tileSize);
             m_window->draw(temp.getSprite());
+            
         }
     }
     m_inBounds = false;
