@@ -8,7 +8,7 @@
 #include "bar.h"
 class PlayGame {
 public:
-    PlayGame(sf::RenderWindow& window, int level, bool& sound);
+    PlayGame(sf::RenderWindow& window, int level, bool& sound, Values& values);
 
     void print();
 
@@ -30,7 +30,9 @@ public:
 
     bool getEndAllLevels();
 
-    void setEndAllLevels();
+    void setTime();
+
+    bool timeOver() const;
 
 private:
     int m_level;
@@ -43,7 +45,7 @@ private:
     
     bool m_back = false;
 
-    BoardLimits m_boardLimits;
+    bool m_time = false;
 
     bool m_sound;
 
@@ -53,13 +55,13 @@ private:
 
     Board* m_board;
 
+    Values& m_val;
+
     sf::RenderWindow* m_window;
 
     Bar m_bar;
 
     sf::Clock m_giftTime;
-
-    Values m_val;
 
     sf::Music m_music;
 

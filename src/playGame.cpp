@@ -3,7 +3,6 @@
 #include "gameOver.h"
 #include "values.h"
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include <SFML/Audio.hpp>
 
 #include <dynamicObject/pacman.h>
@@ -16,8 +15,8 @@
 #include <staticObject/gift/gift.h>
 #include <thread>
 
-PlayGame::PlayGame(sf::RenderWindow& window,int level, bool& sound)
-        : m_window(&window), m_level(level), m_bar(m_val), m_val(), m_sound(sound) {
+PlayGame::PlayGame(sf::RenderWindow& window,int level, bool& sound, Values& values)
+        : m_window(&window), m_level(level), m_bar(values), m_val(values), m_sound(sound) {
     m_backButton = ResourcesManager::inctance().backButtonSprite();
     m_backButton.setPosition(1700, 950);
     m_backButton.setScale(0.05, 0.05);
@@ -30,12 +29,12 @@ PlayGame::PlayGame(sf::RenderWindow& window,int level, bool& sound)
     m_soundButton.setPosition(1550, 950);
     m_soundButton.setScale(0.05, 0.05);
     m_soundButton.setOrigin(1000, 1000);
-
+    m_val.resetLife();
 }
 
 void PlayGame::playLevel(int m_level) {
     m_endGame = false;
-    m_board = new Board(m_val, m_level);
+    m_board = new Board(m_val);
     //make a board
     LoadFile(m_board->getMap());
     print();
@@ -79,8 +78,14 @@ void PlayGame::playLevel(int m_level) {
             m_music.stop();
             gameOv(0);
         }
+        if (m_bar.timeUp()) {
+            m_time = true;
+            m_music.stop();
+            break;
+        }
         if (m_val.getNumOfCookie() == 0) {
             m_endLevel = true;
+            m_val.setLevel(INC);
         }
         print();
     }
@@ -136,7 +141,6 @@ void PlayGame::dealWithCollision(bool& isFreeze) {
     std::erase_if(m_staticObj, [](const auto& item) {return item->getDelete(); });
 }
 
-
 void PlayGame::gameOv(int i) {
     GameOver gameOver = GameOver(*m_window);
     gameOver.run(i);
@@ -186,8 +190,6 @@ void PlayGame::print() {
     m_window->draw(m_soundButton);
     m_window->draw(m_backButton);
     m_window->display();
-
- 
 }
 
 //load the object and put them in two different uniq ptr arrays
@@ -285,6 +287,10 @@ bool PlayGame::getEndAllLevels() {
     return m_endGame;
 }
 
-void PlayGame::setEndAllLevels() {
-    m_endGame = !m_endGame;
+void PlayGame::setTime() {
+    m_time = !m_time;
+}
+
+bool PlayGame::timeOver() const{
+    return m_time;
 }

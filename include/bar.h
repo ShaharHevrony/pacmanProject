@@ -11,8 +11,12 @@ public:
 
     void draw(sf::RenderWindow& window, const Values& val);
 
+    bool timeUp() const;
+
 private:
     sf::Clock m_timer;
+
+    bool m_timeUp = false;
 
     Values& m_val;
 

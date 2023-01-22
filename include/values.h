@@ -18,15 +18,7 @@ enum Symbols {
 enum Buttons{
     playButton,
     helpButton,
-    newMapButton,
     exitButton,
-};
-
-
-struct BoardLimits {
-    sf::Vector2f topLeft;
-    sf::Vector2f bottomRight;
-    float tileSize;
 };
 
 const std::string PATH = "../../../";
@@ -96,7 +88,7 @@ public:
     void setNumOfKey(int num) {m_numOfKey+= num;}
     void setNumOfGift(int num){ m_numOfGift+= num;}
     void setTime(int time) {m_time+= time;}
-
+    void resetLife() {m_life = 3;}
 private:
     int m_life        = 3;
     int m_score       = 0;
@@ -107,5 +99,5 @@ private:
     int m_numOfKey    = 0;
     int m_numOfPacman = 0;
     int m_numOfGift   = 0;
-    int m_time        = 60;
+    int m_time        = 10;
 };

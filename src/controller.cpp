@@ -73,9 +73,9 @@ void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
                 //if click on eraser
             case playButton: {
                 m_level = 1;
-                PlayGame* play = new PlayGame(m_window, m_level, m_sound);
+                PlayGame* play = new PlayGame(m_window, m_level, m_sound, m_val);
                 while (!(play->getEndAllLevels())) {
-                    PlayGame* play = new PlayGame(m_window, m_level, m_sound);
+                    PlayGame* play = new PlayGame(m_window, m_level, m_sound, m_val);
                     play->playLevel(m_level);
                     if (play->getEndAllLevels()) {
                         play->gameOv(1);
@@ -85,8 +85,11 @@ void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
                         play->setBack();
                         break;
                     }
-                    m_level++;
-
+                    if(!play->timeOver()){
+                        m_level++;
+                    }else{
+                        m_val.setScore(0);
+                    }
                 }
                 break;
             }
@@ -110,8 +113,8 @@ void Controller::handleMouseMoved(sf::Event::MouseMoveEvent& event) {
     auto location = m_window.mapPixelToCoords({ event.x, event.y });
     for (int row = 0; row < 4; row++){
         if (m_menu[row].getGlobalBounds().contains(location)) {
-            m_soundTuch.setBuffer(ResourcesManager::inctance().getSoundTouch());
-            m_soundTuch.play();
+            m_soundTouch.setBuffer(ResourcesManager::inctance().getSoundTouch());
+            m_soundTouch.play();
             m_menu[row].setScale(1.15, 1.15);
             m_tempButton = row;
         }

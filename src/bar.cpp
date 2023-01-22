@@ -22,6 +22,7 @@ void Bar::draw(sf::RenderWindow& window, const Values& val){
     for(int bar = 0; bar < 4; bar++){
         if(bar == 1 && elapse <= 0){
             m_bar[1] = sf::Text("Time over!", ResourcesManager::inctance().getFont(), 60);
+            m_timeUp = true;
         } else {
             m_bar[bar] = sf::Text(m_text[bar].getString() + str[bar].str().c_str(), ResourcesManager::inctance().getFont(),60);
         }
@@ -34,4 +35,8 @@ void Bar::draw(sf::RenderWindow& window, const Values& val){
         m_bar[bar].setPosition(1450, 160 + 100 * bar);
         window.draw(m_bar[bar]);
     }
+}
+
+bool Bar::timeUp() const{
+    return m_timeUp;
 }

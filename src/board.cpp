@@ -19,7 +19,7 @@
 #include "board.h"
 
 //constructor that put in the default member and load the sprites
-Board::Board(Values& val, int m_level) :m_row(0), m_col(0) ,m_boardWidth(0), m_boardHight(0), m_val(val) {
+Board::Board(Values& val) :m_row(0), m_col(0) ,m_boardWidth(0), m_boardHight(0), m_val(val) {
     //load the level from a file is exist
     if (std::filesystem::exists("Board.txt")) {
         std::ifstream m_boardFile;
@@ -28,7 +28,7 @@ Board::Board(Values& val, int m_level) :m_row(0), m_col(0) ,m_boardWidth(0), m_b
             exit(EXIT_FAILURE);
         }
         int i = 1;
-        while (i != m_level) {
+        while (i != m_val.getLevel()) {
             m_boardFile >> m_row >> m_col;
             m_boardFile.get();
             std::string str;
@@ -57,7 +57,6 @@ Board::Board(Values& val, int m_level) :m_row(0), m_col(0) ,m_boardWidth(0), m_b
         createBoard();
         m_boardFile.close();
     }
-    
 }
 
 

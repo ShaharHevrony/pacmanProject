@@ -36,11 +36,13 @@ private:
 
     sf::Sprite m_backgroundSprite;
 
-    sf::Sound m_soundTuch;
+    sf::Sound m_soundTouch;
 
-    sf::Sprite m_saundButton;
+    sf::Sprite m_soundButton;
 
     sf::Music m_music;
+
+    Values m_val;
 
     int  m_tempButton = 0;
 
