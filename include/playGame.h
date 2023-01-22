@@ -20,8 +20,6 @@ public:
 
     void dealWithCollision(bool& isFreeze);
 
-    bool changeSound();
-
     void handleMouseMoved(sf::Event::MouseMoveEvent& event);
 
     void handleMouseButton(sf::Event::MouseButtonEvent& event);

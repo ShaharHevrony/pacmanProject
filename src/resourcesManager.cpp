@@ -221,18 +221,14 @@ sf::Sprite& ResourcesManager::getGameOverSprite() {
     return m_gameOverSprite;
 }
 
-sf::Texture ResourcesManager::getGameOverTextur() {
+sf::Texture ResourcesManager::getGameOverTexture() {
     return m_gameOverTextur;
 }
 
-sf::Sprite& ResourcesManager::getsecssesSprite() {
+sf::Sprite& ResourcesManager::getSecssesSprite() {
     return m_getsecssesSprite;
 }
 
-sf::Texture ResourcesManager::getsecssesTextur() {
+sf::Texture ResourcesManager::getSecssesTexture() {
     return m_getsecssesTextur;
 }
-
-//sf::Music& ResourcesManager::getBirdMusic() {
-//    return m_birsMusic;
-//}

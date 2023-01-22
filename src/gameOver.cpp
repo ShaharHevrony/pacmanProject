@@ -49,7 +49,7 @@ void GameOver::print(int i) {
         gameOver = ResourcesManager::inctance().getGameOverSprite();
     }
     else {
-        gameOver = ResourcesManager::inctance().getsecssesSprite();
+        gameOver = ResourcesManager::inctance().getSecssesSprite();
     }
     m_window->draw(gameOver);
 
