@@ -46,5 +46,7 @@ private:
     sf::Music m_music;
 
     int  m_tempButton = 0;
+
+    int m_level;
 };
 

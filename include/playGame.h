@@ -8,15 +8,15 @@
 #include "bar.h"
 class PlayGame {
 public:
-    PlayGame(sf::RenderWindow& window, bool& sound);
+    PlayGame(sf::RenderWindow& window, int level, bool& sound);
 
     void play();
 
     void print();
 
-    void playLevel();
+    void playLevel(int m_level);
 
-    void gameOver();
+    void gameOv(int i);
 
     void LoadFile(std::vector<std::string>);
 
@@ -30,6 +30,12 @@ public:
 
 private:
     int m_level;
+
+    bool  m_isFirstRound = true;
+
+    bool m_endLevel = false;
+
+    bool m_endGame = false;
 
     BoardLimits m_boardLimits;
 

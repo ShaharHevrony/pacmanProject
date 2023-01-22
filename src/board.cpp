@@ -19,7 +19,7 @@
 #include "board.h"
 
 //constructor that put in the default member and load the sprites
-Board::Board(Values& val) :m_row(0), m_col(0) ,m_boardWidth(0), m_boardHight(0), m_val(val) {
+Board::Board(Values& val, int m_level) :m_row(0), m_col(0) ,m_boardWidth(0), m_boardHight(0), m_val(val) {
     //load the level from a file is exist
     if (std::filesystem::exists("Board.txt")) {
         std::ifstream m_boardFile;
@@ -27,11 +27,21 @@ Board::Board(Values& val) :m_row(0), m_col(0) ,m_boardWidth(0), m_boardHight(0),
         if (!m_boardFile) {
             exit(EXIT_FAILURE);
         }
-
+        int i = 1;
+        while (i != m_level) {
+            m_boardFile >> m_row >> m_col;
+            m_boardFile.get();
+            std::string str;
+            for (int height = 0; height < m_row; height++) {
+                std::getline(m_boardFile, str);
+            }
+            m_boardFile.get();
+            i++;
+        }
         m_map.clear();
-        m_map = std::vector<std::string>(20);
         m_boardFile >> m_row >> m_col;
         m_boardFile.get();
+        m_map = std::vector<std::string>(m_row);
 
         //load from the file to the str
         for (int row = 0; row < m_row; row++) {
@@ -39,22 +49,18 @@ Board::Board(Values& val) :m_row(0), m_col(0) ,m_boardWidth(0), m_boardHight(0),
             std::getline(m_boardFile, tempStr);
             m_map[row] = tempStr;
         }
-
-        if (m_row == 0 || m_col == 0) {
-            std::cout << "Not a valid file, the num of row and col must be grater then 0./n";
-        }
-        m_boardFile.get(); //skip the \n
+        //m_boardFile.get(); //skip the \n
         createBoard();
         m_boardFile.close();
     }
-    else {
-        //put in the col and row number
-        //std::cout << "Enter a row and col numbers:" << std::endl;
-        //std::cin >> m_row >> m_col;
-        m_col = 10;
-        m_row = 10;
-        createBoard();
-    }
+    //else {
+    //    //put in the col and row number
+    //    //std::cout << "Enter a row and col numbers:" << std::endl;
+    //    //std::cin >> m_row >> m_col;
+    //    m_col = 10;
+    //    m_row = 10;
+    //    createBoard();
+    //}
     
 }
 

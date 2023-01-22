@@ -33,6 +33,8 @@ public:
     void getRowAndCol();
 private:
 
+    int m_level = 1;
+
     Board m_board;
 
     Values m_val;

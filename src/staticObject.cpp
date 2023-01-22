@@ -19,6 +19,14 @@ void StaticObject::setDelete() {
     m_isDelete = !m_isDelete;
 }
 
+bool StaticObject::getIfDraw() const {
+    return m_ifDraw;
+}
+
+void StaticObject::setIfDraw(bool draw) {
+    m_ifDraw = draw;
+}
+
 bool StaticObject::getFreeze() const {
     return m_isFreeze;
 }

@@ -46,6 +46,17 @@ public:
 
     sf::Texture* getSuperPacmanObj ();
 
+	sf::Sprite& getGameOverSprite();
+
+	sf::Texture getGameOverTextur();
+
+	sf::Sprite& getsecssesSprite();
+
+	sf::Texture getsecssesTextur();
+
+	//sf::Music& getBirdMusic();
+
+
     sf::Texture* getPacmanObj ();
 private:
 
@@ -102,4 +113,13 @@ private:
     sf::Texture* m_superPacmanObj;
 
     sf::Texture* m_pacmanObj;
+
+	sf::Sprite m_gameOverSprite;
+
+	sf::Texture m_gameOverTextur;
+
+	sf::Sprite  m_getsecssesSprite;
+
+	sf::Texture m_getsecssesTextur;
+
 };

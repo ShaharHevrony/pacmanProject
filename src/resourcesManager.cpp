@@ -44,7 +44,7 @@ ResourcesManager::ResourcesManager() {
     }
     m_pacmanObj = m_object[0];
 
-    //load the front 
+    //load the front
     sf::Font title;
     title.loadFromFile(PATH + "HappyMonkey.ttf");
     m_font = title;
@@ -79,7 +79,14 @@ ResourcesManager::ResourcesManager() {
     noSoundButtonSprite.setTexture(m_noSoundButtonTexture);
     m_noSoundButtonSprite = noSoundButtonSprite;
 
-    //load pacman death sound 
+    //load the bird music
+    //sf::Music birsMusic;
+    //if (!birsMusic.openFromFile("bird.wav")) {
+    //    // Error loading music file
+    //}
+    //m_birsMusic = birsMusic;
+
+    //load pacman death sound
     sf::SoundBuffer soundDeath;
     if (!soundDeath.loadFromFile(PATH + "pacmanDeath.wav")) {
         // Error loading sound file
@@ -113,6 +120,23 @@ ResourcesManager::ResourcesManager() {
         // Error loading sound file
     }
     m_superPacmanObj = superPacmanObjTexture;
+
+    //game over backround
+    sf::Texture gameOverTexture;
+    if (!gameOverTexture.loadFromFile(PATH + "gameOver.png")) {
+        // Error loading image
+    }
+    m_gameOverTextur = gameOverTexture;
+    m_gameOverSprite.setTexture(m_gameOverTextur);
+
+    //game done backround
+    sf::Texture gameDoneTexture;
+    if (!gameDoneTexture.loadFromFile(PATH + "congratulations.png")) {
+        // Error loading image
+    }
+    m_getsecssesTextur = gameDoneTexture;
+    m_getsecssesSprite.setTexture(m_getsecssesTextur);
+
 }
 
 
@@ -192,3 +216,23 @@ sf::Texture* ResourcesManager::getSuperPacmanObj() {
 sf::Texture* ResourcesManager::getPacmanObj() {
     return m_pacmanObj;
 }
+
+sf::Sprite& ResourcesManager::getGameOverSprite() {
+    return m_gameOverSprite;
+}
+
+sf::Texture ResourcesManager::getGameOverTextur() {
+    return m_gameOverTextur;
+}
+
+sf::Sprite& ResourcesManager::getsecssesSprite() {
+    return m_getsecssesSprite;
+}
+
+sf::Texture ResourcesManager::getsecssesTextur() {
+    return m_getsecssesTextur;
+}
+
+//sf::Music& ResourcesManager::getBirdMusic() {
+//    return m_birsMusic;
+//}
