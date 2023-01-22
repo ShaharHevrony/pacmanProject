@@ -50,7 +50,7 @@ void PlayGame::playLevel(int m_level) {
         m_music.setLoop(true); // set the music to loop
     }
     sf::Clock playTime;
-    while (m_window->isOpen() && !(m_endLevel || m_endGame || m_back)){
+    while (m_window->isOpen() && !(m_endLevel || m_endGame || m_back || m_time)){
         if (auto event = sf::Event{}; m_window->pollEvent(event)) {
 
             if (event.type == sf::Event::Closed) {
@@ -76,12 +76,11 @@ void PlayGame::playLevel(int m_level) {
         }
         if (m_val.getLife() == 0) {
             m_music.stop();
-            gameOv(0);
+            gameOver(0);
         }
         if (m_bar.timeUp()) {
             m_time = true;
             m_music.stop();
-            break;
         }
         if (m_val.getNumOfCookie() == 0) {
             m_endLevel = true;
@@ -138,10 +137,10 @@ void PlayGame::dealWithCollision(bool& isFreeze) {
         }
     }
     //erase the static object we need
-    std::erase_if(m_staticObj, [](const auto& item) {return item->getDelete(); });
+    std::erase_if(m_staticObj, [](const auto& item) {return item->getDelete();});
 }
 
-void PlayGame::gameOv(int i) {
+void PlayGame::gameOver(int i) {
     GameOver gameOver = GameOver(*m_window);
     gameOver.run(i);
     m_back = true;
@@ -285,6 +284,10 @@ void PlayGame::setBack() {
 
 bool PlayGame::getEndAllLevels() {
     return m_endGame;
+}
+
+void PlayGame::setEndAllLevels() {
+    m_endGame = !m_endGame;
 }
 
 void PlayGame::setTime() {

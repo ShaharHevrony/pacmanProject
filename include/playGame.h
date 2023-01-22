@@ -14,7 +14,7 @@ public:
 
     void playLevel(int m_level);
 
-    void gameOv(int i);
+    void gameOver(int i);
 
     void LoadFile(std::vector<std::string>);
 
@@ -29,6 +29,8 @@ public:
     void setBack();
 
     bool getEndAllLevels();
+
+    void setEndAllLevels();
 
     void setTime();
 

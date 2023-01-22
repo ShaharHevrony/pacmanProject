@@ -78,17 +78,17 @@ void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
                     PlayGame* play = new PlayGame(m_window, m_level, m_sound, m_val);
                     play->playLevel(m_level);
                     if (play->getEndAllLevels()) {
-                        play->gameOv(1);
+                        play->gameOver(1);
+                        play->setEndAllLevels();
                         break;
-                    }
-                    else if (play->getBack()) {
+                    }else if (play->getBack()) {
                         play->setBack();
                         break;
-                    }
-                    if(!play->timeOver()){
-                        m_level++;
-                    }else{
-                        m_val.setScore(0);
+                    }else if(!play->timeOver()){
+                        play->setTime();
+                    }else if(play->timeOver()){
+                        m_val.resetScore();
+                        m_val.setLife(DEC);
                     }
                 }
                 break;

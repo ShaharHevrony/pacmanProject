@@ -80,6 +80,7 @@ public:
 
     void setLife(int life) { m_life += life;}
     void setScore(int score) {m_score+= score;}
+    void resetScore() {m_score = 0;}
     void setLevel(int level) {m_level+= level;}
     void setNumOfPacman(int num) {m_numOfPacman+= num;}
     void setNumOfDemon(int num) {m_numOfDemon+= num;}
@@ -99,5 +100,5 @@ private:
     int m_numOfKey    = 0;
     int m_numOfPacman = 0;
     int m_numOfGift   = 0;
-    int m_time        = 10;
+    int m_time        = 60;
 };
