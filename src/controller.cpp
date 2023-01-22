@@ -6,14 +6,12 @@ Controller::Controller() :m_window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "
 }
 
 void Controller::run() {
-    //sf::Music m_birdMusic;
-    //m_birdMusic = ResourcesManager::inctance().getBirdMusic();
-       //load the bird music
-    sf::Music birsMusic;
-    if (!birsMusic.openFromFile("bird.wav")) {
+
+    //load the bird music
+    if (!m_music.openFromFile(PATH + "bird.wav")) {
         // Error loading music file
     }
-    birsMusic.play();
+    m_music.play();
     while (m_window.isOpen()){
         if (auto event = sf::Event{}; m_window.pollEvent(event)) {
             switch (event.type) {
@@ -23,7 +21,7 @@ void Controller::run() {
             }
              //if the user clicks on the window
             case sf::Event::MouseButtonReleased: {
-                birsMusic.stop();
+                m_music.stop();
                 handleMouseButton(event.mouseButton);
 
             }
@@ -95,11 +93,6 @@ void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
             case helpButton: {
                 Help help = Help(m_window);
                 help.run();
-            }
-                break;
-            case newMapButton: {
-                CreateLevel createLevel = CreateLevel(m_window);
-                createLevel.run();
                 break;
             }
             case exitButton:

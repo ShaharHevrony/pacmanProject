@@ -48,14 +48,11 @@ public:
 
 	sf::Sprite& getGameOverSprite();
 
-	sf::Texture getGameOverTextur();
+	sf::Texture getGameOverTexture();
 
-	sf::Sprite& getsecssesSprite();
+	sf::Sprite& getSecssesSprite();
 
-	sf::Texture getsecssesTextur();
-
-	//sf::Music& getBirdMusic();
-
+	sf::Texture getSecssesTexture();
 
     sf::Texture* getPacmanObj ();
 private:

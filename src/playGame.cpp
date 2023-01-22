@@ -41,15 +41,14 @@ void PlayGame::playLevel(int m_level) {
     print();
     bool isFreeze = false;
     m_endLevel = false;
-    //Fix me do stati
+    //Fix me do static
     //load the sound level 
-    sf::Music music;
-    if (!music.openFromFile(PATH + "levelSound.wav")) {
+    if (!m_music.openFromFile(PATH + "levelSound.wav")) {
         // Error loading music file
     }
     if(m_sound){
-        music.play();
-        music.setLoop(true); // set the music to loop
+        m_music.play();
+        m_music.setLoop(true); // set the music to loop
     }
     sf::Clock playTime;
     while (m_window->isOpen() && !(m_endLevel || m_endGame || m_back)){
@@ -57,13 +56,13 @@ void PlayGame::playLevel(int m_level) {
 
             if (event.type == sf::Event::Closed) {
                 m_window->close();
-                break;
             } else if (event.type == sf::Event::MouseMoved){
                 handleMouseMoved(event.mouseMove);
             } else if (event.type == sf::Event::MouseButtonReleased){
                 handleMouseButton(event.mouseButton);
             }
         }
+
         float time = playTime.restart().asSeconds();
         //move dynamic object
         for (int i = 0; i < m_dynamicObj.size(); i++) {
@@ -77,7 +76,7 @@ void PlayGame::playLevel(int m_level) {
             isFreeze = false;
         }
         if (m_val.getLife() == 0) {
-            music.stop();
+            m_music.stop();
             gameOv(0);
         }
         if (m_val.getNumOfCookie() == 0) {
@@ -249,10 +248,6 @@ void PlayGame::LoadFile(std::vector<std::string> ) {
     }
 }
 
-bool PlayGame::changeSound() {
-    return m_sound;
-}
-
 void PlayGame::handleMouseMoved(sf::Event::MouseMoveEvent& event) {
     m_backButton.setScale(0.05, 0.05);
     m_soundButton.setScale(0.05, 0.05);
@@ -270,6 +265,11 @@ void PlayGame::handleMouseButton(sf::Event::MouseButtonEvent& event) {
         m_back = true;
     } else if(m_soundButton.getGlobalBounds().contains(location)){
         m_sound = !m_sound;
+        if(m_sound){
+            m_music.play();
+        } else {
+            m_music.pause();
+        }
     }
 }
 
