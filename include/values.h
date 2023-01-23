@@ -18,7 +18,6 @@ enum Symbols {
 enum Buttons{
     playButton,
     helpButton,
-    newMapButton,
     exitButton,
 };
 
