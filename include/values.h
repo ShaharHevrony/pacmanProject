@@ -10,9 +10,6 @@ enum Symbols {
     wall,
     cookie,
     gift,
-    eraser,
-    restart,
-    save,
 };
 
 enum Buttons{
@@ -32,8 +29,7 @@ struct BoardLimits {
 const std::string PATH = "";
 const std::string m_names[3] = {"PlayButton.png", "HelpButton.png", "ExitButton.png"};
 const std::string imagNames[10] = {"Pacman.png", "Demon.png", "Door.png", "Key.png",
-                                   "Wall.png", "cookie.png", "Gift.png", "Eraser.png",
-                                   "Restart.png", "Save.png"};
+                                   "Wall.png", "cookie.png", "Gift.png"};
 const std::string gameBar[4] = {"Level: ","Time: ", "Points: ", "Life: "};
 
 const int WINDOW_HEIGHT = 1068;

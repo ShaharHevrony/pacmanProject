@@ -19,7 +19,7 @@
 #include "board.h"
 
 //constructor that put in the default member and load the sprites
-Board::Board(Values& val, int m_level) :m_row(0), m_col(0) ,m_boardWidth(0), m_boardHight(0), m_val(val) {
+Board::Board(Values& val) :m_row(0), m_col(0) ,m_boardWidth(0), m_boardHight(0), m_val(val) {
     //load the level from a file is exist
     if (std::filesystem::exists("Board.txt")) {
         std::ifstream m_boardFile;
@@ -28,7 +28,7 @@ Board::Board(Values& val, int m_level) :m_row(0), m_col(0) ,m_boardWidth(0), m_b
             exit(EXIT_FAILURE);
         }
         int i = 1;
-        while (i != m_level) {
+        while (i != val.getLevel()) {
             m_boardFile >> m_row >> m_col;
             m_boardFile.get();
             std::string str;
@@ -122,86 +122,6 @@ void Board::setRow(int row) {
 //set col
 void Board::setCol(int col) {
     m_col = col;
-}
-
-//function that handel the object we click on
-void Board::handleObj(int type, sf::Event::MouseButtonEvent& currMove, sf::RenderWindow& window) {
-    ResourcesManager reso = ResourcesManager::inctance();
-    for (int row = 0; row < m_row; row++) {
-        for (int col = 0; col < m_col; col++) {
-            //if click on the current rectangle
-            if (m_matrix[row][col].getGlobalBounds().contains(window.mapPixelToCoords({ currMove.x, currMove.y }))) {
-                //if there is already texture in the rectangle
-                if (m_objects[row][col]->getSprite().getTexture() != nullptr) {
-                    if ((type == pacman && m_val.getNumOfPacman() != 1) || (type != pacman)) {
-                        eraserObj(row, col);
-                    }
-                }
-
-                switch (type) {
-                case pacman: {
-                    //if there is no other pacman on the board
-                    if (m_val.getNumOfPacman() == 0) {
-                        m_objects[row][col] = std::make_unique<Pacman>(&reso.getObject(pacman), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type), m_val);
-                        m_val.setNumOfPacman(INC);
-                    }
-                    break;
-                }
-                case demon: {
-                    //put the object on the rectangle
-                    m_objects[row][col] = std::make_unique<Demon>(&reso.getObject(demon), m_matrix[row][col].getPosition(),m_tileSize, indexToChar(type), m_val);
-                    m_val.setNumOfDemon(INC);
-                    break;
-                }
-                case door: {
-                    //put the object on the rectangle
-                    m_objects[row][col] = std::make_unique<Door>(&reso.getObject(door), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type), m_val);
-                    m_val.setNumOfDoor(INC);
-                    break;
-                }
-                case key: {
-                    //put the object on the rectangle
-                    m_objects[row][col] = std::make_unique<Key>(&reso.getObject(key), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type), m_val);
-                    m_val.setNumOfKey(INC);
-                    break;
-                }
-                case wall:
-                    m_objects[row][col] = std::make_unique<Wall>(&reso.getObject(wall), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type), m_val);
-                    break;
-                case cookie:
-                    m_objects[row][col] = std::make_unique<Cookie>(&reso.getObject(cookie), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type), m_val);
-                    m_val.setNumOfCookie(INC);
-                    break;
-                case gift: {
-                    //put the object on the rectangle
-                    m_objects[row][col] = std::make_unique<Gift>(&reso.getObject(gift), m_matrix[row][col].getPosition(), m_tileSize, indexToChar(type), m_val);
-                    m_val.setNumOfGift(INC);
-                    break;
-                }
-                case eraser: {
-                    break;
-                }
-                }
-            }
-        }
-    }
-}
-
-//function  that erase the object on the current rectangle
-void Board::eraserObj(int row, int col){ //FIXME: fix the count of other object on the screen
-    //if erase pacman
-    if (m_objects[row][col]->getSprite().getTexture() == &m_texture[0]) {
-        m_val.setNumOfPacman(DEC);
-        //if erase door
-    } else if (m_objects[row][col]->getSprite().getTexture() == &m_texture[2]) {
-        m_val.setNumOfDoor(DEC);
-        //if erase key
-    } else if (m_objects[row][col]->getSprite().getTexture() == &m_texture[3]) {
-        m_val.setNumOfKey(DEC);
-    } else if(m_objects[row][col]->getSprite().getTexture() == &m_texture[5]){
-        m_val.setNumOfCookie(DEC);
-    }
-    //m_objects[row][col] = std::make_unique<Object>(nullptr, m_matrix[row][col].getPosition(), m_tileSize, ' ');
 }
 
 //return tile

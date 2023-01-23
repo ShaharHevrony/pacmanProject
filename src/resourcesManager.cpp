@@ -7,11 +7,11 @@
 #include "values.h"
 ResourcesManager::ResourcesManager() {
 
-    for (int index = 0; index < 4; index++) {
+    for (int index = 0; index < 3; index++) {
         m_textureMenuStart[index].loadFromFile(PATH + m_names[index]);
     }
 
-    for (int index = 0; index < 10; index++) {
+    for (int index = 0; index < 7; index++) {
         m_imagNames[index].loadFromFile(PATH + imagNames[index]);
     }
 

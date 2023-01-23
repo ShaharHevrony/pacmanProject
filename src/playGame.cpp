@@ -38,7 +38,7 @@ void PlayGame::playLevel(Values& m_val) {
     bool isFreeze = false;
     m_endLevel = false;
     //make a board
-    m_board = new Board(m_val, m_level);
+    m_board = new Board(m_val);
     LoadFile(m_board->getMap(), m_val);
     print(m_val);
     //load the sound level 

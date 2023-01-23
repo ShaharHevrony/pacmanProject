@@ -89,11 +89,11 @@ private:
 
 	sf::Sprite m_superPacmanSprite;
 
-	sf::Texture m_textureMenuStart[4];
+	sf::Texture m_textureMenuStart[3];
 
     sf::Texture* m_object[NUM_OF_OBJECTS];
 
-	sf::Texture m_imagNames[10];
+	sf::Texture m_imagNames[7];
 
 	sf::SoundBuffer m_soundDeath;
 
