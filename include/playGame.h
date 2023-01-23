@@ -53,9 +53,6 @@ private:
 
     bool m_sound;
 
-
-    BoardLimits m_boardLimits;
-
     sf::Clock m_timer;
 
     std::vector<std::unique_ptr<StaticObject>> m_staticObj;

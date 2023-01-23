@@ -15,10 +15,6 @@ void State::setSuperState(bool state) {
     m_super = state;
 }
 
-Values State::getVal() const {
-    return m_val;
-}
-
 SuperPacman::SuperPacman(Values& values):State(values) {
     setSuperState(true);
 }
@@ -38,5 +34,5 @@ void RegularPacman::handleCollision(Pacman &pacman, Demon &demon) {
     pacman.setPosition(pacman.getOriginPosition());
     pacman.setRestartDemon();
     pacman.setCollided();
-    getVal().setLife(DEC);
+    m_val.setLife(DEC);
 }

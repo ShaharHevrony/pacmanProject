@@ -13,7 +13,7 @@
 #include <staticObject/cookie.h>
 #include <staticObject/door.h>
 #include <staticObject/wall.h>
-#include <staticObject/gift/gift.h>
+#include "staticObject/gift.h"
 #include <thread>
 
 PlayGame::PlayGame(sf::RenderWindow& window,int level, bool& sound, Values& val)
@@ -203,7 +203,6 @@ void PlayGame::LoadFile(std::vector<std::string>, Values& m_val) {
     float tileSize = m_board->getTile()*0.95;
     //map hold the string with the object from the file 
     std::vector<std::string> map = m_board->getMap();
-    ResourcesManager reso = ResourcesManager::inctance();
     for (int row = 0; row < m_board->getRow(); row++) {
         for (int col = 0; col < m_board->getCol(); col++) {
             auto loc = m_board->getRectangle(row,col);
@@ -212,7 +211,7 @@ void PlayGame::LoadFile(std::vector<std::string>, Values& m_val) {
 
             switch (type) {
             case PACMAN_S: {
-                m_dynamicObj.push_back(std::make_unique<Pacman>(&reso.getObject(pacman),loc.getPosition(), tileSize*0.75,type, m_val));
+                m_dynamicObj.push_back(std::make_unique<Pacman>(&ResourcesManager::inctance().getObject(pacman),loc.getPosition(), tileSize*0.75,type, m_val));
                 if (m_dynamicObj.size() != 0) {
                     m_dynamicObj[0].swap((m_dynamicObj[m_dynamicObj.size()-1]));
                     m_pacLocation = loc.getPosition();
@@ -221,31 +220,31 @@ void PlayGame::LoadFile(std::vector<std::string>, Values& m_val) {
                 break;
             }
             case DEMON_S: {
-                m_dynamicObj.push_back(std::make_unique<Demon>(&reso.getObject(demon),loc.getPosition(), tileSize, type, m_val));
+                m_dynamicObj.push_back(std::make_unique<Demon>(&ResourcesManager::inctance().getObject(demon),loc.getPosition(), tileSize, type, m_val));
                 m_val.setNumOfDemon(INC);
                 break;
             }
             case DOOR_S: {
-                m_staticObj.push_back(std::make_unique<Door>(&reso.getObject(door), loc.getPosition(), tileSize, type, m_val));
+                m_staticObj.push_back(std::make_unique<Door>(&ResourcesManager::inctance().getObject(door), loc.getPosition(), tileSize, type, m_val));
                 m_val.setNumOfDoor(INC);
                 break;
             }
             case KEY_S: {
-                m_staticObj.push_back(std::make_unique<Key>(&reso.getObject(key), loc.getPosition(), tileSize, type, m_val));
+                m_staticObj.push_back(std::make_unique<Key>(&ResourcesManager::inctance().getObject(key), loc.getPosition(), tileSize, type, m_val));
                 m_val.setNumOfKey(INC);
                 break;
             }
             case WALL_S: {
-                m_staticObj.push_back(std::make_unique<Wall>(&reso.getObject(wall), loc.getPosition(), tileSize, type, m_val));
+                m_staticObj.push_back(std::make_unique<Wall>(&ResourcesManager::inctance().getObject(wall), loc.getPosition(), tileSize, type, m_val));
                 break;
             }
             case COOKIE_S: {
-                m_staticObj.push_back(std::make_unique<Cookie>(&reso.getObject(cookie), loc.getPosition(), tileSize, type, m_val));
+                m_staticObj.push_back(std::make_unique<Cookie>(&ResourcesManager::inctance().getObject(cookie), loc.getPosition(), tileSize, type, m_val));
                 m_val.setNumOfCookie(INC);
                 break;
             }
             case GIFT_S: {
-                m_staticObj.push_back( std::make_unique<Gift>(&reso.getObject(gift), loc.getPosition(), tileSize, type, m_val));
+                m_staticObj.push_back( std::make_unique<Gift>(&ResourcesManager::inctance().getObject(gift), loc.getPosition(), tileSize, type, m_val));
                 m_val.setNumOfGift(INC);
                 break;
             }

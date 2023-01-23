@@ -19,17 +19,16 @@ public:
 
     void setSuperState (bool state);
 
-    Values getVal() const;
+protected:
+    Values& m_val;
 
 private:
     bool m_super = false;
 
-    Values m_val;
-
     sf::Sprite m_pacman;
 };
 
-class SuperPacman: public State{
+class SuperPacman: public State {
 public:
     SuperPacman(Values& values);
 

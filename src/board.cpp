@@ -14,7 +14,7 @@
 #include <staticObject/cookie.h>
 #include <staticObject/door.h>
 #include <staticObject/wall.h>
-#include <staticObject/gift/gift.h>
+#include "staticObject/gift.h"
 
 #include "board.h"
 

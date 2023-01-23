@@ -87,6 +87,7 @@ void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
                     }
                     if (!play->timeOver()) {
                         m_level++;
+                        m_val.setScore(m_val.getNumOfDemon()*2 + 50);
                     }
                     else {
                         m_val.setScore(0);
