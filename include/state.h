@@ -19,11 +19,12 @@ public:
 
     void setSuperState (bool state);
 
-protected:
-    Values& m_val;
+    Values getVal() const;
 
 private:
     bool m_super = false;
+
+    Values m_val;
 
     sf::Sprite m_pacman;
 };

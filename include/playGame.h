@@ -8,17 +8,17 @@
 #include "bar.h"
 class PlayGame {
 public:
-    PlayGame(sf::RenderWindow& window, int level, bool& sound, Values& values);
+    PlayGame(sf::RenderWindow& window, int level, bool& sound, Values& m_val);
 
-    void print();
+    void print(Values& val);
 
-    void playLevel(int m_level);
+    void playLevel(Values& m_val);
 
     void gameOver(int i);
 
-    void LoadFile(std::vector<std::string>);
+    void LoadFile(std::vector<std::string>, Values& val);
 
-    void dealWithCollision(bool& isFreeze);
+    void dealWithCollision(bool& isFreeze, Values& val);
 
     void handleMouseMoved(sf::Event::MouseMoveEvent& event);
 
@@ -39,6 +39,10 @@ public:
 private:
     int m_level;
 
+    bool m_time = false;
+
+    bool m_timeUp = false;
+
     bool  m_isFirstRound = true;
 
     bool m_endLevel = false;
@@ -47,17 +51,18 @@ private:
     
     bool m_back = false;
 
-    bool m_time = false;
-
     bool m_sound;
+
+
+    BoardLimits m_boardLimits;
+
+    sf::Clock m_timer;
 
     std::vector<std::unique_ptr<StaticObject>> m_staticObj;
 
     std::vector<std::unique_ptr<DynamicObject>> m_dynamicObj;
 
     Board* m_board;
-
-    Values& m_val;
 
     sf::RenderWindow* m_window;
 

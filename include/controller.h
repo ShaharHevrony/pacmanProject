@@ -36,9 +36,9 @@ private:
 
     sf::Sprite m_backgroundSprite;
 
-    sf::Sound m_soundTouch;
+    sf::Sound m_soundTuch;
 
-    sf::Sprite m_soundButton;
+    sf::Sprite m_saundButton;
 
     sf::Music m_music;
 

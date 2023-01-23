@@ -36,7 +36,10 @@ void Bar::draw(sf::RenderWindow& window, const Values& val){
         window.draw(m_bar[bar]);
     }
 }
-
-bool Bar::timeUp() const{
+bool Bar::timeUp() const {
     return m_timeUp;
+}
+
+void Bar::setTime() {
+    m_timeUp = !m_timeUp;
 }

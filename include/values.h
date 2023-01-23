@@ -18,11 +18,19 @@ enum Symbols {
 enum Buttons{
     playButton,
     helpButton,
+    newMapButton,
     exitButton,
 };
 
-const std::string PATH = "../../../";
-//const std::string PATH = "";
+
+struct BoardLimits {
+    sf::Vector2f topLeft;
+    sf::Vector2f bottomRight;
+    float tileSize;
+};
+
+//const std::string PATH = "../../../";
+const std::string PATH = "";
 const std::string m_names[3] = {"PlayButton.png", "HelpButton.png", "ExitButton.png"};
 const std::string imagNames[10] = {"Pacman.png", "Demon.png", "Door.png", "Key.png",
                                    "Wall.png", "cookie.png", "Gift.png", "Eraser.png",
@@ -80,7 +88,7 @@ public:
 
     void setLife(int life) { m_life += life;}
     void setScore(int score) {m_score+= score;}
-    void resetScore() {m_score = 0;}
+    void resetScore() { m_score = 0; }
     void setLevel(int level) {m_level+= level;}
     void setNumOfPacman(int num) {m_numOfPacman+= num;}
     void setNumOfDemon(int num) {m_numOfDemon+= num;}
@@ -89,7 +97,19 @@ public:
     void setNumOfKey(int num) {m_numOfKey+= num;}
     void setNumOfGift(int num){ m_numOfGift+= num;}
     void setTime(int time) {m_time+= time;}
-    void resetLife() {m_life = 3;}
+    void resetVal(){
+         m_life = 3;
+         m_score = 0;
+         m_level = 1;
+         m_numOfDemon = 0;
+         m_numOfCookie = 0;
+         m_numOfDoor = 0;
+         m_numOfKey = 0;
+         m_numOfPacman = 0;
+         m_numOfGift = 0;
+         m_time = 60;
+    }
+
 private:
     int m_life        = 3;
     int m_score       = 0;

@@ -3,6 +3,7 @@
 #include "gameOver.h"
 #include "values.h"
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include <SFML/Audio.hpp>
 
 #include <dynamicObject/pacman.h>
@@ -15,8 +16,8 @@
 #include <staticObject/gift/gift.h>
 #include <thread>
 
-PlayGame::PlayGame(sf::RenderWindow& window,int level, bool& sound, Values& values)
-        : m_window(&window), m_level(level), m_bar(values), m_val(values), m_sound(sound) {
+PlayGame::PlayGame(sf::RenderWindow& window,int level, bool& sound, Values& val)
+        : m_window(&window), m_level(level), m_bar(val), m_sound(sound) {
     m_backButton = ResourcesManager::inctance().backButtonSprite();
     m_backButton.setPosition(1700, 950);
     m_backButton.setScale(0.05, 0.05);
@@ -29,18 +30,17 @@ PlayGame::PlayGame(sf::RenderWindow& window,int level, bool& sound, Values& valu
     m_soundButton.setPosition(1550, 950);
     m_soundButton.setScale(0.05, 0.05);
     m_soundButton.setOrigin(1000, 1000);
-    m_val.resetLife();
+
 }
 
-void PlayGame::playLevel(int m_level) {
+void PlayGame::playLevel(Values& m_val) {
     m_endGame = false;
-    m_board = new Board(m_val);
-    //make a board
-    LoadFile(m_board->getMap());
-    print();
     bool isFreeze = false;
     m_endLevel = false;
-    //Fix me do static
+    //make a board
+    m_board = new Board(m_val, m_level);
+    LoadFile(m_board->getMap(), m_val);
+    print(m_val);
     //load the sound level 
     if (!m_music.openFromFile(PATH + "levelSound.wav")) {
         // Error loading music file
@@ -70,33 +70,37 @@ void PlayGame::playLevel(int m_level) {
                 break;
         }
         //deal with collision and erase
-        dealWithCollision(isFreeze);
+        dealWithCollision(isFreeze, m_val);
         if (isFreeze && m_giftTime.getElapsedTime().asSeconds() > 5) {
             isFreeze = false;
-        }
-        if (m_val.getLife() == 0) {
-            m_music.stop();
-            gameOver(0);
         }
         if (m_bar.timeUp()) {
             m_time = true;
             m_music.stop();
+            m_val.setLife(DEC);
+            m_val.resetScore();
+        }
+        if (m_val.getLife() == 0) {
+            m_music.stop();
+            gameOver(0);
+            break;
         }
         if (m_val.getNumOfCookie() == 0) {
-            m_endLevel = true;
             m_val.setLevel(INC);
+            m_endLevel = true;
         }
-        print();
+        print(m_val);
     }
     if (m_board->getEndAllLevels()) {
         m_endGame = true;
 
     }
+    m_music.stop();
     delete m_board;
     return;
 }
 
-void PlayGame::dealWithCollision(bool& isFreeze) {
+void PlayGame::dealWithCollision(bool& isFreeze, Values& m_val) {
     //loop that go on dynamic object
     for (auto& myDynamic : m_dynamicObj) {
         for (auto& otherDynamic : m_dynamicObj) {
@@ -137,8 +141,9 @@ void PlayGame::dealWithCollision(bool& isFreeze) {
         }
     }
     //erase the static object we need
-    std::erase_if(m_staticObj, [](const auto& item) {return item->getDelete();});
+    std::erase_if(m_staticObj, [](const auto& item) {return item->getDelete(); });
 }
+
 
 void PlayGame::gameOver(int i) {
     GameOver gameOver = GameOver(*m_window);
@@ -147,7 +152,7 @@ void PlayGame::gameOver(int i) {
 }
 
 //print the board game 
-void PlayGame::print() {
+void PlayGame::print(Values& m_val) {
     m_window->clear();
     //back round print 
     sf::Sprite backgroundSprite;
@@ -189,10 +194,12 @@ void PlayGame::print() {
     m_window->draw(m_soundButton);
     m_window->draw(m_backButton);
     m_window->display();
+
+ 
 }
 
 //load the object and put them in two different uniq ptr arrays
-void PlayGame::LoadFile(std::vector<std::string> ) {
+void PlayGame::LoadFile(std::vector<std::string>, Values& m_val) {
     float tileSize = m_board->getTile()*0.95;
     //map hold the string with the object from the file 
     std::vector<std::string> map = m_board->getMap();
@@ -294,6 +301,6 @@ void PlayGame::setTime() {
     m_time = !m_time;
 }
 
-bool PlayGame::timeOver() const{
+bool PlayGame::timeOver() const {
     return m_time;
 }

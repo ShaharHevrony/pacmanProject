@@ -1,3 +1,7 @@
+//
+// Created by Shahar Hevrony on 20/01/2023.
+//
+
 #include "state.h"
 #include "door.h"
 
@@ -9,6 +13,10 @@ bool State::getSuperState() const {
 
 void State::setSuperState(bool state) {
     m_super = state;
+}
+
+Values State::getVal() const {
+    return m_val;
 }
 
 SuperPacman::SuperPacman(Values& values):State(values) {
@@ -30,5 +38,5 @@ void RegularPacman::handleCollision(Pacman &pacman, Demon &demon) {
     pacman.setPosition(pacman.getOriginPosition());
     pacman.setRestartDemon();
     pacman.setCollided();
-    m_val.setLife(DEC);
+    getVal().setLife(DEC);
 }

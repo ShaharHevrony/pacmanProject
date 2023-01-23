@@ -63,6 +63,7 @@ void Pacman::handleCollision(Pacman& pacman) {}
 void Pacman::handleCollision(Demon& demon) {
     if(demon.getSprite().getGlobalBounds().intersects(getSprite().getGlobalBounds())) {
         m_pacmanState->handleCollision(*this, demon);
+        m_values.setLife(DEC);
         //sound death pacman
         if (m_values.getLife() == 0) {
             m_pacmanDeath.play();

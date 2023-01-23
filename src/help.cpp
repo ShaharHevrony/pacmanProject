@@ -15,7 +15,7 @@ void Help::run()
     print();
 
     sf::Music music;
-    if (!music.openFromFile(PATH + "bird.wav")) {
+    if (!music.openFromFile("bird.wav")) {
         // Error loading music file
     }
     music.play();

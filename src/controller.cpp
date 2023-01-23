@@ -42,12 +42,12 @@ void Controller::create() {
     m_backgroundSprite = ResourcesManager::inctance().getMenuBackGround();
     m_window.draw(m_backgroundSprite);
 
-    for (int index = 0; index < 4; index++) {
+    for (int index = 0; index < 3; index++) {
         m_texture[index] = ResourcesManager::inctance().getTextureMenuStart(index);
     }
 
     sf::Sprite sprite;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
         sf::Texture* tempText = &m_texture[i];
         sprite.setTexture(*tempText);
         sprite.setPosition(MENU_CENTER, i * MENU_GAP + MENU_START_ROW);
@@ -55,7 +55,7 @@ void Controller::create() {
         sprite.setOrigin(MENU_PIC_WIDTH / 2, MENU_PIC_HEIGHT / 2);
         m_menu.push_back(sprite);
     }
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
         m_window.draw(m_menu[i]);
     }
     m_window.display();
@@ -66,7 +66,7 @@ void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
     //get the location of the click
     auto location = m_window.mapPixelToCoords({ event.x, event.y });
     //loop that go on the object in the menu and check if the user click on one of them
-    for (int index = 0; index < 4; index++) {
+    for (int index = 0; index < 3; index++) {
         //if the user click on the button
         if (m_menu[index].getGlobalBounds().contains(location)) {
             switch (index) {
@@ -76,31 +76,35 @@ void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
                 PlayGame* play = new PlayGame(m_window, m_level, m_sound, m_val);
                 while (!(play->getEndAllLevels())) {
                     PlayGame* play = new PlayGame(m_window, m_level, m_sound, m_val);
-                    play->playLevel(m_level);
+                    play->playLevel(m_val);
                     if (play->getEndAllLevels()) {
                         play->gameOver(1);
-                        play->setEndAllLevels();
                         break;
-                    }else if (play->getBack()) {
+                    }
+                    else if (play->getBack()) {
                         play->setBack();
                         break;
-                    }else if(!play->timeOver()){
-                        play->setTime();
-                    }else if(play->timeOver()){
-                        m_val.resetScore();
-                        m_val.setLife(DEC);
+                    }
+                    if (!play->timeOver()) {
+                        m_level++;
+                    }
+                    else {
+                        m_val.setScore(0);
                     }
                 }
+                m_val.resetVal();
                 break;
             }
+            break;
             case helpButton: {
                 Help help = Help(m_window);
                 help.run();
                 break;
             }
-            case exitButton:
+            case exitButton: {
                 m_window.close();
                 break;
+            }
             default:
                 break;
             }
@@ -113,8 +117,8 @@ void Controller::handleMouseMoved(sf::Event::MouseMoveEvent& event) {
     auto location = m_window.mapPixelToCoords({ event.x, event.y });
     for (int row = 0; row < 4; row++){
         if (m_menu[row].getGlobalBounds().contains(location)) {
-            m_soundTouch.setBuffer(ResourcesManager::inctance().getSoundTouch());
-            m_soundTouch.play();
+            m_soundTuch.setBuffer(ResourcesManager::inctance().getSoundTouch());
+            m_soundTuch.play();
             m_menu[row].setScale(1.15, 1.15);
             m_tempButton = row;
         }

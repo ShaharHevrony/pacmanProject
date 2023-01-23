@@ -13,10 +13,13 @@ public:
 
     bool timeUp() const;
 
+    void setTime();
+
 private:
-    sf::Clock m_timer;
 
     bool m_timeUp = false;
+
+    sf::Clock m_timer;
 
     Values& m_val;
 
