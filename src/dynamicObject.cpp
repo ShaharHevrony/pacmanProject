@@ -11,14 +11,6 @@ void DynamicObject::moving(sf::Vector2f direction, float time , sf::Vector2f pac
     m_sprite.move(direction * time * 120.f);
 }
 
-int DynamicObject::getNextRow() const {
-    return m_nextRow;
-}
-
-int DynamicObject::getNextCol() const {
-    return m_nextCol;
-}
-
 sf::Vector2f DynamicObject::getPosition() const {
     return m_sprite.getPosition();
 }

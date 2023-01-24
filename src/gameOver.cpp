@@ -14,7 +14,7 @@ void GameOver::run(int i)
     print(i);
 
     sf::Music music;
-    if (!music.openFromFile("bird.wav")) {
+    if (!music.openFromFile(PATH + "bird.wav")) {
         // Error loading music file
     }
     music.play();
