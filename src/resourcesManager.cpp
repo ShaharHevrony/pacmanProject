@@ -79,13 +79,6 @@ ResourcesManager::ResourcesManager() {
     noSoundButtonSprite.setTexture(m_noSoundButtonTexture);
     m_noSoundButtonSprite = noSoundButtonSprite;
 
-    //load the bird music
-    //sf::Music birsMusic;
-    //if (!birsMusic.openFromFile("bird.wav")) {
-    //    // Error loading music file
-    //}
-    //m_birsMusic = birsMusic;
-
     //load pacman death sound
     sf::SoundBuffer soundDeath;
     if (!soundDeath.loadFromFile(PATH + "pacmanDeath.wav")) {

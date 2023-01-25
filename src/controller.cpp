@@ -94,12 +94,15 @@ void Controller::handleMouseButton(sf::Event::MouseButtonEvent& event) {
                     }
                 }
                 m_val.resetVal();
+                m_music.play();
+
                 break;
             }
             break;
             case helpButton: {
                 Help help = Help(m_window);
                 help.run();
+                m_music.play();
                 break;
             }
             case exitButton: {
