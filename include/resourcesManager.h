@@ -14,7 +14,7 @@ public:
 
 	sf::Font& getFont();
 
-	sf::Sprite &getMenuBackGround();
+	sf::Sprite &getMenuBackGround() ;
 
     sf::Sprite &getPlayBackGround();
 
@@ -28,9 +28,9 @@ public:
 
     sf::Sprite& backButtonSprite();
 
-	sf::Texture getTextureBack();
+	sf::Texture getTextureBack()const;
 
-	sf::Texture getTextureMenuStart(int index);
+	sf::Texture getTextureMenuStart(int index)const;
 
     sf::Texture& getObject(int index) const;
 
@@ -42,19 +42,19 @@ public:
 
 	sf::Sprite& getHelpWallSprite();
 
-	sf::Texture getHelpWallTexture();
+	sf::Texture getHelpWallTexture()const;
 
     sf::Texture* getSuperPacmanObj ();
 
 	sf::Sprite& getGameOverSprite();
 
-	sf::Texture getGameOverTexture();
+	sf::Texture getGameOverTexture()const;
 
 	sf::Sprite& getSecssesSprite();
 
-	sf::Texture getSecssesTexture();
+	sf::Texture getSecssesTexture()const;
 
-    sf::Texture* getPacmanObj ();
+    sf::Texture* getPacmanObj ()const;
 private:
 
     ResourcesManager();

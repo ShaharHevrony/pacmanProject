@@ -288,7 +288,7 @@ void PlayGame::setBack() {
     m_back = !m_back;
 }
 
-bool PlayGame::getEndAllLevels() {
+bool PlayGame::getEndAllLevels()const {
     return m_endGame;
 }
 

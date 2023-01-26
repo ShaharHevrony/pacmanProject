@@ -39,7 +39,7 @@ public:
     void setSprite(sf::Sprite sprite);
 
     //get the char of the object
-    char getType();
+    char getType() const;
 
     //get the sprite of the object
     sf::Sprite& getSprite() const;

@@ -142,27 +142,27 @@ sf::Font& ResourcesManager::getFont() {
     return m_font;
 }
 
-sf::Texture ResourcesManager::getTextureBack() {
+sf::Texture ResourcesManager::getTextureBack()const {
     return m_backgroundTexture;
 }
 
-sf::Sprite &ResourcesManager::getMenuBackGround(){
+sf::Sprite &ResourcesManager::getMenuBackGround() {
     return m_menuBackgroundSprite;
 }
 
-sf::Sprite &ResourcesManager::getPlayBackGround(){
+sf::Sprite &ResourcesManager::getPlayBackGround() {
     return m_playBackgroundSprite;
 }
 
-sf::Texture ResourcesManager::getHelpWallTexture() {
+sf::Texture ResourcesManager::getHelpWallTexture() const {
     return m_helpWallTexture;
 }
 
-sf::Sprite& ResourcesManager::getHelpWallSprite() {
+sf::Sprite& ResourcesManager::getHelpWallSprite()  {
     return m_helpWallSprite;
 }
 
-sf::Texture ResourcesManager::getTextureMenuStart(int index) {
+sf::Texture ResourcesManager::getTextureMenuStart(int index)const {
     return  m_textureMenuStart[index];
 }
 
@@ -190,7 +190,7 @@ sf::Sprite& ResourcesManager::backButtonSprite() {
     return m_backButtonSprite;
 }
 
-sf::SoundBuffer& ResourcesManager::getSoundDeath() {
+sf::SoundBuffer& ResourcesManager::getSoundDeath()  {
     return m_soundDeath;
 }
 
@@ -202,26 +202,26 @@ sf::SoundBuffer& ResourcesManager::getSoundTouch() {
     return m_soundTouch;
 }
 
-sf::Texture* ResourcesManager::getSuperPacmanObj() {
+sf::Texture* ResourcesManager::getSuperPacmanObj()  {
     return m_superPacmanObj;
 }
 
-sf::Texture* ResourcesManager::getPacmanObj() {
+sf::Texture* ResourcesManager::getPacmanObj() const {
     return m_pacmanObj;
 }
 
-sf::Sprite& ResourcesManager::getGameOverSprite() {
+sf::Sprite& ResourcesManager::getGameOverSprite()  {
     return m_gameOverSprite;
 }
 
-sf::Texture ResourcesManager::getGameOverTexture() {
+sf::Texture ResourcesManager::getGameOverTexture() const {
     return m_gameOverTextur;
 }
 
-sf::Sprite& ResourcesManager::getSecssesSprite() {
+sf::Sprite& ResourcesManager::getSecssesSprite()  {
     return m_getsecssesSprite;
 }
 
-sf::Texture ResourcesManager::getSecssesTexture() {
+sf::Texture ResourcesManager::getSecssesTexture()const {
     return m_getsecssesTextur;
 }

@@ -21,7 +21,7 @@ sf::Sprite& Object::getSprite() const {
     return (sf::Sprite&) m_sprite;
 }
 
-char Object::getType() {
+char Object::getType() const{
     return m_type;
 }
 

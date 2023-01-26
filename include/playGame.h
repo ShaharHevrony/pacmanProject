@@ -10,6 +10,11 @@ class PlayGame {
 public:
     PlayGame(sf::RenderWindow& window, int level, bool& sound, Values& m_val);
 
+    ~PlayGame() {
+        m_board = nullptr;
+        m_window = nullptr;
+    }
+
     void print(Values& val);
 
     void playLevel(Values& m_val);
@@ -28,7 +33,7 @@ public:
 
     void setBack();
 
-    bool getEndAllLevels();
+    bool getEndAllLevels() const;
 
     void setEndAllLevels();
 

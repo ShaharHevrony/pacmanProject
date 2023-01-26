@@ -13,7 +13,7 @@ public:
 
     //constructor that put in the default member and load the sprites
     Board(Values& val);
-
+   
     //function that creat the board
     void createBoard();
 
@@ -38,15 +38,6 @@ public:
     //sset col
     void setCol(int col);
 
-    //set object
-    void setTileObj(int row, int col, char type);
-
-    //function that handel the object we click on
-    void handleObj(int index, sf::Event::MouseButtonEvent& currMove, sf::RenderWindow& window);
-
-    //function  that erase the object on the current rectangle
-    void eraserObj(int row, int col);
-
     //return tile
     float getTile() const;
 
@@ -60,13 +51,9 @@ public:
 
     Object& getTileObj(int i, int j) const;
 
-    //DynamicObject* getPacman() const;
-
     std::vector<std::string> getMap();
 
-    std::vector<std::vector<sf::RectangleShape>> getMatrix();
-
-    bool getEndAllLevels();
+    bool getEndAllLevels() const;
 
     void setEndAllLevels();
 

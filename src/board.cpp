@@ -189,7 +189,7 @@ std::vector<std::string> Board::getMap(){
     return m_map;
 }
 
-bool Board::getEndAllLevels() {
+bool Board::getEndAllLevels() const{
     return m_endAllLevel;
 }
 

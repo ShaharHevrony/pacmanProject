@@ -26,10 +26,6 @@ public:
 
     void moving(sf::Vector2f direction, float time, sf::Vector2f pacLocation);
 
-    int getNextRow() const;
-
-    int getNextCol() const;
-
     bool getCollided() const;
 
     void setCollided();

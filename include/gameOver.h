@@ -5,7 +5,7 @@
 class GameOver {
 public:
     GameOver(sf::RenderWindow& m_window);
-
+ 
     void run(int i);
 
     void print(int i);
