@@ -1,6 +1,7 @@
 cmake_minimum_required (VERSION 3.20)
 
 project (pacmanProject)
+#set (MY_AUTHORS "Lior_yakobovich-Shahar_hevrony")
 
 # New CMake versions map C++20 to /std:c++20 instead of c++latest, so <format>
 # and other unstable ABI features aren't supported. Use C++23 for such versions
@@ -42,7 +43,7 @@ if(WIN32)
 
     add_executable (${CMAKE_PROJECT_NAME})
 
-    target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:-fsanitize=address>)
+    #target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:-fsanitize=address>)
 
     add_subdirectory (include)
     add_subdirectory (src)
